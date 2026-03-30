@@ -1,0 +1,37 @@
+#!/bin/zsh
+
+# --- The update-install script ---
+update-install() {
+  local TIMESTAMP="$(date +'%Y.%m.%d@%I:%M%p')"
+  local LOG_DIR="$HOME/Logs/Updates"
+  local LOG_PATH="$LOG_DIR/${TIMESTAMP}-update-install.log"
+  local DEBUG_LOG="$LOG_DIR/${TIMESTAMP}-system-debug.log"
+
+  mkdir -p "$LOG_DIR"
+  
+  echo -e "\033[1;33m🔐 Please authenticate to begin the full update process:\033[0m"
+  
+  sudo bash -c "
+    exec > >(tee -a '$LOG_PATH') 2>&1
+    echo '=== SESSION START: \$(date) ==='
+    
+    echo -e '\n--- 🍺 Homebrew ---'
+    sudo -u $(whoami) brew update --verbose && \
+    sudo -u $(whoami) brew upgrade --verbose && \
+    sudo -u $(whoami) brew cleanup --verbose
+
+    echo -e '\n--- 🍎 App Store ---'
+    sudo -u $(whoami) mas upgrade
+
+    echo -e '\n--- 💻 macOS System ---'
+    softwareupdate -ia --verbose
+
+    echo -e '\n--- 📂 Archiving System Debug Logs (Silent) ---'
+    log show --predicate 'process == \"softwareupdated\"' --style syslog --last 10m > '$DEBUG_LOG' 2>&1
+    
+    echo -e '\n=== SESSION END: \$(date) ==='
+  "
+  say "Updates complete"
+}
+
+update-install
