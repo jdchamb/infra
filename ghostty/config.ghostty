@@ -1,0 +1,15 @@
+# Colors
+theme = catppuccin mocha
+
+# Background
+background-opacity = 0.95
+background-blur-radius = 20
+
+# Font
+font-family = "JetBrainsMono Nerd Font"
+font-size = 12
+
+# Window
+window-padding-x = 10
+window-padding-y = 10
+window-decoration = true
