@@ -39,6 +39,8 @@ update-install() {
 	    echo -e '\n✅ Main Log: \$(basename '$LOG_PATH')'
 	    echo -e '✅ Debug Log: \$(basename '$DEBUG_LOG')'
 	  "
+
+	  wait
 	
 	  say "Updates complete and system logs created successfully"
 	}
