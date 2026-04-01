@@ -46,4 +46,4 @@ alias sys="fastfetch"
 alias sys="fastfetch --logo none --structure Title:OS:Kernel:Uptime:Battery"
 
 # Launch mistral-devstral model with gpu usage and instant startup prompt
-alias devstral="cd ~/ai-lab/koboldcpp && python3 koboldcpp.py --model /Users/jchambers/ai-lab/ai_models/mistralai_Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf --gpulayers 99 --smartcontext --flashattention; cd -"
+alias aistart="cd ~/ai-lab/koboldcpp && python3 koboldcpp.py --model /Users/jchambers/ai-lab/ai_models/Qwen2.5-Coder-14B-Instruct-Q6_K.gguf --gpulayers 99 --smartcontext --flashattention; cd -"
