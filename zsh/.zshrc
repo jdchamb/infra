@@ -39,7 +39,7 @@ alias mv="mv -i"
 alias cp="cp -i"
 
 # Shorten session changes for the terminal session 
-alias reload="source ~/.zshrc && echo 'Zsh config reloaded!'"
+alias zsh-reload="source ~/.zshrc && echo 'Zsh config reloaded!'"
 
 #fastfetch
 alias sys="fastfetch"
