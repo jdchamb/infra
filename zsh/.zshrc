@@ -50,7 +50,7 @@ compdef '_path_files -W ~/ai-lab/ai_models' aistart
 
 # Launch ai cli chat function 
 aistart() {
-    local model_name="${1:-mistralai_Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf}"
+    local model_name="${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}"
     # 1. New: Store the full file path in a variable to keep the code tidy
     local model_path="$HOME/ai-lab/ai_models/$model_name"
 
@@ -65,6 +65,6 @@ aistart() {
     
     cd ~/ai-lab/koboldcpp
     # 3. New: Uses the $model_path variable we checked above
-    python3 koboldcpp.py --model "$model_path" --gpulayers 99 --smartcontext --flashattention --cli
+    python3 koboldcpp.py --model "$model_path" --gpulayers 99 --smartcontext
     cd -
 }
