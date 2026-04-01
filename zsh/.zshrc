@@ -45,5 +45,26 @@ alias zsh-reload="source ~/.zshrc && echo 'Zsh config reloaded!'"
 alias sys="fastfetch"
 alias sys="fastfetch --logo none --structure Title:OS:Kernel:Uptime:Battery"
 
-# Launch mistral-devstral model with gpu usage and instant startup prompt
-alias aistart="cd ~/ai-lab/koboldcpp && python3 koboldcpp.py --model /Users/jchambers/ai-lab/ai_models/Qwen2.5.1-Coder-7B-Instruct-Q8_0.gguf --gpulayers 99 --smartcontext --flashattention; cd -"
+# This tells Zsh to complete files (-f) from the specific directory (-W) for the 'aistart' command
+compdef '_path_files -W ~/ai-lab/ai_models' aistart
+
+# Launch ai cli chat function 
+aistart() {
+    local model_name="${1:-mistralai_Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf}"
+    # 1. New: Store the full file path in a variable to keep the code tidy
+    local model_path="$HOME/ai-lab/ai_models/$model_name"
+
+    # 2. New: The Fail-Safe Check
+    if [ ! -f "$model_path" ]; then
+        echo "❌ Error: Model file not found at $model_path"
+        echo "💡 Tip: Make sure the filename is correct or use Tab completion!"
+        return 1
+    fi
+
+    echo "🧠 Loading model: $model_name"
+    
+    cd ~/ai-lab/koboldcpp
+    # 3. New: Uses the $model_path variable we checked above
+    python3 koboldcpp.py --model "$model_path" --gpulayers 99 --smartcontext --flashattention --cli
+    cd -
+}
