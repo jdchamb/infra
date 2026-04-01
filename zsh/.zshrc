@@ -15,19 +15,18 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # Use a menu-driven selection (use arrow keys to pick from the list)
 zstyle ':completion:*' menu select
 
+# Utilize install zsh plugins with the following
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Initialize Starship for cool terminal!
 eval "$(starship init zsh)"
 
 # System Management Aliases
-
 alias update-install="~/dotfiles/scripts/update-install"
 
 #check for updates and perform dry run test
-alias upgrade-check="brew update && brew outdated; mas outdated; softwareupdate -l"
+alias update-check="brew update && brew outdated; mas outdated; softwareupdate -l"
 
 # This alias gives you a one-word command to see the logs
 alias update-logs="sudo log stream --predicate 'process == \"softwareupdated\"' --level debug"
@@ -44,4 +43,7 @@ alias reload="source ~/.zshrc && echo 'Zsh config reloaded!'"
 
 #fastfetch
 alias sys="fastfetch"
-#alias sys="fastfetch --logo none --structure Title:OS:Kernel:Uptime:Battery"
+alias sys="fastfetch --logo none --structure Title:OS:Kernel:Uptime:Battery"
+
+# Launch mistral-devstral model with gpu usage and instant startup prompt
+alias devstral="cd ~/ai-lab/koboldcpp && python3 koboldcpp.py --model /Users/jchambers/ai-lab/ai_models/mistralai_Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf --gpulayers 99 --smartcontext --flashattention; cd -"
