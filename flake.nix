@@ -30,6 +30,12 @@
 	  pkgs.zstd
 	];
 
+	  # For your Nerd Fonts
+            fonts.packages = [
+              pkgs.nerd-fonts.fira-code
+              pkgs.nerd-fonts.jetbrains-mono
+            ];
+
 	homebrew = {
 	  enable = true;
 	  onActivation.cleanup = "zap"; # This UNINSTALLS anything not in this list!
@@ -48,12 +54,6 @@
 	  brews = [
              "mas" # Mac App Store CLI if you need it
           ]; 
-	  
-	  # For your Nerd Fonts
-            fonts.packages = [
-              pkgs.nerd-fonts.fira-code
-              pkgs.nerd-fonts.jetbrains-mono
-            ];
 	};
 
 	programs.zsh = {
