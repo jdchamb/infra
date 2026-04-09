@@ -15,7 +15,6 @@
 	environment.systemPackages = [
 	  pkgs.vim
 	  pkgs.git
-	  pkgs.tmux
 	  pkgs.starship
 	  pkgs.fastfetch
 	  pkgs.cmake
@@ -40,9 +39,16 @@
 	    "utm"
 	    "windows-app"
 	  ];
+
+	  brews = [
+             "mas" # Mac App Store CLI if you need it
+          ]; 
 	  
 	  # For your Nerd Fonts
-	  brews = [ "mas" ]; # Mac App Store CLI if you need it
+            fonts.packages = [
+              pkgs.nerd-fonts.fira-code
+              pkgs.nerd-fonts.jetbrains-mono
+            ];
 	};
 
 	programs.zsh = {
@@ -63,6 +69,9 @@
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
+
+      # Setting primary user for nix
+      system.primaryUser = "jchambers";
     };
   in
   {
