@@ -5,6 +5,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Home Manager config
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs }:
@@ -78,7 +83,12 @@
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."308-225660" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [
+        configuration 
+	
+        # home manager module for nix-darwin flake
+        inputs.home-manager.darwinModules.home-manager
+      ];
     };
   };
 }
