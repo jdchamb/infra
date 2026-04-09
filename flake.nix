@@ -12,16 +12,47 @@
     configuration = { pkgs, ... }: {
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [ pkgs.vim
-          pkgs.fastfetch
-        ];
+	environment.systemPackages = [
+	  pkgs.vim
+	  pkgs.git
+	  pkgs.tmux
+	  pkgs.starship
+	  pkgs.fastfetch
+	  pkgs.cmake
+	  pkgs.python311
+	  pkgs.nodejs
+	  pkgs.smartmontools
+	  pkgs.xz
+	  pkgs.zstd
+	];
+
+	homebrew = {
+	  enable = true;
+	  onActivation.cleanup = "zap"; # This UNINSTALLS anything not in this list!
+	  
+	  casks = [
+	    "firefox"
+	    "1password"
+	    "ghostty"
+	    "google-drive"
+	    "adguard"
+	    "kdenlive"
+	    "utm"
+	    "windows-app"
+	  ];
+	  
+	  # For your Nerd Fonts
+	  brews = [ "mas" ]; # Mac App Store CLI if you need it
+	};
+
+	programs.zsh = {
+	  enable = true;
+	  enableCompletion = true;
+	  # We will add autosuggestions here once we set up Home Manager!
+	};
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
-
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
