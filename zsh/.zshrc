@@ -43,7 +43,7 @@ alias zsh-reload="source ~/.zshrc && echo 'Zsh config reloaded!'"
 
 #fastfetch
 alias sys="fastfetch"
-alias sys="fastfetch --logo none --structure Title:OS:Kernel:Uptime:Battery"
+#alias sys="fastfetch --logo none --structure Title:OS:Kernel:Uptime:Battery"
 
 # This tells Zsh to complete files (-f) from the specific directory (-W) for the 'aistart' command
 compdef '_path_files -W ~/ai-lab/ai_models' aistart
