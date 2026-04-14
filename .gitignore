@@ -1,0 +1,11 @@
+# Ignore Nix build results
+result
+result-*
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore common editor swap files
+*.swp
+*~
+.nfnix
