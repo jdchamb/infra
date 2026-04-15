@@ -65,6 +65,8 @@ home-manager.users.jchambers = {
   home.username = "jchambers";
   home.stateVersion = "24.11";
   home.homeDirectory = "/Users/jchambers";
+  programs.starship.enable = true;
+  home.file.".config/starship.toml".source = ./starship/starship.toml;
 
 #zsh setup
 programs.zsh = {
