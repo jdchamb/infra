@@ -52,7 +52,6 @@ homebrew = {
     "kdenlive"
     "utm"
     "windows-app"
-    "ollama"
   ];
   brews = [
     "mas"
