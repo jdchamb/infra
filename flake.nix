@@ -85,7 +85,7 @@ programs.zsh = {
 
           # alias config
           shellAliases = {
-            update-install = "~/dotfiles/scripts/update-install";
+            update-install = "~/src/dotfiles/scripts/update-install";
             update-check   = "brew update && brew outdated; mas outdated; softwareupdate -l";
             update-logs    = "sudo log stream --predicate 'process == \"softwareupdated\"' --level debug";
             rm             = "rm -i";
