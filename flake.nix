@@ -97,7 +97,7 @@ programs.zsh = {
 
           # custom functions and logic
           # initContent is appended to the end of .zshrc
-          initExtra = ''
+          initContent = ''
     # Brew completion FPATH logic
             if type brew &>/dev/null; then
             FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
