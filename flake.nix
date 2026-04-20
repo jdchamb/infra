@@ -103,32 +103,27 @@ programs.zsh = {
             FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
             fi
 
-    # Custom AI start function
+            compdef '_path_files -W ~/ai-lab/ai_models' aistart
+
+            # Launch ai cli chat function
             aistart() {
-      # Use ''${1...} to escape the Nix interpolation
-            local model_name=''${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}
+            local model_name="${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}"
+    # 1. New: Store the full file path in a variable to keep the code tidy
             local model_path="$HOME/ai-lab/ai_models/$model_name"
 
+    # 2. New: The Fail-Safe Check
             if [ ! -f "$model_path" ]; then
             echo "❌ Error: Model file not found at $model_path"
+            echo "💡 Tip: Make sure the filename is correct or use Tab completion!"
             return 1
             fi
 
             echo "🧠 Loading model: $model_name"
 
-            ~/ai-lab/llama.cpp/build/bin/llama-cli \
-            --model "$model_path" \
-            --n-gpu-layers 99 \
-            --cache-type k=f16 \
-            --prompt-cache "$HOME/ai-lab/cache/prompt.cache" \
-            --prompt-cache-all \
-            --interactive \
-            --color \
-            --flash-attn
+    # 3. New: Uses the $model_path variable we checked above
+            ~/ai-lab/llama.cpp/build/bin/llama-cli --model "$model_path" --gpulayers 99 --smartcontext
             }
 
-    # Completion definition - Ensure the path matches your actual folder name
-            compdef '_path_files -W ~/ai-lab/ai_models' aistart
           '';
         }; # closes programs.zsh
 
