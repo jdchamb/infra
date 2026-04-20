@@ -1,25 +1,6 @@
-# Colors
+font-family = JetBrains Mono
+font-size = 14
 theme = catppuccin mocha
-
-# Background
 background-opacity = 0.95
-background-blur-radius = 20
-
-# Font
-font-family = "JetBrainsMono Nerd Font"
-font-size = 12
-
-# Window
-window-padding-x = 10
-window-padding-y = 10
-window-decoration = true
-
-# Adjust the color of the divider line (Window Splitting)
-#split-divider-color = #3b4252
-split-divider-color = #88c0d0
-
-# Make the divider slightly thicker if supported
-window-padding-balance = true
-
-# This makes the inactive panes slightly darker/faded
-unfocused-split-opacity = 0.6
+scrollbar = never
+copy-on-select = false
