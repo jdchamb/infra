@@ -107,11 +107,11 @@ programs.zsh = {
 
             # Launch ai cli chat function
             aistart() {
-            local model_name="${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}"
-    # 1. New: Store the full file path in a variable to keep the code tidy
+            local model_name="${1}-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}"
+    # 1. Store the full file path in a variable to keep the code tidy
             local model_path="$HOME/ai-lab/ai_models/$model_name"
 
-    # 2. New: The Fail-Safe Check
+    # 2. The Fail-Safe Check
             if [ ! -f "$model_path" ]; then
             echo "❌ Error: Model file not found at $model_path"
             echo "💡 Tip: Make sure the filename is correct or use Tab completion!"
