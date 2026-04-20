@@ -81,7 +81,7 @@ programs.zsh = {
             zstyle ':completion:*' cache-path "$HOME/.zcompcache"
             zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
             zstyle ':completion:*' menu select
-          '';
+  '';
 
           # alias config
           shellAliases = {
@@ -113,8 +113,18 @@ programs.zsh = {
               fi
 
               echo "🧠 Loading model: $model_name"
-              cd ~/ai-lab/koboldcpp
-              python3 koboldcpp.py --model "$model_path" --gpulayers 99 --smartcontext
+
+              # Navigate, execute, and return
+              cd ~/ai-lab/llama.cpp/build/bin
+              ./llama-cli
+              --model "$model_path" \
+            --n-gpu-layers 99 \
+            --cache-type k=f16 \
+            --prompt-cache "$HOME/ai-lab/cache/prompt.cache" \
+            --prompt-cache-all \
+            --interactive \
+            --color
+
               cd -
             }
             compdef '_path_files -W ~/ai-lab/ai_models' aistart
