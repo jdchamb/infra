@@ -96,37 +96,38 @@ programs.zsh = {
           };
 
           # custom functions and logic
-          initContent = ''
-            # Brew completion FPATH logic
+          # initContent is appended to the end of .zshrc
+          initExtra = ''
+    # Brew completion FPATH logic
             if type brew &>/dev/null; then
-              FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+            FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
             fi
 
-            # Custom AI start function
+    # Custom AI start function
             aistart() {
-              local model_name="''${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}"
-              local model_path="$HOME/ai-lab/ai_models/$model_name"
+      # Use ''${1...} to escape the Nix interpolation
+            local model_name=''${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}
+            local model_path="$HOME/ai-lab/ai_models/$model_name"
 
-              if [ ! -f "$model_path" ]; then
-                echo "❌ Error: Model file not found at $model_path"
-                return 1
-              fi
+            if [ ! -f "$model_path" ]; then
+            echo "❌ Error: Model file not found at $model_path"
+            return 1
+            fi
 
-              echo "🧠 Loading model: $model_name"
+            echo "🧠 Loading model: $model_name"
 
-              # Navigate, execute, and return
-              cd ~/ai-lab/llama.cpp/build/bin
-              ./llama-cli
-              --model "$model_path" \
+            ~/ai-lab/llama.cpp/build/bin/llama-cli \
+            --model "$model_path" \
             --n-gpu-layers 99 \
             --cache-type k=f16 \
             --prompt-cache "$HOME/ai-lab/cache/prompt.cache" \
             --prompt-cache-all \
             --interactive \
-            --color
-
-              cd -
+            --color \
+            --flash-attn
             }
+
+    # Completion definition - Ensure the path matches your actual folder name
             compdef '_path_files -W ~/ai-lab/ai_models' aistart
           '';
         }; # closes programs.zsh
