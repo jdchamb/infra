@@ -68,15 +68,60 @@ home-manager.users.jchambers = {
   programs.starship.enable = true;
   home.file.".config/starship.toml".source = ./starship/starship.toml;
 
-#zsh setup
+# zsh setup
 programs.zsh = {
   enable = true;
   enableCompletion = true;
   autosuggestion.enable = true;      
   syntaxHighlighting.enable = true;
-};
 
-#vim setup
+  # style and completion config zsh
+  completionInit = ''
+            zstyle ':completion:*' use-cache yes
+            zstyle ':completion:*' cache-path "$HOME/.zcompcache"
+            zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+            zstyle ':completion:*' menu select
+          '';
+
+          # alias config
+          shellAliases = {
+            update-install = "~/dotfiles/scripts/update-install";
+            update-check   = "brew update && brew outdated; mas outdated; softwareupdate -l";
+            update-logs    = "sudo log stream --predicate 'process == \"softwareupdated\"' --level debug";
+            rm             = "rm -i";
+            mv             = "mv -i";
+            cp             = "cp -i";
+            zsh-reload     = "source ~/.zshrc && echo 'Zsh config reloaded!'";
+            sys            = "fastfetch";
+          };
+
+          # custom functions and logic
+          initContent = ''
+            # Brew completion FPATH logic
+            if type brew &>/dev/null; then
+              FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+            fi
+
+            # Custom AI start function
+            aistart() {
+              local model_name="''${1:-Qwen2.5.1-Coder-7B-Instruct-Q4_K_L.gguf}"
+              local model_path="$HOME/ai-lab/ai_models/$model_name"
+
+              if [ ! -f "$model_path" ]; then
+                echo "❌ Error: Model file not found at $model_path"
+                return 1
+              fi
+
+              echo "🧠 Loading model: $model_name"
+              cd ~/ai-lab/koboldcpp
+              python3 koboldcpp.py --model "$model_path" --gpulayers 99 --smartcontext
+              cd -
+            }
+            compdef '_path_files -W ~/ai-lab/ai_models' aistart
+          '';
+        }; # closes programs.zsh
+
+# vim setup
 programs.vim = {
   enable = true;
   plugins = [ pkgs.vimPlugins.vim-nix ];
