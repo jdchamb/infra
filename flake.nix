@@ -52,6 +52,12 @@ homebrew = {
     "kdenlive"
     "utm"
     "windows-app"
+    "anythingllm"
+    "ollama"
+    "lm-studio"
+    "google-chrome"
+    "spotify"
+    "discord"
   ];
   brews = [
     "mas"
