@@ -18,6 +18,8 @@
 # Use latest kernel.
 	boot.kernelPackages = pkgs.linuxPackages_latest;
 
+nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
 	networking.hostName = "308-221357"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
