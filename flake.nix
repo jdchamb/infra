@@ -11,6 +11,11 @@
 			specialArgs = { inherit inputs; };
 			modules = [
 				./hosts/308-221357/configuration.nix
+
+      "308-222222" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/308-222222/configuration.nix ];
 			];
 		};
 	};
