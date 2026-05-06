@@ -18,9 +18,9 @@
 # Use latest kernel.
 	boot.kernelPackages = pkgs.linuxPackages_latest;
 
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-	networking.hostName = "308-221357"; # Define your hostname.
+	networking.hostName = "308-222222"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 # Configure network proxy if necessary
@@ -107,6 +107,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 		vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
 			wget
 			remmina
+			git
 	];
 
 # Some programs need SUID wrappers, can be configured further or are
