@@ -57,7 +57,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 		alsa.enable = true;
 		alsa.support32Bit = true;
 		pulse.enable = true;
-
+};
 
 # Install firefox.
 	programs.firefox.enable = true;
@@ -100,4 +100,4 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 # Before changing this value read the documentation for this option
 # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
 	system.stateVersion = "25.11"; # Did you read the comment?
-};
+}
