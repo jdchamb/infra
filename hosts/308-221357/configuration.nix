@@ -9,7 +9,7 @@
 		[ # Include the results of the hardware scan.
 		./hardware-configuration.nix
 		../../modules/core/boot.nix
-		../../modules/tooling/vim.nix
+		../../modules/core/vim.nix
 		../../modules/core/system.nix
 		../../modules/core/network.nix
 		../../modules/core/user.nix
