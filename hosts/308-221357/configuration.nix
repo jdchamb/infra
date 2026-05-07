@@ -15,13 +15,6 @@
 		../../modules/core/user.nix
 		];
 
-# Bootloader.
-	boot.loader.systemd-boot.enable = true;
-	boot.loader.efi.canTouchEfiVariables = true;
-
-# Use latest kernel.
-	boot.kernelPackages = pkgs.linuxPackages_latest;
-
 nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 	networking.hostName = "308-221357"; # Define your hostname.
