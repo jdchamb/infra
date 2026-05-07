@@ -69,9 +69,9 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 # $ nix search wget
 	environment.systemPackages = with pkgs; [
 		vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-			wget
-			remmina
-git
+		wget
+		remmina
+		git
 	];
 
 # Some programs need SUID wrappers, can be configured further or are
@@ -100,5 +100,4 @@ git
 # Before changing this value read the documentation for this option
 # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
 	system.stateVersion = "25.11"; # Did you read the comment?
-
-}
+};
