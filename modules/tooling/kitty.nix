@@ -3,6 +3,7 @@
 {
   environment.systemPackages = [ pkgs.kitty ];
 
+
   # Global config for Kitty (Backup)
   environment.etc."xdg/kitty/kitty.conf".text = ''
     background_opacity 0.95
