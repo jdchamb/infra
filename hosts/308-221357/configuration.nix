@@ -13,6 +13,9 @@
 		../../modules/core/system.nix
 		../../modules/core/network.nix
 		../../modules/core/user.nix
+		../../modules/tooling/ghostty.nix
+		../../modules/tooling/kitty.nix
+		../../modules/tooling/zellij.nix
 		];
 
 nix.settings.experimental-features = [ "nix-command" "flakes" ];
