@@ -23,8 +23,6 @@
       rm = "rm -i";
       mv = "mv -i";
       cp = "cp -i";
-      zsh-reload = "source ~/.zshrc && echo 'Zsh config reloaded!'";
-      sys = "fastfetch";
     };
 
     # For LM Studio path (matches your M4 Mac goal)
