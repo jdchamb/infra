@@ -1,4 +1,4 @@
-{ pkgs, ... }
+{ pkgs, config, ... }:
 
 {
   environment.systemPackages = [ pkgs.ghostty ];
