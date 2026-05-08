@@ -14,6 +14,7 @@
 			../../modules/core/audio.nix
 			../../modules/core/printing.nix
 			../../modules/core/git.nix
+			../../modules/core/firefox.nix
 
 # --- Desktop Bricks (Interchangeable) ---
 			../../modules/desktop/plasma.nix
