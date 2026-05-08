@@ -28,7 +28,7 @@
     };
 
     # For LM Studio path (matches your M4 Mac goal)
-    initExtra = ''
+    initContent = ''
       export PATH="$PATH:$HOME/.lmstudio/bin"
     '';
   };
