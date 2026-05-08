@@ -1,35 +1,38 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    # The physical hardware scan
-    ./hardware-configuration.nix
+	imports = [
+# The physical hardware scan
+		./hardware-configuration.nix
 
-    # --- Core Bricks (Shared Brain) ---
-    ../../modules/core/system.nix
-    ../../modules/core/boot.nix
-    ../../modules/core/network.nix
-    ../../modules/core/user.nix
-    ../../modules/core/vim.nix
-    ../../modules/core/audio.nix
-    ../../modules/core/printing.nix
+# --- Core Bricks (Shared Brain) ---
+			../../modules/core/system.nix
+			../../modules/core/boot.nix
+			../../modules/core/network.nix
+			../../modules/core/user.nix
+			../../modules/core/vim.nix
+			../../modules/core/audio.nix
+			../../modules/core/printing.nix
+			../../modules/core/git.nix
 
-    # --- Desktop Bricks (Interchangeable) ---
-    ../../modules/desktop/plasma.nix
+# --- Desktop Bricks (Interchangeable) ---
+			../../modules/desktop/plasma.nix
+#../../modules/desktop/hyprland.nix
 
-    # --- Hardware Bricks ---
-    ../../modules/hardware/graphics.nix
 
-    # --- Atomic Tooling Bricks ---
-    ../../modules/tooling/remmina.nix
-    ../../modules/tooling/hardware-utils.nix
-    ../../modules/tooling/ghostty.nix
-    ../../modules/tooling/zellij.nix
-  ];
+# --- Hardware Bricks ---
+			../../modules/hardware/graphics.nix
 
-  # Host-Specific Identity (The "Body")
-  networking.hostName = "308-221357";
+# --- Atomic Tooling Bricks ---
+			../../modules/tooling/remmina.nix
+			../../modules/tooling/hardware-utils.nix
+			../../modules/tooling/ghostty.nix
+			../../modules/tooling/zellij.nix
+			];
 
-  # Do NOT change this value.
-  system.stateVersion = "24.11";
+# Host-Specific Identity (The "Body")
+	networking.hostName = "308-221357";
+
+# Do NOT change this value.
+	system.stateVersion = "24.11";
 }
