@@ -3,7 +3,11 @@
 {
   environment.systemPackages = [ pkgs.ghostty ];
 
-
-  # Note: Since Ghostty is newer, if 'pkgs.ghostty' fails,
-  # we may need to add the Ghostty flake to your inputs.
+  # This places the config file exactly where Ghostty expects it
+  home-manager.users.jchambers.home.file.".config/ghostty/config".text = ''
+    font-family = JetBrains Mono
+    font-size = 14
+    theme = catppuccin-mocha
+    background-opacity = 0.95
+  '';
 }

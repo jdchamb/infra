@@ -6,11 +6,19 @@
 		home-manager.inputs.nixpkgs.follows = "nixpkgs";
 	};
 
-	outputs = { self, nixpkgs, ... }@inputs: {
+	outputs = { self, nixpkgs, home-manager, ... }@inputs: {
 
 nixosConfigurations."308-221357" = nixpkgs.lib.nixosSystem {
 			specialArgs = { inherit inputs; };
-			modules = [ ./hosts/308-221357/configuration.nix ];
+			modules = [
+			./hosts/308-221357/configuration.nix
+			home-manager.nixosModules.home-manager
+			{
+				home-manager.useGlobalPkgs = true;
+				home-manager.useUserPackages = true;
+				home-manager.users.jchambers = import ./modules/home/home.nix;
+			}
+			];
 };
       nixosConfigurations."308-222222" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
