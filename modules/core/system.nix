@@ -16,9 +16,17 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
   # Nix Package Manager Settings
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
+
+  nix.settings.auto-optimise-store = true;
 
   # Garbage Collection (Vital for the laptop/ProBook)
   nix.gc = {
