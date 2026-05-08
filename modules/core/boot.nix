@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+0{ config, pkgs, ... }:
 
 {
   # Use the latest Linux kernel (Great for your HP hardware and GPU support)
