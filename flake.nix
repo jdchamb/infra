@@ -8,7 +8,7 @@
 
 	outputs = { self, nixpkgs, home-manager, ... }@inputs: {
 
-nixosConfigurations."308-221357" = nixpkgs.lib.nixosSystem {
+		nixosConfigurations."308-221357" = nixpkgs.lib.nixosSystem {
 			specialArgs = { inherit inputs; };
 			modules = [
 			./hosts/308-221357/configuration.nix
@@ -20,9 +20,14 @@ nixosConfigurations."308-221357" = nixpkgs.lib.nixosSystem {
 			}
 			];
 };
-      nixosConfigurations."308-222222" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/308-222222/configuration.nix ];
+		nixosConfigurations."308-222222" = nixpkgs.lib.nixosSystem {
+		specialArgs = { inherit inputs; };
+		modules = [
+		./hosts/308-222222/configuration.nix
+						home-manager.useGlobalPkgs = true;
+				home-manager.useUserPackages = true;
+				home-manager.users.jchambers = import ./modules/home/home.nix;
+		];
 		};
 	};
 }
