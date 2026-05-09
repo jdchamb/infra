@@ -23,10 +23,10 @@
 		nixosConfigurations."308-222222" = nixpkgs.lib.nixosSystem {
 		specialArgs = { inherit inputs; };
 		modules = [
-		./hosts/308-222222/configuration.nix
-						home-manager.useGlobalPkgs = true;
-				home-manager.useUserPackages = true;
-				home-manager.users.jchambers = import ./modules/home/home.nix;
+			./hosts/308-222222/configuration.nix
+			home-manager.useGlobalPkgs = true;
+			home-manager.useUserPackages = true;
+			home-manager.users.jchambers = import ./modules/home/home.nix;
 		];
 		};
 	};
