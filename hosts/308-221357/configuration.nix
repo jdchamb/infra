@@ -29,6 +29,7 @@
 			../../modules/tooling/hardware-utils.nix
 			../../modules/tooling/ghostty.nix
 			../../modules/tooling/zellij.nix
+			../../modules/tooling/anythingllm.nix
 			];
 
 # Host-Specific Identity (The "Body")
