@@ -1,4 +1,4 @@
 fonts.packages = with pkgs; [
-    nerdfonts
-    jetbrains-mono
+    # This installs only the JetBrainsMono Nerd Font
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
