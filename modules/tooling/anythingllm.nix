@@ -1,25 +1,21 @@
-{ pkgs, ... }:
+{ pkgs, aiLibrary, ... }: # Add aiLibrary to the arguments here
 
 {
-  virtualisation.oci-containers.backend = "docker";
-  virtualisation.docker.enable = true;
-
   virtualisation.oci-containers.containers."anythingllm" = {
     image = "mintplexlabs/anythingllm";
-    # REMOVE the 'ports' line if you use extraOptions below
-    # ports = [ "3001:3001" ];
-
     volumes = [
       "/home/jchambers/anythingllm:/app/server/storage"
       "/nix/store:/nix/store:ro"
+
+      # DIRECT BIND: Mount the Nix-managed library into the container's document folder
+      "${aiLibrary}:/app/server/storage/documents/forge-context:ro"
+
+      # BIND your actual dotfiles so the AI can see them
+      "/home/jchambers/src/dotfiles:/app/server/storage/documents/my-configs:ro"
     ];
 
-    # This lets the container see the ProDesk's network (and the Mac)
     extraOptions = [ "--network=host" ];
-
-    environment = {
-      STORAGE_DIR = "/app/server/storage";
-    };
+    environment.STORAGE_DIR = "/app/server/storage";
     autoStart = true;
   };
 }
