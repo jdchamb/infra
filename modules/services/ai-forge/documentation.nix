@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  # Create a static "Knowledge Hub" folder in the Nix Store
+  # This creates a real, static folder in the Nix Store
   aiLibrary = pkgs.runCommand "ai-forge-library" {} ''
     mkdir -p $out
     ln -s ${pkgs.fetchurl {
@@ -20,10 +20,10 @@ let
     }} $out/nix-on-droid-options.html
   '';
 in {
-  options.services.ai-forge.enable = lib.mkEnableOption "AI Forge";
+  options.services.ai-forge.enable = lib.mkEnableOption "AI Forge Knowledge Bridge";
 
   config = lib.mkIf config.services.ai-forge.enable {
-    # We export the library path so we can use it in the other file
+    # This makes the 'aiLibrary' variable available to your other Nix files
     _module.args.aiLibrary = aiLibrary;
   };
 }
