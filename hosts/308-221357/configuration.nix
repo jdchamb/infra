@@ -18,7 +18,7 @@
 
 # --- Desktop Bricks (Interchangeable) ---
 			../../modules/desktop/plasma.nix
-#../../modules/desktop/hyprland.nix
+#			../../modules/desktop/hyprland.nix
 
 
 # --- Hardware Bricks ---
@@ -31,7 +31,11 @@
 			../../modules/tooling/zellij.nix
 			../../modules/tooling/ollama.nix
 			../../modules/tooling/anythingllm.nix
+
+# --- Services bricks
+			../../modules/services/ai-forge/documentation.nix
 			];
+			services.ai-forge.enable = true;
 
 # Host-Specific Identity (The "Body")
 	networking.hostName = "308-221357";
