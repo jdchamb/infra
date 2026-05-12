@@ -26,14 +26,14 @@ in {
   config = lib.mkIf config.services.ai-forge.enable {
     system.activationScripts.aiForgeLibrary = {
       text = ''
-        DOC_PATH="/var/lib/anythingllm/storage/documents/forge-context"
+        DOC_PATH="/home/jchambers/anythingllm/documents/forge-context"
         mkdir -p "$DOC_PATH"
 
         ln -sfn ${nixosManual}   "$DOC_PATH/nixos-manual.html"
         ln -sfn ${darwinManual}  "$DOC_PATH/nix-darwin-manual.tar.gz"
         ln -sfn ${onDroidManual} "$DOC_PATH/nix-on-droid-options.html"
 
-        ln -sfn /home/jchambers/dotfiles "$DOC_PATH/my-actual-configs"
+        ln -sfn /home/jchambers/src/dotfiles "$DOC_PATH/my-configs"
       '';
     };
   };
