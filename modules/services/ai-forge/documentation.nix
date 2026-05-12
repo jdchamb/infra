@@ -14,7 +14,7 @@ let
 
   onDroidManual = pkgs.fetchurl {
     url = "https://nix-community.github.io/nix-on-droid/nix-on-droid-options.html";
-    hash = "+QDuuJYVI31xhicy+nHfXxLOJmvDZLC9nmEZ2Uq3cyc=";
+    hash = "sha256-+QDuuJYVI31xhicy+nHfXxLOJmvDZLC9nmEZ2Uq3cyc=";
   };
 in {
   # 1. DEFINE THE OPTION
