@@ -4,7 +4,7 @@ let
   # The "Knowledge Sources"
   nixosManual = pkgs.fetchurl {
     url = "https://nixos.org/manual/nixos/stable/index.html";
-    hash = "sha256-+QDuuJYVI31xhicy+nHfXxLOJmvDZLC9nmEZ2Uq3cyc="; # Use a fake hash to trigger the error
+    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # Use a fake hash to trigger the error
   };
 
   darwinManual = pkgs.fetchurl {
@@ -14,7 +14,7 @@ let
 
   onDroidManual = pkgs.fetchurl {
     url = "https://nix-community.github.io/nix-on-droid/nix-on-droid-options.html";
-    hash = lib.fakeHash;
+    hash = "+QDuuJYVI31xhicy+nHfXxLOJmvDZLC9nmEZ2Uq3cyc=";
   };
 in {
   # 1. DEFINE THE OPTION
