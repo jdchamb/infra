@@ -33,9 +33,6 @@
 			../../modules/tooling/anythingllm.nix
 
 # --- Services bricks
-			../../modules/services/ai-forge/documentation.nix
-			];
-			services.ai-forge.enable = true;
 
 # Host-Specific Identity (The "Body")
 	networking.hostName = "308-221357";
