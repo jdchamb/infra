@@ -33,7 +33,7 @@
 			../../modules/tooling/anythingllm.nix
 
 # --- Services bricks
-
+];
 # Host-Specific Identity (The "Body")
 	networking.hostName = "308-221357";
 
