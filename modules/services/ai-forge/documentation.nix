@@ -9,7 +9,7 @@ let
 
   darwinManual = pkgs.fetchurl {
     url = "https://github.com/nix-darwin/nix-darwin/archive/master.tar.gz";
-    hash = lib.fakeHash;
+    hash = "sha256-y64fro2BQLlZfibVxJl3bRMQ3ln+83fRnU5Bu0LayXg=";
   };
 
   onDroidManual = pkgs.fetchurl {
