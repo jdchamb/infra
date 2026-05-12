@@ -11,6 +11,7 @@
 
     volumes = [
       "/home/jchambers/anythingllm:/app/server/storage"
+      "/nix/store:/nix/store:ro"
     ];
 
     # This lets the container see the ProDesk's network (and the Mac)
