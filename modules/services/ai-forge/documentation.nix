@@ -4,7 +4,7 @@ let
   # The "Knowledge Sources"
   nixosManual = pkgs.fetchurl {
     url = "https://nixos.org/manual/nixos/stable/index.html";
-    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # Use a fake hash to trigger the error
+    hash = "sha256-OE05ZgBkpk0EfjSFi8XTWIe/EGfssc/SYiOYer8jpv8==";
   };
 
   darwinManual = pkgs.fetchurl {
