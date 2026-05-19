@@ -17,8 +17,8 @@
 			../../modules/core/firefox.nix
 
 # --- Desktop Bricks (Interchangeable) ---
-			../../modules/desktop/plasma.nix
-#			../../modules/desktop/hyprland.nix
+#			../../modules/desktop/plasma.nix
+			../../modules/desktop/hyprland.nix
 
 
 # --- Hardware Bricks ---
@@ -35,7 +35,7 @@
 # --- Services bricks
 ];
 # Host-Specific Identity (The "Body")
-	networking.hostName = "308-221357";
+	networking.hostName = "nix-josh-work-desktop";
 
 # Do NOT change this value.
 	system.stateVersion = "24.11";
