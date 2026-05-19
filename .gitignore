@@ -9,3 +9,16 @@ result-*
 *.swp
 *~
 .nfnix
+
+# Place this in your notes directory or main dotfiles root
+# Ignore all binary image assets
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.pdf
+
+# Ignore editor caches
+.webp
+.direnv/
+.logseq/
