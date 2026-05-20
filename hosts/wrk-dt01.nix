@@ -3,7 +3,7 @@
 {
   imports = [
     # --- Shared Hardware Base Layer ---
-    "${inputs.self}/hardware/universal-baseline.nix"
+    "${inputs.self}/hardware/wrk-dt01-hw.nix"
 
     # --- Core Bricks (Shared Brain) ---
     "${inputs.self}/modules/core-system.nix"
