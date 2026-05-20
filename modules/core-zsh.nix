@@ -16,8 +16,8 @@
     '';
 
     shellAliases = {
-      # Updated path to match your current flake location
-      update = "sudo nixos-rebuild switch --flake ~/src/infra#josh-work";
+      # Permanently fixed to match your new functional shorthand target
+      update = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-dt01";
 
       # Your requested aliases
       rm = "rm -i";
@@ -25,8 +25,8 @@
       cp = "cp -i";
     };
 
-    # For LM Studio path (matches your M4 Mac goal)
-    initContent = ''
+    # Fixed syntax: Home Manager uses initExtra for custom path configurations
+    initExtra = ''
       export PATH="$PATH:$HOME/.lmstudio/bin"
     '';
   };

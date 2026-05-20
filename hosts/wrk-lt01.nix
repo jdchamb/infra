@@ -35,7 +35,7 @@
 # --- Services bricks
 ];
 # Host-Specific Identity (The "Body")
-	networking.hostName = "nos-josh-work-desktop";
+	networking.hostName = "wrk-lt01.nix";
 
 # Do NOT change this value.
 	system.stateVersion = "24.11";

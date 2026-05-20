@@ -1,42 +1,41 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-	imports = [
-# The physical hardware scan
-		./hardware-configuration.nix
+  imports = [
+    # --- Shared Hardware Base Layer ---
+    "${inputs.self}/hardware/universal-baseline.nix"
 
-# --- Core Bricks (Shared Brain) ---
-			../../../modules/core/system.nix
-			../../../modules/core/boot.nix
-			../../../modules/core/network.nix
-			../../../modules/core/user.nix
-			../../../modules/core/vim.nix
-			../../../modules/core/audio.nix
-			../../../modules/core/printing.nix
-			../../../modules/core/git.nix
-			../../../modules/core/firefox.nix
+    # --- Core Bricks (Shared Brain) ---
+    "${inputs.self}/modules/core-system.nix"
+    "${inputs.self}/modules/core-boot.nix"
+    "${inputs.self}/modules/core-network.nix"
+    "${inputs.self}/modules/core-user.nix"
+    "${inputs.self}/modules/core-vim.nix"
+    "${inputs.self}/modules/core-audio.nix"
+    "${inputs.self}/modules/core-printing.nix"
+    "${inputs.self}/modules/core-git.nix"
+    "${inputs.self}/modules/core-firefox.nix"
 
-# --- Desktop Bricks (Interchangeable) ---
-			../../../modules/gui/plasma.nix
-#			../../../modules/gui/hyprland.nix
-#			../../../modules/gui/niri.nix
+    # --- Desktop Bricks (Interchangeable UI) ---
+    "${inputs.self}/modules/gui-plasma.nix"
+    # "${inputs.self}/modules/gui-hyprland.nix"
+    # "${inputs.self}/modules/gui-niri.nix"
 
-# --- Hardware Bricks (configure specifig hardware) ---
-			../../../modules/hardware/graphics.nix
+    # --- Hardware Specific Bricks ---
+    "${inputs.self}/modules/hardware-graphics.nix"
 
-# --- Tooling Bricks (optional tools) ---
-			../../../modules/tooling/remmina.nix
-			../../../modules/tooling/hardware-utils.nix
-			../../../modules/tooling/ghostty.nix
-			../../../modules/tooling/zellij.nix
-			../../../modules/tooling/ollama.nix
-			../../../modules/tooling/anythingllm.nix
+    # --- Tooling Bricks (Optional Applications) ---
+    "${inputs.self}/modules/tooling-remmina.nix"
+    "${inputs.self}/modules/tooling-hardware-utils.nix"
+    "${inputs.self}/modules/tooling-ghostty.nix"
+    "${inputs.self}/modules/tooling-zellij.nix"
+    "${inputs.self}/modules/tooling-ollama.nix"
+    "${inputs.self}/modules/tooling-anythingllm.nix"
+  ];
 
-# --- Services bricks
-];
-# Host-Specific Identity (The "Body")
-	networking.hostName = "nos-josh-work-desktop";
+  # Host-Specific Identity (The "Body")
+  networking.hostName = "wrk-dt01";
 
-# Do NOT change this value.
-	system.stateVersion = "24.11";
+  # Do NOT change this value.
+  system.stateVersion = "24.11";
 }
