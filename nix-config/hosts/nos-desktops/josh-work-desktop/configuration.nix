@@ -17,8 +17,8 @@
 			../../../modules/core/firefox.nix
 
 # --- Desktop Bricks (Interchangeable) ---
-#			../../../modules/gui/plasma.nix
-			../../../modules/gui/hyprland.nix
+			../../../modules/gui/plasma.nix
+#			../../../modules/gui/hyprland.nix
 #			../../../modules/gui/niri.nix
 
 # --- Hardware Bricks (configure specifig hardware) ---
