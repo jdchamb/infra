@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  # Modern Nixpkgs structure targets the exact nerd font package directly
   fonts.packages = with pkgs; [
-    # This installs only the JetBrainsMono Nerd Font
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerd-fonts.jetbrains-mono
   ];
 }
