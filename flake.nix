@@ -13,7 +13,7 @@
     nixosConfigurations."josh-work-desktop" = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
-        ./hosts/308-221357/configuration.nix
+        .//home/jchambers/src/inf…nfig/hosts/nos-desktops/josh-work-desktop/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
