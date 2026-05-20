@@ -17,14 +17,14 @@
 			../../modules/core/firefox.nix
 
 # --- Desktop Bricks (Interchangeable) ---
-			../../modules/desktop/plasma.nix
+#			../../modules/desktop/plasma.nix
 #			../../modules/desktop/hyprland.nix
+			../../modules/desktop/niri.nix
 
-
-# --- Hardware Bricks ---
+# --- Hardware Bricks (configure specifig hardware) ---
 			../../modules/hardware/graphics.nix
 
-# --- Atomic Tooling Bricks ---
+# --- Tooling Bricks (optional tools) ---
 			../../modules/tooling/remmina.nix
 			../../modules/tooling/hardware-utils.nix
 			../../modules/tooling/ghostty.nix
@@ -35,7 +35,7 @@
 # --- Services bricks
 ];
 # Host-Specific Identity (The "Body")
-	networking.hostName = "308-221357";
+	networking.hostName = "josh-work-nos";
 
 # Do NOT change this value.
 	system.stateVersion = "24.11";

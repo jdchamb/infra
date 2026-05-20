@@ -21,10 +21,10 @@
 #			../../modules/desktop/hyprland.nix
 
 
-# --- Hardware Bricks (configure specifig hardware) ---
+# --- Hardware Bricks ---
 			../../modules/hardware/graphics.nix
 
-# --- Tooling Bricks (optional tools) ---
+# --- Atomic Tooling Bricks ---
 			../../modules/tooling/remmina.nix
 			../../modules/tooling/hardware-utils.nix
 			../../modules/tooling/ghostty.nix
@@ -35,7 +35,7 @@
 # --- Services bricks
 ];
 # Host-Specific Identity (The "Body")
-	networking.hostName = "josh-work-nos";
+	networking.hostName = "rhys-host";
 
 # Do NOT change this value.
 	system.stateVersion = "24.11";
