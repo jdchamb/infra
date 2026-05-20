@@ -17,7 +17,7 @@
 
     shellAliases = {
       # Updated path to match your current flake location
-      update = "sudo nixos-rebuild switch --flake ~/src/infra#308-221357";
+      update = "sudo nixos-rebuild switch --flake ~/src/infra#josh-work";
 
       # Your requested aliases
       rm = "rm -i";
