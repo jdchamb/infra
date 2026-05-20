@@ -26,7 +26,7 @@
     };
 
     # Fixed syntax: Home Manager uses initExtra for custom path configurations
-    initExtra = ''
+    initContent = ''
       export PATH="$PATH:$HOME/.lmstudio/bin"
     '';
   };
