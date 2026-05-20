@@ -13,14 +13,14 @@
     nixosConfigurations."josh-work-desktop" = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
-        ./home/jchambers/src/inf…nfig/hosts/nos-desktops/josh-work-desktop/configuration.nix
+        ./nix-config/hosts/nos-desktops/josh-work-desktop/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           # This passes 'inputs' (like nix-flatpak) into home.nix
           home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.jchambers = import ./modules/home/home.nix;
+          home-manager.users.jchambers = import ./nix-config/modules/home/home.nix;
         }
       ];
     };
