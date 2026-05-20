@@ -1,13 +1,10 @@
 { pkgs, ... }:
 
 {
-  # Install Vim system-wide
+  # Install Vim system-wide as a reliable fallback
   environment.systemPackages = with pkgs; [
     vim
   ];
-
-  # Set Vim as the default editor for all users
-  environment.variables.EDITOR = "vim";
 
   # Global Vim configuration for the "select-act-escape" rhythm
   environment.etc."vimrc".text = ''
