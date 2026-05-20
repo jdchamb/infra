@@ -2,7 +2,7 @@
 
 {
   imports = [
-    # --- Shared Hardware Base Layer ---
+    # --- Machine Hardware Layer ---
     "${inputs.self}/hardware/wrk-dt01-hw.nix"
 
     # --- Core Bricks (Shared Brain) ---
@@ -10,27 +10,32 @@
     "${inputs.self}/modules/core-boot.nix"
     "${inputs.self}/modules/core-network.nix"
     "${inputs.self}/modules/core-user.nix"
-    "${inputs.self}/modules/core-vim.nix"
     "${inputs.self}/modules/core-audio.nix"
     "${inputs.self}/modules/core-printing.nix"
-    "${inputs.self}/modules/core-git.nix"
-    "${inputs.self}/modules/core-firefox.nix"
+    "${inputs.self}/modules/core-zsh.nix"
+    "${inputs.self}/modules/core-starship.nix"
+    "${inputs.self}/modules/core-fonts.nix"
+    "${inputs.self}/modules/core-cachix.nix"
+    "${inputs.self}/modules/core-hw-utils.nix"
 
-    # --- Desktop Bricks (Interchangeable UI) ---
+    # --- Graphical & Desktop Bricks ---
     "${inputs.self}/modules/gui-plasma.nix"
+    "${inputs.self}/modules/gui-firefox.nix"
+    "${inputs.self}/modules/gui-ghostty.nix"
+    "${inputs.self}/modules/gui-remmina.nix"
     # "${inputs.self}/modules/gui-hyprland.nix"
     # "${inputs.self}/modules/gui-niri.nix"
+    # "${inputs.self}/modules/gui-kitty.nix"
 
-    # --- Hardware Specific Bricks ---
-    "${inputs.self}/modules/hardware-graphics.nix"
+    # --- Development & Terminal Bricks ---
+    "${inputs.self}/modules/dev-git.nix"
+    "${inputs.self}/modules/dev-vim.nix"
+    "${inputs.self}/modules/dev-neovim.nix"
+    "${inputs.self}/modules/dev-zellij.nix"
 
-    # --- Tooling Bricks (Optional Applications) ---
-    "${inputs.self}/modules/tooling-remmina.nix"
-    "${inputs.self}/modules/tooling-hardware-utils.nix"
-    "${inputs.self}/modules/tooling-ghostty.nix"
-    "${inputs.self}/modules/tooling-zellij.nix"
-    "${inputs.self}/modules/tooling-ollama.nix"
-    "${inputs.self}/modules/tooling-anythingllm.nix"
+    # --- Local Infrastructure Services ---
+    "${inputs.self}/modules/srv-ollama.nix"
+    "${inputs.self}/modules/srv-anythingllm.nix"
   ];
 
   # Host-Specific Identity (The "Body")
