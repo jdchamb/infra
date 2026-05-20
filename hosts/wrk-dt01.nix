@@ -13,7 +13,7 @@
     "${inputs.self}/modules/core-audio.nix"
     "${inputs.self}/modules/core-printing.nix"
     "${inputs.self}/modules/core-zsh.nix"
-    "${inputs.self}/modules/core-starship.nix"
+# part of home-manager configs now ---> "${inputs.self}/modules/core-starship.nix"
     "${inputs.self}/modules/core-fonts.nix"
     "${inputs.self}/modules/core-cachix.nix"
     "${inputs.self}/modules/core-hw-utils.nix"
