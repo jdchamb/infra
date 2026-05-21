@@ -1,26 +1,32 @@
 { pkgs, modulesPath, ... }:
 
 {
-  # Imports the base configuration for making a bootable live CD
+  # Inject the official installation media hardware channel profiles
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
   ];
 
-  # Force the installer to use pure open-source software kernels
+  # Enforce absolute 100% FLOSS package policy parameters (no unfree code)
   nixpkgs.config.allowUnfree = false;
 
-  # Enable Flakes natively inside the live environment installer
+  # Provision experimental features natively in the core media execution shell
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Pre-bake your key utilities directly into the live image system path
+  # Mount production operational utilities directly inside the transient PATH
   environment.systemPackages = with pkgs; [
     vim
     git
     tmux
-    pciutils  # Great for auditing host hardware on the fly
-    usbutils
+    pciutils      # Native bus scanners for hardware auditing
+    usbutils      # Low-level serial and controller diagnostic tooling
+    smartmontools # Block storage analysis and storage device inspection
   ];
 
-  # Force networking to start up automatically on boot
+  # Seed your actual public identity token into the live installer session user
+  users.users.nixos.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
+  ];
+
+  # Initialize automated background daemon adapters for network discovery
   networking.networkmanager.enable = true;
 }
