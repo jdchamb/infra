@@ -34,8 +34,8 @@
     "${inputs.self}/modules/dev-zellij.nix"
 
     # --- Local Infrastructure Services ---
-    "${inputs.self}/modules/srv-ollama.nix"
-    "${inputs.self}/modules/srv-anythingllm.nix"
+#    "${inputs.self}/modules/srv-ollama.nix"
+#    "${inputs.self}/modules/srv-anythingllm.nix"
   ];
 
   # Host-Specific Identity (The "Body")
