@@ -24,10 +24,5 @@
       mv = "mv -i";
       cp = "cp -i";
     };
-
-    # Fixed syntax: Home Manager uses initExtra for custom path configurations
-    initContent = ''
-      export PATH="$PATH:$HOME/.lmstudio/bin"
-    '';
   };
 }
