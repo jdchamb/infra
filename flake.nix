@@ -25,7 +25,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.jchambers = import ./modules/core-home-manLager.nix;
+            home-manager.users.jchambers = import ./modules/core-home-manager.nix;
           }
         ];
       };
