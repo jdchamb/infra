@@ -36,6 +36,7 @@
     # --- Local Infrastructure Services ---
 #    "${inputs.self}/modules/srv-ollama.nix"
 #    "${inputs.self}/modules/srv-anythingllm.nix"
+     "${inputs.self}/modules/srv-samba.nix"
   ];
 
   # Host-Specific Identity (The "Body")
