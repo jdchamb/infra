@@ -26,5 +26,5 @@
   extraConfig = ''
     client min protocol = CORE
     client max protocol = SMB3
-  "";
+  '';
 }
