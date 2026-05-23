@@ -46,18 +46,18 @@
         ];
       };
 
-      # 3. Your Custom Bootstrap ISO Pipeline
+# 3. Your Custom Bootstrap ISO Pipeline
       "bootstrap-iso" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";  # <-- ADD THIS LINE HERE
         specialArgs = { inherit inputs; };
         modules = [
-          # CRITICAL: Pull down the official installer environment framework
+          # Pull down the official installer environment framework
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
 
           # Inject your host configuration choice
           "${self}/hosts/custom-iso.nix"
         ];
       };
-
     };
   };
 }
