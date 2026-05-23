@@ -18,14 +18,14 @@
       "wrk-dt01" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/wrk-dt01.nix
+          "${self}/hosts/wrk-dt01.nix"
 
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.jchambers = import ./modules/core-home-manager.nix;
+            home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
           }
         ];
       };
@@ -34,23 +34,27 @@
       "wrk-lt01" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/wrk-lt01.nix
+          "${self}/hosts/wrk-lt01.nix"
 
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.jchambers = import ./modules/core-home-manager.nix;
+            home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
           }
         ];
       };
 
-      # 3. ◄ INTEGRATED: Your Custom Bootstrap ISO Pipeline
+      # 3. Your Custom Bootstrap ISO Pipeline
       "bootstrap-iso" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./modules/custom-iso.nix
+          # CRITICAL: Pull down the official installer environment framework
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
+
+          # Inject your host configuration choice
+          "${self}/hosts/custom-iso.nix"
         ];
       };
 
