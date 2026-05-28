@@ -18,14 +18,17 @@
     "${inputs.self}/modules/core-cachix.nix"
     "${inputs.self}/modules/core-hw-utils.nix"
 
-    # --- Graphical & Desktop Bricks ---
-    "${inputs.self}/modules/gui-plasma.nix"
+    # --- Desktop Bricks ---
+    "${inputs.self}/modules/de-plasma.nix"
+    # "${inputs.self}/modules/de-hyprland.nix"
+    # "${inputs.self}/modules/de-niri.nix"
+
+    # --- GUI Application Bricks ---
     "${inputs.self}/modules/gui-firefox.nix"
     "${inputs.self}/modules/gui-ghostty.nix"
     "${inputs.self}/modules/gui-remmina.nix"
-    # "${inputs.self}/modules/gui-hyprland.nix"
-    # "${inputs.self}/modules/gui-niri.nix"
-    # "${inputs.self}/modules/gui-kitty.nix"
+    "${inputs.self}/modules/gui-kitty.nix"
+
 
     # --- Development & Terminal Bricks ---
     "${inputs.self}/modules/dev-git.nix"
@@ -36,7 +39,7 @@
     # --- Local Infrastructure Services ---
 #    "${inputs.self}/modules/srv-ollama.nix"
 #    "${inputs.self}/modules/srv-anythingllm.nix"
-     "${inputs.self}/modules/srv-samba.nix"
+#    "${inputs.self}/modules/srv-samba.nix"
   ];
 
   # Host-Specific Identity (The "Body")
