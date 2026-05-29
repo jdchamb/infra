@@ -2,40 +2,48 @@
 
 {
 	imports = [
-# The physical hardware scan
-		./hardware-configuration.nix
+    # --- Machine Hardware Layer ---
+    "${inputs.self}/hardware/wrk-dt01-hw.nix"
 
-# --- Core Bricks (Shared Brain) ---
-			../../../modules/core/system.nix
-			../../../modules/core/boot.nix
-			../../../modules/core/network.nix
-			../../../modules/core/user.nix
-			../../../modules/core/vim.nix
-			../../../modules/core/audio.nix
-			../../../modules/core/printing.nix
-			../../../modules/core/git.nix
-			../../../modules/core/firefox.nix
+    # --- Core Bricks (Shared Brain) ---
+    "${inputs.self}/modules/core-system.nix"
+    "${inputs.self}/modules/core-boot.nix"
+    "${inputs.self}/modules/core-network.nix"
+    "${inputs.self}/modules/core-user.nix"
+    "${inputs.self}/modules/core-audio.nix"
+    "${inputs.self}/modules/core-printing.nix"
+# part of home-manager configs now ---> "${inputs.self}/modules/core-zsh.nix"
+# part of home-manager configs now ---> "${inputs.self}/modules/core-starship.nix"
+    "${inputs.self}/modules/core-fonts.nix"
+    "${inputs.self}/modules/core-cachix.nix"
+    "${inputs.self}/modules/core-hw-utils.nix"
 
-# --- Desktop Bricks (Interchangeable) ---
-			../../../modules/gui/plasma.nix
-#			../../../modules/gui/hyprland.nix
-#			../../../modules/gui/niri.nix
+    # --- Desktop Bricks ---
+    "${inputs.self}/modules/de-plasma.nix"
+    # "${inputs.self}/modules/de-hyprland.nix"
+    # "${inputs.self}/modules/de-niri.nix"
 
-# --- Hardware Bricks (configure specifig hardware) ---
-			../../../modules/hardware/graphics.nix
+    # --- GUI Application Bricks ---
+    "${inputs.self}/modules/gui-firefox.nix"
+    "${inputs.self}/modules/gui-ghostty.nix"
+    "${inputs.self}/modules/gui-remmina.nix"
+    "${inputs.self}/modules/gui-kitty.nix"
 
-# --- Tooling Bricks (optional tools) ---
-			../../../modules/tooling/remmina.nix
-			../../../modules/tooling/hardware-utils.nix
-			../../../modules/tooling/ghostty.nix
-			../../../modules/tooling/zellij.nix
-			../../../modules/tooling/ollama.nix
-			../../../modules/tooling/anythingllm.nix
 
-# --- Services bricks
+    # --- Development & Terminal Bricks ---
+    "${inputs.self}/modules/dev-git.nix"
+    "${inputs.self}/modules/dev-vim.nix"
+    "${inputs.self}/modules/dev-neovim.nix"
+    "${inputs.self}/modules/dev-zellij.nix"
+
+    # --- Local Infrastructure Services ---
+#    "${inputs.self}/modules/srv-ollama.nix"
+#    "${inputs.self}/modules/srv-anythingllm.nix"
+#    "${inputs.self}/modules/srv-samba.nix"
+
 ];
 # Host-Specific Identity (The "Body")
-	networking.hostName = "wrk-lt01.nix";
+	networking.hostName = "wrk-lt01";
 
 # Do NOT change this value.
 	system.stateVersion = "24.11";
