@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 
-  {
+{
   services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm = {
     enable = true;
@@ -13,5 +13,5 @@
     kdePackages.filelight  # Visualizes disk space as a tree/sunburst
     kdePackages.kdf        # KDiskFree: shows disk usage and mount points
     ];
-  };
 }
+
