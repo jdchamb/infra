@@ -28,6 +28,7 @@
     "${inputs.self}/modules/gui-ghostty.nix"
     "${inputs.self}/modules/gui-remmina.nix"
     "${inputs.self}/modules/gui-kitty.nix"
+    "${inputs.self}/modules/gui-digikam.nix"
 
 
     # --- Development & Terminal Bricks ---
