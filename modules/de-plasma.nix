@@ -14,4 +14,3 @@
     kdePackages.kdf        # KDiskFree: shows disk usage and mount points
     ];
 }
-

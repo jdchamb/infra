@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-	imports = [
+    imports = [
     # --- Machine Hardware Layer ---
     "${inputs.self}/hardware/wrk-dt01-hw.nix"
 
@@ -19,9 +19,9 @@
     "${inputs.self}/modules/core-hw-utils.nix"
 
     # --- Desktop Bricks ---
-    "${inputs.self}/modules/de-plasma.nix"
+    #"${inputs.self}/modules/de-plasma.nix"
     # "${inputs.self}/modules/de-hyprland.nix"
-    # "${inputs.self}/modules/de-niri.nix"
+     "${inputs.self}/modules/de-niri.nix"
 
     # --- GUI Application Bricks ---
     "${inputs.self}/modules/gui-firefox.nix"
@@ -41,8 +41,8 @@
 #    "${inputs.self}/modules/srv-ollama.nix"
 #    "${inputs.self}/modules/srv-anythingllm.nix"
 #    "${inputs.self}/modules/srv-samba.nix"
+    ];
 
-];
 # Host-Specific Identity (The "Body")
 	networking.hostName = "wrk-lt01";
 
