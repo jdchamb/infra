@@ -2,17 +2,19 @@
 { config, pkgs, inputs, ... }:
 
 {
-  # Let Home Manager install and manage itself inside the user environment
-  programs.home-manager.enable = true;
+  # Explicitly declare user profile specifications
+  home = {
+    username = "jchambers"; #
+    homeDirectory = "/home/jchambers"; #
+    stateVersion = "24.11"; #
+  };
 
-  # Define Target User Space Parameters
-  home.username = "jchambers";
-  home.homeDirectory = "/home/jchambers";
-  home.stateVersion = "24.11";
+  # Let Home Manager manage its own software profile path wrapper
+  programs.home-manager.enable = true; #
 
-  # Pull in User-Space Module Bricks
+  # Import user-space shell components
   imports = [
-    "${inputs.self}/modules/core-zsh.nix"
-    "${inputs.self}/modules/core-starship.nix"
+    "${inputs.self}/modules/core-zsh.nix" #
+    "${inputs.self}/modules/core-starship.nix" #
   ];
 }
