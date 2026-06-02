@@ -17,6 +17,7 @@
     "${inputs.self}/modules/core-fonts.nix"
     "${inputs.self}/modules/core-cachix.nix"
     "${inputs.self}/modules/core-hw-utils.nix"
+    "${inputs.self}/modules/core-home-manager.nix"
 
     # --- Desktop Bricks ---
     "${inputs.self}/modules/de-plasma.nix"
