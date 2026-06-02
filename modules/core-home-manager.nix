@@ -1,5 +1,8 @@
 { config, pkgs, inputs, ... }:
 
+  # Let Home Manager install and manage itself
+  programs.home-manager.enable = true;
+
 {
   home.username = "jchambers";
   home.homeDirectory = "/home/jchambers";
@@ -10,6 +13,5 @@
     "${inputs.self}/modules/core-starship.nix"
   ];
 
-  # Let Home Manager install and manage itself
-  programs.home-manager.enable = true;
+
 }
