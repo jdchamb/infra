@@ -17,7 +17,9 @@
 
     shellAliases = {
       # Permanently fixed to match your new functional shorthand target
-      update = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-dt01";
+      updatedt01 = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-dt01";
+      updatelt01 = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-lt01";
+      #updatedt01
 
       # Your requested aliases
       rm = "rm -i";
