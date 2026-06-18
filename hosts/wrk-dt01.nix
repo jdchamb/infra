@@ -12,8 +12,6 @@
     "${inputs.self}/modules/core-user.nix"
     "${inputs.self}/modules/core-audio.nix"
     "${inputs.self}/modules/core-printing.nix"
-# part of home-manager configs now ---> "${inputs.self}/modules/core-zsh.nix"
-# part of home-manager configs now ---> "${inputs.self}/modules/core-starship.nix"
     "${inputs.self}/modules/core-fonts.nix"
     "${inputs.self}/modules/core-cachix.nix"
     "${inputs.self}/modules/core-hw-utils.nix"
@@ -23,12 +21,12 @@
     # "${inputs.self}/modules/de-hyprland.nix"
     # "${inputs.self}/modules/de-niri.nix"
 
-    # --- GUI Application Bricks ---
-    "${inputs.self}/modules/gui-firefox.nix"
-    "${inputs.self}/modules/gui-ghostty.nix"
-    "${inputs.self}/modules/gui-remmina.nix"
-    "${inputs.self}/modules/gui-kitty.nix"
-    "${inputs.self}/modules/gui-digikam.nix"
+    # --- Application Bricks ---
+    "${inputs.self}/modules/app-firefox.nix"
+    "${inputs.self}/modules/app-ghostty.nix"
+    "${inputs.self}/modules/app-remmina.nix"
+    "${inputs.self}/modules/app-kitty.nix"
+    "${inputs.self}/modules/app-digikam.nix"
 
 
     # --- Development & Terminal Bricks ---
