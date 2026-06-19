@@ -3,10 +3,10 @@
 {
   environment.systemPackages = with pkgs; [
     # --- Hardware Diagnostics
-    pciutils    # Low-level PCI bus inspection (provides 'lspci') [cite: 8]
-    usbutils    # Low-level USB bus inspection (provides 'lsusb') [cite: 8]
-    dmidecode   # DMI/SMBIOS table decoder (BIOS info) [cite: 8]
-    hwinfo      # Comprehensive hardware probing tool [cite: 8]
+    pciutils    # Low-level PCI bus inspection (provides 'lspci')
+    usbutils    # Low-level USB bus inspection (provides 'lsusb')
+    dmidecode   # DMI/SMBIOS table decoder (BIOS info)
+    hwinfo      # Comprehensive hardware probing tool
 
     # --- Storage Partitioning
     parted      # Standard CLI partition manipulator
@@ -18,5 +18,6 @@
     dosfstools  # Utilities for FAT16/FAT32 file systems
     xfsprogs    # XFS layout and maintenance utilities
     btrfs-progs # Btrfs userspace tools and formatting
+    apfs-fuse   # APFS userspace tools and formatting
   ];
 }
