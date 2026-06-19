@@ -20,4 +20,7 @@
     btrfs-progs # Btrfs userspace tools and formatting
     apfs-fuse   # APFS userspace tools and formatting
   ];
+
+  # --- Kernel Storage Layer Configuration
+  boot.supportedFilesystems = [ "apfs" ];
 }
