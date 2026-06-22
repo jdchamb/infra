@@ -12,8 +12,6 @@
     "${inputs.self}/modules/core-user.nix"
     "${inputs.self}/modules/core-audio.nix"
     "${inputs.self}/modules/core-printing.nix"
-# part of home-manager configs now ---> "${inputs.self}/modules/core-zsh.nix"
-# part of home-manager configs now ---> "${inputs.self}/modules/core-starship.nix"
     "${inputs.self}/modules/core-fonts.nix"
     "${inputs.self}/modules/core-cachix.nix"
     "${inputs.self}/modules/core-hw-utils.nix"
