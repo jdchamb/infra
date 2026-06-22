@@ -7,10 +7,12 @@
     usbutils    # Low-level USB bus inspection (provides 'lsusb')
     dmidecode   # DMI/SMBIOS table decoder (BIOS info)
     hwinfo      # Comprehensive hardware probing tool
+    hdparm      # Low-level SATA/IDE device tuning and hardware erasing
 
     # --- Storage Partitioning
     parted      # Standard CLI partition manipulator
     gptfdisk    # Advanced GUID Partition Table manipulation
+    nvme-cli    # NVMe drive management and hardware sanitization
 
     # --- Cross-Platform File Systems
     exfatprogs  # Modern kernel-space exFAT creation and repair
