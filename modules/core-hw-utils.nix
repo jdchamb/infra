@@ -13,6 +13,8 @@
     parted      # Standard CLI partition manipulator
     gptfdisk    # Advanced GUID Partition Table manipulation
     nvme-cli    # NVMe drive management and hardware sanitization
+    nwipe       # Command line tool based on DBAN for secure wiping
+    scrub       # Writes patterns on magnetic media to disrupt magnetic signatures
 
     # --- Cross-Platform File Systems
     exfatprogs  # Modern kernel-space exFAT creation and repair
