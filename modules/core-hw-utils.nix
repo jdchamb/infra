@@ -15,6 +15,7 @@
     nvme-cli    # NVMe drive management and hardware sanitization
     nwipe       # Command line tool based on DBAN for secure wiping
     scrub       # Writes patterns on magnetic media to disrupt magnetic signatures
+    sedutil     # TCG OPAL self-encrypting drive management
 
     # --- Cross-Platform File Systems
     exfatprogs  # Modern kernel-space exFAT creation and repair
