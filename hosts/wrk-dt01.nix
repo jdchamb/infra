@@ -27,6 +27,7 @@
     "${inputs.self}/modules/app-remmina.nix"
     "${inputs.self}/modules/app-kitty.nix"
     "${inputs.self}/modules/app-digikam.nix"
+    "${inputs.self}/modules/app-apple-tools.nix"
 
 
     # --- Development & Terminal Bricks ---
