@@ -2,7 +2,7 @@
 
 {
   # Enable the kernel/system level iOS USB multiplexer daemon
-  services.usbmuxd.enable = true; [cite: 5]
+  services.usbmuxd.enable = true;
 
   # Kernel layer instruction to allow physical APFS drive mounting
   boot.supportedFilesystems = [ "apfs" ];
