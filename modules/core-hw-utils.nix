@@ -23,9 +23,5 @@
     dosfstools  # Utilities for FAT16/FAT32 file systems
     xfsprogs    # XFS layout and maintenance utilities
     btrfs-progs # Btrfs userspace tools and formatting
-    apfs-fuse   # APFS userspace tools and formatting
   ];
-
-  # --- Kernel Storage Layer Configuration
-  boot.supportedFilesystems = [ "apfs" ];
 }
