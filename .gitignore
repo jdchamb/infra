@@ -10,7 +10,6 @@ result-*
 *~
 .nfnix
 
-# Place this in your notes directory or main dotfiles root
 # Ignore all binary image assets
 *.jpg
 *.jpeg
@@ -22,3 +21,6 @@ result-*
 .webp
 .direnv/
 .logseq/
+
+# --- AI & Repository Tooling Exports ---
+repomix-output.xml
