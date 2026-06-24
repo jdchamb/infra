@@ -11,9 +11,16 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    # --- Declarative Plasma 6 Taskbar Customizer ---
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-flatpak, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs: {
 
     nixosConfigurations = {
 
@@ -49,15 +56,12 @@
         ];
       };
 
-# 3. Your Custom Bootstrap ISO Pipeline
+      # 3. Your Custom Bootstrap ISO Pipeline
       "bootstrap-iso" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";  # <-- ADD THIS LINE HERE
+        system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          # Pull down the official installer environment framework
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
-
-          # Inject your host configuration choice
           "${self}/hosts/custom-iso.nix"
         ];
       };
