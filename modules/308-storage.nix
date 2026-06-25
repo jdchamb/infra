@@ -6,17 +6,17 @@
     cifs-utils
   ];
 
-  # --- Systemd Automount Configurations for USD 308 Infrastructure
+  # --- Systemd Mount Configurations for USD 308 Infrastructure
   fileSystems = {
 
-    # 1. Local Network Storage (Adjust the IP address trailing digit as needed)
+    # 1. Local Network Storage
     "/home/josh/Shares/WorkStorage" = {
       device = "//172.16.3.0/Backups/JoshBackups"; # <-- Replace with the actual host IP
       fsType = "cifs";
       options = [
-        "x-systemd.automount"
-        "noauto"
-        "x-systemd.idle-timeout=60"
+        "x-systemd.mount-timeout=30"
+        "x-systemd.after=network-online.target"
+        "x-systemd.requires=network-online.target"
         "credentials=/etc/nixos/secrets/smb-secrets"
         "uid=1000"
         "gid=100"
@@ -32,9 +32,9 @@
       device = "//cloud-storage.usd308.com"; # <-- Adjust destination share name if different
       fsType = "cifs";
       options = [
-        "x-systemd.automount"
-        "noauto"
-        "x-systemd.idle-timeout=60"
+        "x-systemd.mount-timeout=30"
+        "x-systemd.after=network-online.target"
+        "x-systemd.requires=network-online.target"
         "credentials=/etc/nixos/secrets/smb-secrets"
         "uid=1000"
         "gid=100"
@@ -50,9 +50,9 @@
       device = "//pdq.usd308.com/"; # <-- Adjust destination share name if different
       fsType = "cifs";
       options = [
-        "x-systemd.automount"
-        "noauto"
-        "x-systemd.idle-timeout=60"
+        "x-systemd.mount-timeout=30"
+        "x-systemd.after=network-online.target"
+        "x-systemd.requires=network-online.target"
         "credentials=/etc/nixos/secrets/smb-secrets"
         "uid=1000"
         "gid=100"
