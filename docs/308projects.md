@@ -36,4 +36,14 @@
 
 # Project 19: 
 
-# Project 20: 
+# Project 20:
+
+---
+
+## Completed Tasks
+<details>
+<summary><b>Click to expand Completed History</b></summary>
+
+* ~~*Identified and added task profile for USD 308 storage mount validation mechanics.*~~
+
+</details>
