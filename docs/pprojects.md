@@ -26,13 +26,13 @@
 
 # Project 14: rename git repo from infra to nix-configs
 
-# Project 15: 
+# Project 15: Setup NUT for homelab power monitoring
 
-# Project 16: 
+# Project 16: Run PoE cabling for reolink doorbells
 
-# Project 17: 
+# Project 17: test brocade switch
 
-# Project 18: 
+# Project 18: install patch panels
 
 # Project 19: 
 
