@@ -41,6 +41,7 @@
 #   "${inputs.self}/modules/srv-anythingllm.nix"
     "${inputs.self}/modules/srv-samba.nix"
     "${inputs.self}/modules/308-storage.nix"
+    "${inputs.self}/modules/sops-tools.nix"
   ];
 
   # Host-Specific Identity (The "Body")
