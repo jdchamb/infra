@@ -24,7 +24,7 @@
 
 # Project 13: Setup host documents that show what each configuration is for each host.
 
-# Project 14: 
+# Project 14: rename git repo from infra to nix-configs
 
 # Project 15: 
 
@@ -41,9 +41,4 @@
 ---
 
 ## Completed Tasks
-<details>
-<summary><b>Click to expand Completed History</b></summary>
-
-* ~~*Patched `wrk-lt01.nix` boot loop hazard by resolving cross-device desktop hardware import mismatch.*~~
-
-</details>
+<!-- *(No completed projects yet. We'll drop standard markdown checkboxes down here when they're done.)* -->
