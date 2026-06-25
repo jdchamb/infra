@@ -4,7 +4,6 @@ This project handles local system administration, cluster orchestration, and des
 
 ### Active Tasks
 * **Homelab Learning:** Research and document how to structure environments using Home Manager.
-* **Node Provisioning:** Build and deploy NixOS configurations directly onto the 5-node server cluster.
 * **Portable Configuration:** Build a portable NixOS installation variant pre-configured with secure SSH access.
 * **Task Documentation:** Create a `.md` markdown file dedicated entirely to tracking running task notes.
 * **Security & Encryption:** Initialize and set up a personalized GPG key.
