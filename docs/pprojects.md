@@ -20,9 +20,9 @@
 
 # Project 11: Get a small lab built out of the 5 hp laptops in my workspace to test infrastructure processes on that will not be part of my main workstation.
 
-# Project 12: 
+# Project 12: Start setting up issues and use these docs for more in depth notes? Not sure what gem is referencing.
 
-# Project 13: 
+# Project 13: Setup host documents that show what each configuration is for each host.
 
 # Project 14: 
 

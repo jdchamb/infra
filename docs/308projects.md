@@ -32,7 +32,7 @@
 
 # Project 17: Figure out a way to remove all autodesk remnants from windows 11 after all autodesk software is removed and then build an ultimate uninstaller for everything autodesk from a machine
 
-# Project 18: 
+# Project 18: Wire up and test USD 308 network share automounts.
 
 # Project 19: 
 
