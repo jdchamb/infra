@@ -2,7 +2,7 @@
 
 ## 🏃 In Progress
 *   **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
-    *   *Current status:* Underway. Working through silent deployment packaging and updates.
+    *   *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Will hand off to building tech and supervisor upon reaching 10 stable runs.
 *   **Project 18: Wire up and test USD 308 network share automounts.**
     *   *Current status:* Active logic built in `308-storage.nix`, needs to be tidied up.
 *   **Project 17: Setup secrets management using SOPS / age for encrypted credentials.**
