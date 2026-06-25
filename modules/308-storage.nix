@@ -11,13 +11,13 @@
 
     # 1. Local Network Storage
     "/home/josh/Shares/WorkStorage" = {
-      device = "//172.16.3.0/Backups/JoshBackups"; # <-- Replace with the actual host IP
+      device = "//172.16.3.0/Backups/JoshBackups";
       fsType = "cifs";
       options = [
         "x-systemd.mount-timeout=30"
         "x-systemd.after=network-online.target"
         "x-systemd.requires=network-online.target"
-        "credentials=/etc/nixos/secrets/smb-secrets"
+        "credentials=/etc/nixos/secrets/308-admin308"
         "uid=1000"
         "gid=100"
         "file_mode=0755"
@@ -29,13 +29,13 @@
 
     # 2. Cloud Storage Gateway
     "/home/josh/Shares/CloudStorage" = {
-      device = "//cloud-storage.usd308.com"; # <-- Adjust destination share name if different
+      device = "//cloud-storage.usd308.com";
       fsType = "cifs";
       options = [
         "x-systemd.mount-timeout=30"
         "x-systemd.after=network-online.target"
         "x-systemd.requires=network-online.target"
-        "credentials=/etc/nixos/secrets/smb-secrets"
+        "credentials=/etc/nixos/secrets/308-adminjc"
         "uid=1000"
         "gid=100"
         "file_mode=0755"
@@ -47,13 +47,13 @@
 
     # 3. PDQ Server Main Share
     "/home/josh/Shares/PDQServer" = {
-      device = "//pdq.usd308.com/"; # <-- Adjust destination share name if different
+      device = "//pdq.usd308.com/";
       fsType = "cifs";
       options = [
         "x-systemd.mount-timeout=30"
         "x-systemd.after=network-online.target"
         "x-systemd.requires=network-online.target"
-        "credentials=/etc/nixos/secrets/smb-secrets"
+        "credentials=/etc/nixos/secrets/308-adminjc"
         "uid=1000"
         "gid=100"
         "file_mode=0755"
