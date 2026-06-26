@@ -2,6 +2,10 @@
 
 {
   imports = [
+    # --- Register Upstream Third-Party Blueprints ---
+    inputs.sops-nix.nixosModules.sops
+
+
     # --- Machine Hardware Layer ---
     "${inputs.self}/hardware/wrk-dt01-hw.nix"
 
