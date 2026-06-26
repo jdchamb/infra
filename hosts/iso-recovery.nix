@@ -2,46 +2,68 @@
 
 {
   imports = [
-    # 1. Base channel profile required to construct a bootable graphical Plasma 6 ISO
+    # 1. Base channel profile required to construct a bootable graphical Plasma 6 ISO environment
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
 
-    # 2. Re-use your exact declarative repository modules
-    "${inputs.self}/modules/core-system.nix"   # Sets Chicago timezone, locales, garbage collection, and experimental flakes flags
-    "${inputs.self}/modules/core-user.nix"     # Sets up your administrative user session 'jchambers'
-    "${inputs.self}/modules/core-zsh.nix"      # Loads your Zsh shell config, autocomplete rules, and safe interactive aliases
-    "${inputs.self}/modules/core-fonts.nix"    # Provisions your system workspace typography
-    "${inputs.self}/modules/core-cachix.nix"   # Connects nix-community binary cache hubs to accelerate local builds
-    "${inputs.self}/modules/core-hw-utils.nix" # Full diagnostic array (lspci, lsusb, nvme-cli, nwipe, parted, gptfdisk)
-    "${inputs.self}/modules/dev-git.nix"       # Provisions git configured with your author name and email info
-    "${inputs.self}/modules/dev-neovim.nix"    # Binds nvim with full compiler toolchains (gcc, gnumake, unzip)
-    "${inputs.self}/modules/sops-tools.nix"    # Places 'sops' and 'age' utilities in the shell PATH for manual decryption
-    "${inputs.self}/modules/de-plasma.nix"     # Spins up your precise declarative Plasma 6 workspace panels & task manager
+    # 2. Shared Base Platform Configurations
+    "${inputs.self}/modules/core-system.nix"   # Sets Chicago timezone, locales, and experimental flags
+    "${inputs.self}/modules/core-network.nix"  # Mandates your core connection protocols & NetworkManager backend
+    "${inputs.self}/modules/core-user.nix"     # Configures your administrative user profile ('jchambers')
+    "${inputs.self}/modules/core-zsh.nix"      # Loads your Zsh shell environment with safe interactive removal aliases
+    "${inputs.self}/modules/core-fonts.nix"    # Provisions your customized system workspace typography definitions
+    "${inputs.self}/modules/core-cachix.nix"   # Connects trusted upstream caching channels to speed up recovery compilations
+    "${inputs.self}/modules/core-hw-utils.nix" # Delivers your hardware diagnostic suite (pciutils, nvme-cli, nwipe, storage layouts)
+
+    # 3. Graphical Interface & Dedicated Application Layers
+    "${inputs.self}/modules/de-plasma.nix"     # Pins your declarative Plasma 6 panels and hardware performance monitor sensors
+    "${inputs.self}/modules/app-remmina.nix"   # Pulls in Remmina for RDP/VNC remote access to school district fleet systems
+
+    # 4. Development & Secret Inspection Toolkits
+    "${inputs.self}/modules/dev-git.nix"       # Deploys Git globally mapped to your author identity metrics
+    "${inputs.self}/modules/dev-neovim.nix"    # Binds Neovim with foundational compiler chains for immediate terminal debugging
+    "${inputs.self}/modules/sops-tools.nix"    # Places 'sops' and 'age' binaries on path without launching background daemons
   ];
 
-  # Override global profile state to enforce strict open-source software standards
+  # Override global profile states to enforce strict open-source package parameters on live rescue media
   nixpkgs.config.allowUnfree = false;
 
-  # Additional interactive utilities unique to this full graphical rescue desktop environment
-  environment.systemPackages = with pkgs; [
-    kate            # Full editor suite for modifying live configurations or scripts
-    remmina         # Remote desktop client to access school district machines or hypervisors
-    cifs-utils      # Windows SMB/CIFS filesystem support for reaching shared network nodes
-    nfs-utils       # Network File System support
+  # Embed your public key into the temporary 'nixos' install session user account for headless ssh validation
+  users.users.nixos.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
   ];
 
   # --- Automated 308-Storage Mount point definition ---
-  # Allows immediate access to file repositories straight from the recovery medium
+  # Allows immediate access to file repositories straight from the boot session
   fileSystems."/mnt/308-storage" = {
-    device = "//your-storage-server-ip/share-name"; # Replace with your actual target production IP and share namespace
+    device = "//your-storage-server-ip/share-name"; # Replace with your target network share namespace
     fsType = "cifs";
     options = let
-      # Keeps the live ISO from stalling at boot if the network connection or target network share isn't reachable
+      # Ensures the recovery system boots instantly even if disconnected from the school district internal network
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
     in [ "${automount_opts},guest,uid=1000,gid=100" ];
   };
 
-  # Append your remote authentication vector to the live session user config
-  users.users.nixos.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
-  ];
+  # --- PROJECT 20: Automated Git Repo Cloning Service ---
+  systemd.services.clone-infra-repo = {
+    description = "Auto-clone configuration repository on startup";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "nixos";
+      RemainAfterExit = true;
+    };
+
+    script = ''
+      sleep 5
+      TARGET_DIR="/home/nixos/src/infra"
+      if [ ! -d "$TARGET_DIR" ]; then
+        mkdir -p "/home/nixos/src"
+        # Firmly anchored to your personal FLOSS Codeberg repository instance
+        ${pkgs.git}/bin/git clone https://codeberg.org/jchambers-codeberg/infra.git "$TARGET_DIR" || true
+      fi
+    '';
+  };
 }
