@@ -43,13 +43,25 @@
         ];
       };
 
-      # 2. Your Custom Bootstrap ISO Pipeline
+      # 2. Minimal Provisioning Bootstrap Medium
       "bootstrap-iso" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
+        modules = [ "${self}/hosts/iso-bootstrap.nix" ];
+      };
+
+      # 3. Heavy Recovery Desktop Environment (dt01 Style)
+      "recovery-iso" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
-          "${self}/hosts/custom-iso.nix"
+          "${self}/hosts/iso-recovery.nix"
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
         ];
       };
     };
