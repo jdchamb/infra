@@ -27,6 +27,7 @@
   # Override global profile states to enforce strict open-source package parameters on live rescue media
   nixpkgs.config.allowUnfree = false;
 
+
   # Embed your public key into the temporary 'nixos' install session user account for headless ssh validation
   users.users.nixos.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
@@ -66,4 +67,8 @@
       fi
     '';
   };
+  # --- Home Manager User Space Binding ---
+  # This cleanly isolates your user-space dotfiles, stateVersion, and zsh settings
+  # inside the home-manager evaluator scope where they belong!
+  home-manager.users.jchambers = import "${inputs.self}/modules/core-home-manager.nix";
 }
