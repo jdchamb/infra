@@ -16,9 +16,9 @@
     syntaxHighlighting.enable = true;
 
     # --- Case-Insensitive Smart Tab Completion Engine ---
-    # Matches your precise completion preferences: lower case matches upper case,
-    # activates visual menu selection dropdowns, and caches results locally to prevent terminal stutter.
-    completionInit = ''
+    # Moved to interactiveShellInit so it is valid in native NixOS system configurations.
+    # Matches lower case to upper case, activates dropdown menus, and caches results.
+    interactiveShellInit = ''
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
       zstyle ':completion:*' menu select
       zstyle ':completion:*' use-cache yes
