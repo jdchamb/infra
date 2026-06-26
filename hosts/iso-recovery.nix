@@ -9,7 +9,6 @@
     "${inputs.self}/modules/core-system.nix"   # Sets Chicago timezone, locales, and experimental flags
     "${inputs.self}/modules/core-network.nix"  # Mandates your core connection protocols & NetworkManager backend
     "${inputs.self}/modules/core-user.nix"     # Configures your administrative user profile ('jchambers')
-    "${inputs.self}/modules/core-zsh.nix"      # Loads your Zsh shell environment with safe interactive removal aliases
     "${inputs.self}/modules/core-fonts.nix"    # Provisions your customized system workspace typography definitions
     "${inputs.self}/modules/core-cachix.nix"   # Connects trusted upstream caching channels to speed up recovery compilations
     "${inputs.self}/modules/core-hw-utils.nix" # Delivers your hardware diagnostic suite (pciutils, nvme-cli, nwipe, storage layouts)
