@@ -1,45 +1,34 @@
-# Project 1: Custom iso with ssh remote keys built in for easy ssh access and nixos configuration.
+# Personal Project Board
 
-# Project 2: Build NixOS on remote machine via network
+## 🏃 In Progress
+* **Project 1: Custom ISO with remote access & bootstrap automation**
+    * *Current status:* Updating target profile scope. Actively building out a custom NixOS installation ISO script to automatically embed runtime SSH public keys, bake in your private `age` key configuration at installation time, and allow seamless zero-touch bootstrap deployment.
 
-# Project 3: Setup erase your darlings
+## 📋 To Do (Active Queue)
+* **Project 2:** Build NixOS on remote machine via network.
+* **Project 3:** Setup "Erase your darlings" stateless root profiles.
+* **Project 4:** Build `README.md` files for structural mapping across all configuration sub-directories.
+* **Project 5:** Setup GPG/online cryptographic identity for signed developer git workflows.
+* **Project 6:** Enforce Apple keyboard numlock `.nix` configuration states.
+* **Project 7:** Declare dark mode preferences for Plasma via `plasma-manager` and address the `homeManagerModules` to `homeModules` deprecation warning.
+* **Project 8:** Swap default top-row Fn key behaviors to map to standard functional `F1`-`F12` controls by default.
+* **Project 9:** Declare Dolphin structural optimizations (item sizes, default list views, and cache adjustments).
+* **Project 10:** Refactor local documents and personal lists layout.
+* **Project 11:** Build a 5-node physical validation lab out of workspace HP ProBooks to execute localized testing.
+* **Project 12:** Evaluate migrating these status project trackers into true localized Git issue pipelines.
+* **Project 13:** Setup host profile logs documenting the specific role/architecture for every active machine.
+* **Project 14:** Rename system configuration git repository from `infra` to `nix-configs`.
+* **Project 15:** Setup Network UPS Tools (NUT) for home server stack power monitoring.
+* **Project 16:** Run PoE infrastructure drops for Reolink doorbell deployments.
+* **Project 17:** Test structural capabilities of the homelab Brocade switch.
+* **Project 18:** Punch down structural patch panels in home network enclosure.
+* **Project 19:** Build global configurations for core modules in the configuration repository. Implement a unified `core-global.nix` layout to automatically push base configurations and dependencies across all managed hosts simultaneously.
 
-# Project 4: Build readme.mds for each of my folders
-
-# Project 5: Setup GPG/online identity for developer work
-
-# Project 6: Apple keyboard numlock .Nix
-
-# Project 7: declare dark mode for plasma via plasma-manager also need to fix "evaluation warning: plasma-manager: homeManagerModules has been renamed to homeModules"
-
-# Project 8: setup fn keys to to just be f keys by default and that pressing the fn key utilites the alternative functions for those kexys. Reverse what I have now. 
-
-# Project 9: declare dolphin setup (size, view, optimizations)
-
-# Project 10: Refactor documents and lists
-
-# Project 11: Get a small lab built out of the 5 hp laptops in my workspace to test infrastructure processes on that will not be part of my main workstation.
-
-# Project 12: Start setting up issues and use these docs for more in depth notes? Not sure what gem is referencing.
-
-# Project 13: Setup host documents that show what each configuration is for each host.
-
-# Project 14: rename git repo from infra to nix-configs
-
-# Project 15: Setup NUT for homelab power monitoring
-
-# Project 16: Run PoE cabling for reolink doorbells
-
-# Project 17: test brocade switch
-
-# Project 18: install patch panels
-
-# Project 19: 
-
-# Project 20:
+## ⏳ On Hold / Future Prospects
+* **Project 20:** *[Queue open for expansion]*
 
 ---
 
-## Completed Tasks
-* [x] **Hardware Retargeting: Decommission wrk-lt01**
-    * *Resolution:* Removed the laptop profile entirely from production deployment matrices. Focus is now 100% dedicated to the `wrk-dt01` desktop node and multi-node test lab scaling.
+## ✅ Completed Tasks
+* **Hardware Retargeting: Decommission wrk-lt01**
+    * *Resolution:* Removed old mobile hardware configurations from deployment matrices to focus on immediate multi-node scale optimizations.

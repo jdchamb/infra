@@ -1,10 +1,10 @@
 # USD 308 Project Board
 
 ## 🏃 In Progress
-* **Project 17:** Setup secrets management using SOPS / age for encrypted credentials.
-    * *Current status:* On deck. Holding off on implementation until local file mount layout settles.
 * **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
     * *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Ready to grab the latest installers for VLC, DYMO, and HoverCAM to incorporate into the deployment job next.
+* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
+* **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 
 ## 📋 To Do (Active Queue)
 * **Project 2:** Compile list of bills for non-returned staff equipment for 2025-2026.
@@ -17,8 +17,6 @@
 * **Project 9:** Update Autodesk Fusion installer and isolate the FeatureCAM module deployment workflow.
 * **Project 10:** Review, optimize, and update the UltraVNC PDQ deployment package.
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
-* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
-* **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
 
@@ -29,6 +27,9 @@
 ---
 
 ## ✅ Completed Tasks
-* [x] **Project 18: Wire up and test USD 308 network share automounts.**
+* **Project 17: Setup secrets management using SOPS / age for encrypted credentials**
+    * *Completion Date:* 2026-06-26
+    * *Resolution:* Successfully integrated `sops-nix` engine into `wrk-dt01` using a locally stored master age key file. Automated variables securely decrypt straight into a volatile in-memory tmpfs filesystem (`/run/secrets/`), eliminating cleartext keys on permanent physical storage.
+* **Project 18: Wire up and test USD 308 network share automounts**
     * *Completion Date:* 2026-06-25
-    * *Resolution:* Refactored all infrastructure shares (`WorkStorage`, `CloudStorage`, `PDQServer/Software`, and `PDQServer/Scripts`) into true kernel-level boot-time systemd mounts with explicit `network-online.target` dependencies. All shares are fully active and available instantly at startup.
+    * *Resolution:* Refactored all infrastructure shares (`WorkStorage`, `CloudStorage`, `PDQServer/Software`, and `PDQServer/Scripts`) into true kernel-level boot-time systemd mounts with explicit `network-online.target` dependencies. Verified to ingest the newly created SOPS secret symlinks flawlessly without a machine reboot.
