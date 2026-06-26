@@ -10,7 +10,7 @@
     hdparm      # Low-level SATA/IDE device tuning and hardware erasing
 
     # --- Storage Partitioning
-    parted      # Standard CLI partition manipulator
+    parted
     gptfdisk    # Advanced GUID Partition Table manipulation
     nvme-cli    # NVMe drive management and hardware sanitization
     nwipe       # Command line tool based on DBAN for secure wiping
@@ -23,5 +23,7 @@
     dosfstools  # Utilities for FAT16/FAT32 file systems
     xfsprogs    # XFS layout and maintenance utilities
     btrfs-progs # Btrfs userspace tools and formatting
+    cifs-utils  # Necessary for mounting remote school storage nodes
+    nfs-utils   # Network File System utilities
   ];
 }
