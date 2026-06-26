@@ -19,7 +19,6 @@
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
-* **Project 19:** Print chromebook labels for Pam.
 * **Project 20:**
 * **Project 21:**
 
@@ -30,6 +29,9 @@
 ---
 
 ## ✅ Completed Tasks
+* **Project 19: Print chromebook labels for Pam**
+    * *Completion Date:* 2026-06-26 16:11 CDT
+    * *Resolution:* Labels printed and completed.
 * **Project 17: Setup secrets management using SOPS / age for encrypted credentials**
     * *Completion Date:* 2026-06-26
     * *Resolution:* Successfully integrated `sops-nix` engine into `wrk-dt01` using a locally stored master age key file. Automated variables securely decrypt straight into a volatile in-memory tmpfs filesystem (`/run/secrets/`), eliminating cleartext keys on permanent physical storage.
