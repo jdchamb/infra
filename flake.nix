@@ -12,6 +12,9 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
+    sops-nix.url = "github:mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     # --- Declarative Plasma 6 Taskbar Customizer ---
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
