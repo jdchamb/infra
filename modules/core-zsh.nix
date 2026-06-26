@@ -9,11 +9,8 @@
     # Enables native system-wide command completion tracking
     enableCompletion = true;
 
-    # --- System vs. Home-Manager Compatibility Layer ---
-    # We declare both the singular and plural paths. NixOS natively reads the plural 'autosuggestions',
-    # while this safeguards compatibility if elements assess the config downstream.
+    # Native NixOS system-wide configuration for Zsh autosuggestions (requires the trailing 's')
     autosuggestions.enable = true;
-    autosuggestion.enable = true;
 
     # Deploys safe, visual terminal syntax highlighting for interactive commands
     syntaxHighlighting.enable = true;
@@ -31,8 +28,8 @@
     # --- Core Administrative & Safety Command Shorthand Aliases ---
     shellAliases = {
       # Infrastructure deployment triggers mapped strictly to your home repository tree namespace
-      updatedt01 = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-dt01";
-      updatelt01 = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-lt01";
+      updatedt01 = "sudo nixos-rebuild switch --flake ~/src/infra --target-host wrk-dt01";
+      updatelt01 = "sudo nixos-rebuild switch --flake ~/src/infra --target-host wrk-lt01";
 
       # Safety overrides: Prompts for confirmation before destroying or overwriting targets
       rm = "rm -i";
