@@ -25,7 +25,8 @@
 * **Project 19:** Build global configurations for core modules in the configuration repository. Implement a unified `core-global.nix` layout to automatically push base configurations and dependencies across all managed hosts simultaneously.
 
 ## ⏳ On Hold / Future Prospects
-* **Project 20:** *[Queue open for expansion]*
+* **Project 20:** Setup git for auto cloning src/infra repo to a device. Maybe add this to the custome iso? 
+* **Project 21:** Setup adguard for NixOS. Add it to core... alwayssssss....
 
 ---
 
