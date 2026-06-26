@@ -41,4 +41,5 @@
 ---
 
 ## Completed Tasks
-<!-- *(No completed projects yet. We'll drop standard markdown checkboxes down here when they're done.)* -->
+* [x] **Hardware Retargeting: Decommission wrk-lt01**
+    * *Resolution:* Removed the laptop profile entirely from production deployment matrices. Focus is now 100% dedicated to the `wrk-dt01` desktop node and multi-node test lab scaling.
