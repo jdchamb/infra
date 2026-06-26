@@ -13,7 +13,7 @@
     kdePackages.partitionmanager
     kdePackages.filelight
     kdePackages.kdf
-    isoimagewriter
+    kdePackages.isoimagewriter
   ];
 
 # --- Declarative Taskbar Panel and System Monitor Configuration
