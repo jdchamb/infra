@@ -1,0 +1,12 @@
+creation_rules:
+  # 1. Work / USD 308 Secrets Routing
+  - path_regex: secrets/308-.*\.yaml$
+    key_groups:
+      - age:
+          - "age1340sssuqw9fknm2h5we3485wdqmktnjzgkysmgglp243tpjudpjqu7xf5y" # <-- Paste your work age1... public key here
+
+  # 2. Personal / Homelab Secrets Routing
+  - path_regex: secrets/personal-.*\.yaml$
+    key_groups:
+      - age:
+          - "age13m97hyrx40mkm48erdz433nmdeeyph7q928eat4g5ne07q8rt4dqf5j3l7" # <-- Paste your personal age1... public key here
