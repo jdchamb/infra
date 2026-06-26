@@ -40,23 +40,7 @@
         ];
       };
 
-      # 2. Your Work Laptop Node
-      "wrk-lt01" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          "${self}/hosts/wrk-lt01.nix"
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
-          }
-        ];
-      };
-
-      # 3. Your Custom Bootstrap ISO Pipeline
+      # 2. Your Custom Bootstrap ISO Pipeline
       "bootstrap-iso" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
