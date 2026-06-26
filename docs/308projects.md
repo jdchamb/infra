@@ -19,6 +19,9 @@
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
+* **Project 19:** Print chromebook labels for Pam.
+* **Project 20:**
+* **Project 21:**
 
 ## ⏳ On Hold / Future Prospects
 * **Project 15:** Setup FOG Server as a potential modern replacement for WDS (as WDS deprecates on newer Windows Server editions).
