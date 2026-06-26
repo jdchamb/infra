@@ -15,10 +15,10 @@
     kdePackages.kdf
   ];
 
-  # --- Declarative Taskbar Panel and System Monitor Configuration
+# --- Declarative Taskbar Panel and System Monitor Configuration
   home-manager = {
-    # Registers plasma-manager globally specifically when this brick is active
-    sharedModules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
+    # Fixes the evaluation warning by using the updated upstream module name mapping
+    sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
 
     users.jchambers = { ... }: {
       programs.plasma = {
