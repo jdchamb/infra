@@ -3,8 +3,6 @@
 ## 🏃 In Progress
 * **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
     * *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Ready to grab the latest installers for VLC, DYMO, and HoverCAM to incorporate into the deployment job next.
-* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
-* **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 
 ## 📋 To Do (Active Queue)
 * **Project 2:** Compile list of bills for non-returned staff equipment for 2025-2026.
@@ -18,6 +16,8 @@
 * **Project 10:** Review, optimize, and update the UltraVNC PDQ deployment package.
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
+* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
+* **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
 * **Project 20:**
 * **Project 21:**
