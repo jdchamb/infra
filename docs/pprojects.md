@@ -17,7 +17,7 @@
 * **Project 11:** Build a 5-node physical validation lab out of workspace HP ProBooks to execute localized testing.
 * **Project 12:** Evaluate migrating these status project trackers into true localized Git issue pipelines.
 * **Project 13:** Setup host profile logs documenting the specific role/architecture for every active machine.
-* **Project 14:** Rename system configuration git repository from `infra` to `nix-configs`.
+* **Project 14:** 
 * **Project 15:** Setup Network UPS Tools (NUT) for home server stack power monitoring.
 * **Project 16:** Run PoE infrastructure drops for Reolink doorbell deployments.
 * **Project 17:** Test structural capabilities of the homelab Brocade switch.
@@ -28,7 +28,9 @@
 * **Project 20:** Setup git for auto cloning src/infra repo to a device. Maybe add this to the custome iso? 
 * **Project 21:** Setup adguard for NixOS.
 * **Project 22:** Setup kde plasma dolphin to have dark mode and smallest text
-* **Project 22:** Setup tiling with krohnkite or fluid tile
+* **Project 23:** Setup tiling with krohnkite or fluid tile
+* **Project 24:** Find a way to support codeberg and nixos. Host server or mirrors or something. I want to give back.
+* **Project 25:** *open slot*
 
 ---
 
