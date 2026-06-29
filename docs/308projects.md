@@ -19,7 +19,8 @@
 * **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
 * **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
-* **Project 20:**
+* **Project 20:** Inventory HP laptops for James
+* **Project 21:** Print HVS Labels for Pam
 * **Project 21:**
 
 ## ⏳ On Hold / Future Prospects
