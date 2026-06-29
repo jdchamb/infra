@@ -3,6 +3,8 @@
 ## 🏃 In Progress
 * **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
     * *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Ready to grab the latest installers for VLC, DYMO, and HoverCAM to incorporate into the deployment job next.
+* **Project 20:** Inventory HP laptops for James
+* **Project 21:** Print HVS Labels for Pam
 
 ## 📋 To Do (Active Queue)
 * **Project 2:** Compile list of bills for non-returned staff equipment for 2025-2026.
@@ -19,9 +21,7 @@
 * **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
 * **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
-* **Project 20:** Inventory HP laptops for James
-* **Project 21:** Print HVS Labels for Pam
-* **Project 21:**
+* **Project 22:**
 
 ## ⏳ On Hold / Future Prospects
 * **Project 15:** Setup FOG Server as a potential modern replacement for WDS (as WDS deprecates on newer Windows Server editions).
