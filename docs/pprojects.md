@@ -30,7 +30,7 @@
 * **Project 22:** Setup kde plasma dolphin to have dark mode and smallest text
 * **Project 23:** Setup tiling with krohnkite or fluid tile
 * **Project 24:** Find a way to support codeberg and nixos. Host server or mirrors or something. I want to give back.
-* **Project 25:** *open slot*
+* **Project 25:** Have Gemini prepare better comments for all of my nix configurations
 
 ---
 
