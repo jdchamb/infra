@@ -16,12 +16,44 @@
     kdePackages.isoimagewriter
   ];
 
-# --- Declarative Taskbar Panel and System Monitor Configuration
+  # --- Declarative Taskbar Panel and System Monitor Configuration
   home-manager = {
     # Fixes the evaluation warning by using the updated upstream module name mapping
     sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
 
     users.jchambers = { ... }: {
+      # Add standard home-manager file generation for Kate Snippets
+      home.file.".local/share/ktexteditor/snippets/task_logging.xml".text = ''
+        <snippets namespace="" version="1">
+          <item id="cdate">
+            <displaystring>Completion Date</displaystring>
+            <script><![CDATA[
+        var now = new Date();
+        var yyyy = now.getFullYear();
+        var mm = String(now.getMonth() + 1).padStart(2, '0');
+        var dd = String(now.getDate()).padStart(2, '0');
+        var hh = String(now.getHours()).padStart(2, '0');
+        var min = String(now.getMinutes()).padStart(2, '0');
+        var ss = String(now.getSeconds()).padStart(2, '0');
+
+        return "* *Completion Date:* " + yyyy + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss + " CDT";
+            ]]></script>
+          </item>
+          <item id="res">
+            <displaystring>Resolution</displaystring>
+            <script><![CDATA[
+        return "* *Resolution:* ";
+            ]]></script>
+          </item>
+          <item id="p21">
+            <displaystring>Project 21</displaystring>
+            <script><![CDATA[
+        return "* **Project 21:** ";
+            ]]></script>
+          </item>
+        </snippets>
+      '';
+
       programs.plasma = {
         enable = true;
         overrideConfig = true; # Force matching declarative state on system activation
