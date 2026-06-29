@@ -17,7 +17,6 @@
 * **Project 11:** Build a 5-node physical validation lab out of workspace HP ProBooks to execute localized testing.
 * **Project 12:** Evaluate migrating these status project trackers into true localized Git issue pipelines.
 * **Project 13:** Setup host profile logs documenting the specific role/architecture for every active machine.
-* **Project 14:** 
 * **Project 15:** Setup Network UPS Tools (NUT) for home server stack power monitoring.
 * **Project 16:** Run PoE infrastructure drops for Reolink doorbell deployments.
 * **Project 17:** Test structural capabilities of the homelab Brocade switch.
@@ -36,6 +35,6 @@
 ---
 
 ## ✅ Completed Tasks
-* **Hardware Retargeting: Decommission wrk-lt01**
-    * *Completion Date:* 2026-06-25
+* **Project 14: Hardware Retargeting: Decommission wrk-lt01
+    * *Completion Date:* 2026-06-29 13:59:59 CDT*Completion Date:* 2026-06-25
     * *Resolution:* Removed old mobile hardware configurations from deployment matrices to focus on immediate multi-node scale optimizations.
