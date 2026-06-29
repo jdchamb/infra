@@ -3,33 +3,39 @@
 ## 🏃 In Progress
 * **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
     * *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Ready to grab the latest installers for VLC, DYMO, and HoverCAM to incorporate into the deployment job next.
-* **Project 20:** Inventory HP laptops for James
-* **Project 21:** Print HVS Labels for Pam
+* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
 
 ## 📋 To Do (Active Queue)
 * **Project 2:** Compile list of bills for non-returned staff equipment for 2025-2026.
+* **Project 9:** Update Autodesk Fusion installer and isolate the FeatureCAM module deployment workflow.
+* **Project 10:** Review, optimize, and update the UltraVNC PDQ deployment package.
+* **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
+    * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
+* **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
+
+## ⏳ On Hold / Future Prospects
 * **Project 3:** Update Snipe-IT and host OS (Evaluate current Debian + Git clone path vs fresh VM).
 * **Project 4:** Test if FileWave macOS updates will function natively off of the 308 network.
 * **Project 5:** Make a better Windows 11 deployment image using DISM.
 * **Project 6:** Setup a centralized password manager vault for the USD 308 Tech Dept.
 * **Project 7:** Create a mock ticketing system with internal documentation.
 * **Project 8:** Create an internal USD 308 technical wiki for department documentation.
-* **Project 9:** Update Autodesk Fusion installer and isolate the FeatureCAM module deployment workflow.
-* **Project 10:** Review, optimize, and update the UltraVNC PDQ deployment package.
-* **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
-    * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
-* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
-* **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 * **Project 14:** Engineer an automated method/uninstaller to strip all lingering Autodesk registry and file remnants from Windows 11.
-* **Project 22:**
-
-## ⏳ On Hold / Future Prospects
 * **Project 15:** Setup FOG Server as a potential modern replacement for WDS (as WDS deprecates on newer Windows Server editions).
 * **Project 16:** Configure PDQ email notification delivery pipeline (Pending supervisor/boss decision).
+* **Project 22:** Print asset labels for cleartouches @ grandview
+* **Project 23:** Go to grandview to scope out the situation
+* **Project 24:** Need to check out devices according to Pam's labels for HHS and HVS
 
 ---
 
 ## ✅ Completed Tasks
+* **Project 20:** Inventory HP laptops for James
+    * *Completion Date:* 2026-06-29 13:21:28 CDT
+    * *Resolution:* Processed all the data into a spreadsheet. Sent the list to Vance for assets and gave the labels to James for the laptops. They are in SnipeIT ready for checkout.
+* **Project 21:** Print HVS Labels for Pam
+    * *Completion Date:* 2026-06-29 09:29:17 CDT
+    * *Resolution:* Labels printed and completed.
 * **Project 19: Print chromebook labels for Pam**
     * *Completion Date:* 2026-06-26 16:11 CDT
     * *Resolution:* Labels printed and completed.
@@ -39,3 +45,4 @@
 * **Project 18: Wire up and test USD 308 network share automounts**
     * *Completion Date:* 2026-06-25
     * *Resolution:* Refactored all infrastructure shares (`WorkStorage`, `CloudStorage`, `PDQServer/Software`, and `PDQServer/Scripts`) into true kernel-level boot-time systemd mounts with explicit `network-online.target` dependencies. Verified to ingest the newly created SOPS secret symlinks flawlessly without a machine reboot.
+2026-06-29 09:29:17

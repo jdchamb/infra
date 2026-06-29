@@ -31,6 +31,7 @@
 * **Project 23:** Setup tiling with krohnkite or fluid tile
 * **Project 24:** Find a way to support codeberg and nixos. Host server or mirrors or something. I want to give back.
 * **Project 25:** Have Gemini prepare better comments for all of my nix configurations
+* **Project 26:** Add kate snippets + they're shortcuts to work with nix declarations in de-plasma.nix
 
 ---
 
