@@ -43,11 +43,19 @@
         ];
       };
 
-      # 2. Minimal Provisioning Bootstrap Medium
-      "bootstrap-iso" = nixpkgs.lib.nixosSystem {
+     "bootstrap-iso" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
-        modules = [ "${self}/hosts/iso-bootstrap.nix" ];
+        modules = [
+          "${self}/hosts/iso-bootstrap.nix"
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+#           home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
+          }
+        ];
       };
 
       # 3. Heavy Recovery Desktop Environment (dt01 Style)
