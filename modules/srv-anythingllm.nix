@@ -1,4 +1,4 @@
-{ pkgs, aiLibrary, ... }: # Add aiLibrary to the arguments at the top
+{ pkgs, ... }: # Add aiLibrary to the arguments at the top
 
 {
   virtualisation.oci-containers.containers."anythingllm" = {

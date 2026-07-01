@@ -8,12 +8,9 @@
     # Correct way to pass global client-side protocol overrides in modern NixOS
     settings = {
       global = {
-        "client min protocol" = "CORE";
+        "client min protocol" = "SMB2_10";
         "client max protocol" = "SMB3";
         "client ntlmv2 auth" = "yes";
-        "client lanman auth" = "yes";
-        "client plaintext auth" = "yes";
-      };
     };
   };
 
