@@ -35,7 +35,7 @@
   # --- Automated 308-Storage Mount point definition ---
   # Allows immediate access to file repositories straight from the boot session
   fileSystems."/mnt/308-storage" = {
-    device = "//your-storage-server-ip/share-name"; # Replace with your target network share namespace
+    device = "//cloud-storage.usd308.com/Resources/TSC";
     fsType = "cifs";
     options = let
       # Ensures the recovery system boots instantly even if disconnected from the school district internal network
