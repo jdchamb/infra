@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  # Modern Nixpkgs structure targets the exact nerd font package directly
-fonts.packages = with pkgs; [
-  nerdfonts
-];
+  # Enforces the flattened, modern unstable channel naming scheme using underscores
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains_mono
+  ];
 }
