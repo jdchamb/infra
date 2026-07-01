@@ -43,6 +43,15 @@
         enable = true;
         overrideConfig = true; # Forces clean state convergence on generation activation
 
+        # --- Fixes Project 7 Theme Resets ---
+        # Explicitly pins the visual identity so Plasma stops reverting to stock light mode
+        workspace = {
+          clickToActivate = true;
+          lookAndFeel = "org.kde.breezedark.desktop";
+          theme = "breeze-dark";
+          colorScheme = "BreezeDark";
+        };
+
         # --- Declarative Taskbar Panel & Widget Design Layout ---
         panels = [
           {
@@ -92,6 +101,28 @@
           }
         ];
       };
+
+      # --- Fixes Project 22: Dolphin Compact View Settings ---
+      # This forces Dolphin to render with the smallest possible text/icon layout
+      # and matches the tight grid configuration from your target reference image.
+      home.file.".config/dolphinrc".text = ''
+        [CompactView]
+        IconSize=16
+
+        [IconsView]
+        IconSize=16
+
+        [MainWindow]
+        MenuBar=Disabled
+        ToolBarsMovable=Disabled
+
+        [TransientPositions]
+        IconSize=16
+
+        [Views arrangements]
+        # Mode 1 forces "Icons View" layout dynamically with the tight dimensions above
+        ViewMode=1
+      '';
     };
   };
 }
