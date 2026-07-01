@@ -11,8 +11,9 @@
         "client min protocol" = "SMB2_10";
         "client max protocol" = "SMB3";
         "client ntlmv2 auth" = "yes";
-    };
-  };
+      }; # Closes global
+    }; # Closes settings
+  }; # Closes services.samba
 
   # Enable GVfs to allow network browsing over smb:// inside Dolphin
   services.gvfs = {
