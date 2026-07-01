@@ -46,7 +46,7 @@
         # --- Fixes Project 7 Theme Resets ---
         # Explicitly pins the visual identity so Plasma stops reverting to stock light mode
         workspace = {
-          clickToActivate = true;
+          clickItemTo = "open";
           lookAndFeel = "org.kde.breezedark.desktop";
           theme = "breeze-dark";
           colorScheme = "BreezeDark";
