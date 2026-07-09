@@ -12,6 +12,9 @@
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
+* **Project 26:** F100, CTEA missed boards, HMS8 3rd floor, lil hawks childcare center
+* **Project 28:** Process RMA'd boards
+* **Project 29:** Processed iphone for James
 
 
 ## ⏳ On Hold / Future Prospects
@@ -28,6 +31,7 @@
 * **Project 23:** Go to grandview to scope out the situation
 * **Project 24:** Need to check out devices according to Pam's labels for HHS and HVS
 * **Project 25:** Need to add MAC addresses for ct wireless modules into snipeit
+* **Project 27:** User profiles for cleartouch boards (android). Hoping to be able to allow more apps like play store on the admin user but set the default to a second user account to avoid access.
 
 ---
 
