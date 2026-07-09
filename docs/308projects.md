@@ -13,6 +13,7 @@
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
 
+
 ## ⏳ On Hold / Future Prospects
 * **Project 3:** Update Snipe-IT and host OS (Evaluate current Debian + Git clone path vs fresh VM).
 * **Project 4:** Test if FileWave macOS updates will function natively off of the 308 network.
@@ -26,6 +27,7 @@
 * **Project 22:** Print asset labels for cleartouches @ grandview
 * **Project 23:** Go to grandview to scope out the situation
 * **Project 24:** Need to check out devices according to Pam's labels for HHS and HVS
+* **Project 25:** Need to add MAC addresses for ct wireless modules into snipeit
 
 ---
 
