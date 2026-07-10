@@ -12,7 +12,7 @@
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
     * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
-* **Project 26:** F100, CTEA missed boards, HMS8 3rd floor, lil hawks childcare center
+* **Project 26:** F100, CTEA missed boards, HHS A204 A106, ~~HMS8 3rd floor~~, HMS8 414, ~~lil hawks childcare center~~, SJH, Lincoln
 * **Project 28:** Process RMA'd boards
 * **Project 29:** Processed iphone for James
 
