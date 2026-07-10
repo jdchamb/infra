@@ -21,7 +21,7 @@
     "${inputs.self}/modules/core-hw-utils.nix"
     "${inputs.self}/modules/core-sops.nix"
 
-    # --- Desktop Bricks ---
+    # --- Desktop Environment Bricks ---
     "${inputs.self}/modules/de-plasma.nix"
     # "${inputs.self}/modules/de-hyprland.nix"
     # "${inputs.self}/modules/de-niri.nix"
@@ -33,7 +33,10 @@
     "${inputs.self}/modules/app-kitty.nix"
     "${inputs.self}/modules/app-digikam.nix"
     "${inputs.self}/modules/app-apple-tools.nix"
-
+    "${inputs.self}/modules/app-normcap.nix"
+    "${inputs.self}/modules/app-gimagereader.nix"
+    "${inputs.self}/modules/app-tesseract.nix"
+    "${inputs.self}/modules/app-kate.nix"
 
     # --- Development & Terminal Bricks ---
     "${inputs.self}/modules/dev-git.nix"
