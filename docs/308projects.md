@@ -1,23 +1,16 @@
 # USD 308 Project Board
 
 ## 🏃 In Progress
-* **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
-    * *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Ready to grab the latest installers for VLC, DYMO, and HoverCAM to incorporate into the deployment job next.
-* **Project 12:** Verify all ClearTouch boards at HMS8 and HHS (Create automation folders to ingest device photos automatically for HMS8, HMS7, CTEA, and HHS).
-
-## 📋 To Do (Active Queue)
 * **Project 2:** Compile list of bills for non-returned staff equipment for 2025-2026.
 * **Project 9:** Update Autodesk Fusion installer and isolate the FeatureCAM module deployment workflow.
-* **Project 10:** Review, optimize, and update the UltraVNC PDQ deployment package.
 * **Project 11:** Pull all Wi-Fi MAC addresses for every device in Snipe-IT and compile a CSV import for macauth validation.
-    * *Current status:* HHS is wrapping up. All CT boards are installed in HMS8 HMS7 CTEA and HHS(a-hall,b-hall,c-hall,v-hall).
 * **Project 13:** Maintain and update comprehensive ClearTouch inventory information on the master spreadsheet.
-* **Project 26:** F100, CTEA missed boards, HHS A204 A106, ~~HMS8 3rd floor~~, HMS8 414, ~~lil hawks childcare center~~, SJH, Lincoln
-* **Project 28:** Process RMA'd boards
-* **Project 29:** Processed iphone for James
+
+## 📋 To Do (Active Queue)
 
 
 ## ⏳ On Hold / Future Prospects
+* **Project 10:** Review, optimize, and update the UltraVNC PDQ deployment package.
 * **Project 3:** Update Snipe-IT and host OS (Evaluate current Debian + Git clone path vs fresh VM).
 * **Project 4:** Test if FileWave macOS updates will function natively off of the 308 network.
 * **Project 5:** Make a better Windows 11 deployment image using DISM.
@@ -36,6 +29,14 @@
 ---
 
 ## ✅ Completed Tasks
+* **Project 1: Update PDQ packages (Adobe, Autodesk, HoverCAM, VLC, DYMO)**
+    * *Current status:* Underway. Adobe and Autodesk silent deployments are almost complete. Successful runs: 4/10 on test devices. Ready to grab the latest installers for VLC, DYMO, and HoverCAM to incorporate into the deployment job next.
+* **Project 26:** CTEA missed boards, HHS A204 A106 f100 f105, HMS8 3rd floor, HMS8  414 115 116, lil hawks childcare center, SJH, Lincoln
+* **Project 28:** Process RMA'd boards
+* **Project 30:** Process another iphone for James
+* **Project 29:** Process iphone for James
+    * *Completion Date:* 2026.07.10 CDT
+    * *Resolution:* Processed all the data into snipeit and put device into the delivery cabinet
 * **Project 20:** Inventory HP laptops for James
     * *Completion Date:* 2026-06-29 13:21:28 CDT
     * *Resolution:* Processed all the data into a spreadsheet. Sent the list to Vance for assets and gave the labels to James for the laptops. They are in SnipeIT ready for checkout.
