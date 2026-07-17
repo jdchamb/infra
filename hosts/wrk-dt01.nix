@@ -5,7 +5,6 @@
     # --- Register Upstream Third-Party Blueprints ---
     inputs.sops-nix.nixosModules.sops
 
-
     # --- Machine Hardware Layer ---
     "${inputs.self}/hardware/wrk-dt01-hw.nix"
 
@@ -21,21 +20,26 @@
     "${inputs.self}/modules/core-hw-utils.nix"
     "${inputs.self}/modules/core-sops.nix"
 
+    # --- Login Manager Bricks ---
+    "${inputs.self}/modules/lm-greetd.nix"
+
     # --- Desktop Environment Bricks ---
-    # "${inputs.self}/modules/de-hyprland.nix"
-    # "${inputs.self}/modules/de-niri.nix"
+    "${inputs.self}/modules/de-hyprland.nix"
+    "${inputs.self}/modules/de-niri.nix"
+    "${inputs.self}/modules/de-sway.nix"
 
     # --- Application Bricks ---
     "${inputs.self}/modules/app-firefox.nix"
     "${inputs.self}/modules/app-ghostty.nix"
     "${inputs.self}/modules/app-remmina.nix"
-    "${inputs.self}/modules/app-kitty.nix"
     "${inputs.self}/modules/app-digikam.nix"
     "${inputs.self}/modules/app-apple-tools.nix"
-    "${inputs.self}/modules/app-normcap.nix"
-    "${inputs.self}/modules/app-gimagereader.nix"
-    "${inputs.self}/modules/app-tesseract.nix"
     "${inputs.self}/modules/app-kate.nix"
+    "${inputs.self}/modules/app-dolphin.nix"
+    "${inputs.self}/modules/app-partitionmanager.nix"
+    "${inputs.self}/modules/app-filelight.nix"
+    "${inputs.self}/modules/app-kdf.nix"
+    "${inputs.self}/modules/app-isoimagewriter.nix"
 
     # --- Development & Terminal Bricks ---
     "${inputs.self}/modules/dev-git.nix"
@@ -44,8 +48,8 @@
     "${inputs.self}/modules/dev-zellij.nix"
 
     # --- Local Infrastructure Services ---
-#   "${inputs.self}/modules/srv-ollama.nix"
-#   "${inputs.self}/modules/srv-anythingllm.nix"
+    # "${inputs.self}/modules/srv-ollama.nix"
+    # "${inputs.self}/modules/srv-anythingllm.nix"
     "${inputs.self}/modules/srv-samba.nix"
     "${inputs.self}/modules/308-storage.nix"
     "${inputs.self}/modules/sops-tools.nix"

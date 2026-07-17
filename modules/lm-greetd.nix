@@ -1,4 +1,4 @@
-# core-loginmanager-greetd.nix
+# lm-greetd.nix
 # ROLE: Standalone Wayland Login Manager Configuration Layer
 
 { pkgs, ... }: {
@@ -8,7 +8,7 @@
     settings = {
       default_session = {
         # Boots the rust-based front-end directly into a minimal container environment
-        command = "${pkgs.dbus}/bin/dbus-run-session ${pkgs.cage}/bin/cage -s -d -- ${pkgs.greetd-regreet}/bin/regreet";
+        command = "${pkgs.dbus}/bin/dbus-run-session ${pkgs.cage}/bin/cage -s -d -- ${pkgs.regreet}/bin/regreet";
         user = "greeter";
       };
     };
@@ -30,6 +30,6 @@
   # Underlying system dependencies required to paint the greeter environment safely
   environment.systemPackages = with pkgs; [
     cage
-    greetd-regreet
+    regreet
   ];
 }
