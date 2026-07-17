@@ -26,16 +26,9 @@
 
     sops-nix.url = "github:mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # --- Declarative Plasma 6 Taskbar Customizer ---
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
   };
 
-  outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
 
     nixosConfigurations = {
 
