@@ -10,7 +10,7 @@
 * **Project 4:** Build `README.md` files for structural mapping across all configuration sub-directories.
 * **Project 5:** Setup GPG/online cryptographic identity for signed developer git workflows.
 * **Project 6:** Enforce Apple keyboard numlock `.nix` configuration states.
-* **Project 7:** Declare dark mode preferences for Plasma via `plasma-manager` and address the `homeManagerModules` to `homeModules` deprecation warning.
+* **Project 7:** Clean up Ghostty and Zellij files to implement a Universal Environment Keybinding Pattern.
 * **Project 8:** Swap default top-row Fn key behaviors to map to standard functional `F1`-`F12` controls by default.
 * **Project 9:** Declare Dolphin structural optimizations (item sizes, default list views, and cache adjustments).
 * **Project 10:** Refactor local documents and personal lists layout.
@@ -35,6 +35,6 @@
 ---
 
 ## ✅ Completed Tasks
-* **Project 14: Hardware Retargeting: Decommission wrk-lt01
-    * *Completion Date:* 2026-06-29 13:59:59 CDT*Completion Date:* 2026-06-25
+* **Project 14: Hardware Retargeting: Decommission wrk-lt01**
+    * *Completion Date:* 2026-06-29 13:59:59 CDT
     * *Resolution:* Removed old mobile hardware configurations from deployment matrices to focus on immediate multi-node scale optimizations.
