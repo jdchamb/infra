@@ -31,7 +31,7 @@
     home.packages = with pkgs; [
       waybar
       dunst
-      rofi-wayland
+      rofi
     ];
 
     # Consistent Waybar Layout & Styling Schema
