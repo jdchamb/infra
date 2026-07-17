@@ -14,7 +14,6 @@
     "${inputs.self}/modules/core-hw-utils.nix" # Delivers your hardware diagnostic suite (pciutils, nvme-cli, nwipe, storage layouts)
 
     # 3. Graphical Interface & Dedicated Application Layers
-    "${inputs.self}/modules/de-plasma.nix"     # Pins your declarative Plasma 6 panels and hardware performance monitor sensors
     "${inputs.self}/modules/app-remmina.nix"   # Pulls in Remmina for RDP/VNC remote access to school district fleet systems
 
     # 4. Development & Secret Inspection Toolkits

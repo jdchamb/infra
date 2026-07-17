@@ -22,7 +22,6 @@
     "${inputs.self}/modules/core-sops.nix"
 
     # --- Desktop Environment Bricks ---
-    "${inputs.self}/modules/de-plasma.nix"
     # "${inputs.self}/modules/de-hyprland.nix"
     # "${inputs.self}/modules/de-niri.nix"
 
