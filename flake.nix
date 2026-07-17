@@ -45,7 +45,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            # Standard, platform-agnostic baseline user workspace
+            home-manager.backupFileExtension = "backup";
             home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
           }
         ];
@@ -63,6 +63,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
           }
@@ -81,6 +82,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
           }

@@ -9,9 +9,6 @@
     username = "jchambers";
     homeDirectory = "/home/jchambers";
 
-    # Automatically move conflicting unmanaged files out of the way
-    backupFileExtension = "backup";
-
     # State Engine Version Lock
     stateVersion = "24.11";
   };
