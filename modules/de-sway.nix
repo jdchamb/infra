@@ -2,7 +2,7 @@
 
 {
   # 1. System-Level Compositor Activation
-  programs.hyprland.enable = true;
+  programs.sway.enable = true;
 
   # 2. Display Manager Backend Hook
   services.displayManager.sddm.enable = true;
@@ -20,7 +20,7 @@
   # 5. Native D-Bus Portal Matrix
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
     config.common.default = "*";
   };
 
@@ -32,7 +32,6 @@
       waybar
       dunst
       rofi-wayland
-      hyprpaper
     ];
 
     # Consistent Waybar Layout & Styling Schema
@@ -41,7 +40,7 @@
         "layer": "top",
         "position": "top",
         "height": 32,
-        "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+        "modules-left": ["sway/workspaces", "sway/mode"],
         "modules-center": ["clock"],
         "modules-right": ["pulseaudio", "network", "battery", "tray"],
         "clock": { "format": "  {:%H:%M}" }
@@ -49,38 +48,37 @@
     '';
 
     # Direct Compositor Configuration File Bindings
-    xdg.configFile."hypr/hyprland.conf".text = ''
-      # --- Hyprland Core Initialization Matrix ---
-      monitor=,highrr,auto,1
+    xdg.configFile."sway/config".text = ''
+      # --- Sway Core Initialization Matrix ---
+      set $mod Mod4
+      set $left h
+      set $down j
+      set $up k
+      set $right l
 
-      exec-once = waybar
-      exec-once = dunst
-      exec-once = hyprpaper
+      set $term ghostty
+      set $menu rofi -show drun
 
-      input {
-          kb_layout = us
-          follow_mouse = 1
+      output * bg #11111b solid
+
+      exec waybar
+      exec dunst
+
+      input * {
+          xkb_layout "us"
       }
 
-      general {
-          gaps_in = 5
-          gaps_out = 10
-          border_size = 2
-          col.active_border = rgba(b4befeee)
-          col.inactive_border = rgba(11111bfe)
-          layout = dwindle
-      }
+      gaps inner 5
+      gaps outer 10
+      default_border pixel 2
 
-      decoration {
-          rounding = 8
-      }
+      client.focused #b4befe #11111b #b4befe #b4befe
 
-      $mainMod = SUPER
-      bind = $mainMod, Q, exec, ghostty
-      bind = $mainMod, E, exec, firefox
-      bind = $mainMod, R, exec, rofi -show drun
-      bind = $mainMod, C, killactive,
-      bind = $mainMod, M, exit,
+      bindsym $mod+q exec $term
+      bindsym $mod+e exec firefox
+      bindsym $mod+r exec $menu
+      bindsym $mod+c kill
+      bindsym $mod+m exit
     '';
   };
 }
