@@ -14,6 +14,9 @@
   description = "Declarative Infrastructure Flake - Shorthand Fleet Architecture";
 
   inputs = {
+    darwin.url = "github:lnl7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     disko.url = "github:nix-community/disko";
@@ -28,7 +31,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, darwin, home-manager, ... }@inputs: {
 
     nixosConfigurations = {
 
@@ -88,7 +91,17 @@
           }
         ];
       };
+    };
 
+    # --- 4. macOS / Darwin Systems ---
+    darwinConfigurations = {
+      "308-225660" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin"; 
+        specialArgs = { inherit inputs; };
+        modules = [
+          "${self}/hosts/308-225660.nix"
+        ];
+      };
     };
   };
 }
