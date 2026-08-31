@@ -2,27 +2,26 @@
 
 {
   imports = [
-
     # --- Disko Partitioning Layout ---
-  "${inputs.self}/modules/hw-disko-standard.nix { device = "/dev/vda"; })
+    (import ../modules/hw-disko-standard.nix { device = "/dev/vda"; })
 
     # --- Core Base Modules ---
-    "${inputs.self}/modules/core-system.nix"
-    "${inputs.self}/modules/core-boot.nix"
-    "${inputs.self}/modules/core-network.nix"
-    "${inputs.self}/modules/core-user.nix"
-    "${inputs.self}/modules/core-audio.nix"
-    "${inputs.self}/modules/core-fonts.nix"
-    "${inputs.self}/modules/core-cachix.nix"
-    "${inputs.self}/modules/core-hw-utils.nix"
+    ../modules/core-system.nix
+    ../modules/core-boot.nix
+    ../modules/core-network.nix
+    ../modules/core-user.nix
+    ../modules/core-audio.nix
+    ../modules/core-fonts.nix
+    ../modules/core-cachix.nix
+    ../modules/core-hw-utils.nix
 
     # --- Graphical & Terminal Tools ---
-    "${inputs.self}/modules/app-ghostty.nix"
-    "${inputs.self}/modules/dev-git.nix"
-    "${inputs.self}/modules/dev-vim.nix"
-    "${inputs.self}/modules/dev-neovim.nix"
-    "${inputs.self}/modules/dev-zellij.nix"
-    "${inputs.self}/modules/sops-tools.nix"
+    ../modules/app-ghostty.nix
+    ../modules/dev-git.nix
+    ../modules/dev-vim.nix
+    ../modules/dev-neovim.nix
+    ../modules/dev-zellij.nix
+    ../modules/sops-tools.nix
   ];
 
   # Host Identification
