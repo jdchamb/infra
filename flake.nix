@@ -61,7 +61,7 @@
         modules = [
           "${self}/hosts/iso-bootstrap.nix"
 
-          # Hoisted Home Manager Engine (Provides shell tool configuration even without Plasma)
+          # Hoisted Home Manager Engine
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -91,9 +91,29 @@
           }
         ];
       };
+
+      # --- 4. UTM Apple Silicon Virtual Machine Node ---
+      "vm-mac-utm01" = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          "${self}/hosts/vm-mac-utm01.nix"
+
+          # Hoisted Home Manager Engine
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
+          }
+        ];
+      };
+
     };
 
-    # --- 4. macOS / Darwin Systems ---
+    # --- 5. macOS / Darwin Systems ---
     darwinConfigurations = {
       "308-225660" = darwin.lib.darwinSystem {
         system = "aarch64-darwin"; 
@@ -103,5 +123,6 @@
         ];
       };
     };
+
   };
 }
