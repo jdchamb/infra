@@ -92,13 +92,11 @@
         ];
       };
 
-
       # --- 4. UTM Apple Silicon Virtual Machine Node ---
       "vm-mac-utm01" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          inputs.disko.nixosModules.disko # <--- ADD THIS MODULE
           "${self}/hosts/vm-mac-utm01.nix"
 
           # Hoisted Home Manager Engine

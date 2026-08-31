@@ -2,8 +2,9 @@
 
 {
   imports = [
+
     # --- Disko Partitioning Layout ---
-    "${inputs.self}/modules/hw-disko-standard.nix"
+  "${inputs.self}/modules/hw-disko-standard.nix { device = "/dev/vda"; })
 
     # --- Core Base Modules ---
     "${inputs.self}/modules/core-system.nix"

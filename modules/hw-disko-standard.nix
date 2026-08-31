@@ -1,17 +1,16 @@
-# modules/hw-disko-standard.nix
+{ device ? "/dev/nvme0n1", ... }:
+
 {
   disko.devices = {
     disk = {
-      # Target the primary system drive dynamically
       main = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        inherit device;
         content = {
           type = "gpt";
           partitions = {
-            # 1. The Boot Partition (ESP)
             ESP = {
-              type = "EF00"; # EFI System Partition type code
+              type = "EF00";
               size = "512M";
               content = {
                 type = "filesystem";
@@ -20,7 +19,6 @@
                 mountOptions = [ "fmask=0077" "dmask=0077" ];
               };
             };
-            # 2. The Core Root Partition
             root = {
               size = "100%";
               content = {
