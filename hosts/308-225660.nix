@@ -1,38 +1,82 @@
 { config, pkgs, inputs, ... }:
 
 {
-  # Darwin-native system settings
-  services.nix-daemon.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # System shell
+  # System Shell & Nix Settings
   programs.zsh.enable = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
-  # macOS-specific system default tweaks (optional)
+  # macOS-Specific System Defaults
   system.defaults = {
     dock.autohide = true;
     finder.AppleShowAllExtensions = true;
-    NSGlobalDomain.ApplePressAndHoldEnabled = false; # Enable key repeat for Vim bindings
+    NSGlobalDomain.ApplePressAndHoldEnabled = false; # Enable key repeat for Vim
   };
 
-  # Host identification
-  networking.hostName = "macbook-work";
+  # Host Identification
+  networking.hostName = "308-225660";
 
-  # Darwin-safe cross-platform modules
+  # Darwin-Safe Module Imports
   imports = [
     "${inputs.self}/modules/dev-git.nix"
     "${inputs.self}/modules/dev-vim.nix"
     "${inputs.self}/modules/dev-neovim.nix"
     "${inputs.self}/modules/dev-zellij.nix"
     "${inputs.self}/modules/sops-tools.nix"
+    "${inputs.self}/modules/app-ghostty.nix"
   ];
 
-  # macOS-specific system packages
+  # Fonts
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+  ];
+
+  # Homebrew Casks & Formulae Management
+  homebrew = {
+    enable = true;
+    onActivation.cleanup = "zap";
+    casks = [
+      "firefox"
+      "1password"
+      "ghostty"
+      "google-drive"
+      "adguard"
+      "kdenlive"
+      "utm"
+      "windows-app"
+      "anythingllm"
+      "ollama"
+      "lm-studio"
+      "google-chrome"
+      "spotify"
+      "discord"
+    ];
+    brews = [
+      "mas"
+    ];
+  };
+
+  # System-Level Tooling
   environment.systemPackages = with pkgs; [
-    ghostty
-    coreutils # Standard GNU userland utilities
+    vim
+    git
+    starship
+    fastfetch
+    cmake
+    python311
+    nodejs
+    smartmontools
+    xz
+    zstd
+    coreutils
   ];
 
-  # Set state version for nix-darwin tracking
-  system.stateVersion = 5;
+  # User Account and State Version Tracking
+  system.primaryUser = "jchambers";
+  system.stateVersion = 6;
+  users.users.jchambers = {
+    name = "jchambers";
+    home = "/Users/jchambers";
+  };
 }

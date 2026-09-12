@@ -30,6 +30,8 @@
       # Infrastructure Flake Deployment Shorthand
       # Rebuilds and activates the 'wrk-dt01' workstation node directly from your local repository
       updatedt01 = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-dt01";
+      # Rebuild the local nix-darwin host configuration
+      update308 = "sudo darwin-rebuild switch --flake ~/src/infra#308-225660";
 
       # System Administration Guardrails
       # Aliases destructive file manipulation commands to prompt for explicit confirmation (-i)

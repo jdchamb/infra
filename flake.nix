@@ -115,16 +115,22 @@
 
     };
 
-    # --- 5. macOS / Darwin Systems ---
-    darwinConfigurations = {
+darwinConfigurations = {
       "308-225660" = darwin.lib.darwinSystem {
         system = "aarch64-darwin"; 
         specialArgs = { inherit inputs; };
         modules = [
           "${self}/hosts/308-225660.nix"
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
+          }
         ];
       };
     };
-
   };
 }
