@@ -33,6 +33,9 @@
       # Rebuild the local nix-darwin host configuration
       update308 = "sudo darwin-rebuild switch --flake ~/src/infra#308-225660";
 
+      # Run repomix quickly without installing
+      alias repomix='nix-shell -p repomix --run repomix'
+
       # System Administration Guardrails
       # Aliases destructive file manipulation commands to prompt for explicit confirmation (-i)
       rm = "rm -i"; # Intercepts random file deletions
