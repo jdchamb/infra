@@ -16,22 +16,18 @@
   inputs = {
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
     nix-flatpak.url = "github:gmodena/nix-flatpak";
-
     sops-nix.url = "github:mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, darwin, home-manager, nix-homebrew, ... }@inputs: {
 
     nixosConfigurations = {
 
@@ -92,13 +88,12 @@
         ];
       };
 
-
       # --- 4. UTM Apple Silicon Virtual Machine Node ---
       "vm-mac-utm01" = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          inputs.disko.nixosModules.disko # <--- ADD THIS MODULE
+          inputs.disko.nixosModules.disko
           "${self}/hosts/vm-mac-utm01.nix"
 
           # Hoisted Home Manager Engine
@@ -115,12 +110,15 @@
 
     };
 
-darwinConfigurations = {
+    darwinConfigurations = {
+      # --- 5. Apple Silicon macOS Host ---
       "308-225660" = darwin.lib.darwinSystem {
-        system = "aarch64-darwin"; 
+        system = "aarch64-darwin";
         specialArgs = { inherit inputs; };
         modules = [
           "${self}/hosts/308-225660.nix"
+
+          # Hoisted Home Manager Engine
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -128,6 +126,17 @@ darwinConfigurations = {
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.backupFileExtension = "backup";
             home-manager.users.jchambers = import "${self}/modules/core-home-manager.nix";
+          }
+
+          # Hoisted Nix-Homebrew Engine
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "jchambers";
+              autoMigrate = true;
+            };
           }
         ];
       };
