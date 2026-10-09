@@ -5,23 +5,16 @@
     # 1. Base channel profile required to construct a bootable minimal console ISO
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
 
-    # 2. Inherit your exact declarative core system configurations
-    "${inputs.self}/modules/core-system.nix"   # Sets locales, auto-optimizations, and experimental flags
-    "${inputs.self}/modules/core-network.nix"  # Connects connection protocols & NetworkManager backend
-    "${inputs.self}/modules/core-user.nix"     # Configures your administrative user skeleton ('jchambers')
-    "${inputs.self}/modules/core-cachix.nix"   # Configures trusted binary substitution pools to speed up builds
-    "${inputs.self}/modules/core-hw-utils.nix" # Installs hardware diagnostics & disk partitioning layouts
-
-    # 3. Development, Secrets, and Tooling Layers
-    "${inputs.self}/modules/dev-git.nix"       # Adds git and global user metrics
-    "${inputs.self}/modules/dev-neovim.nix"    # Deploys text editor configuration and building tools
-    "${inputs.self}/modules/sops-tools.nix"    # Drops in raw age and sops binaries for runtime secret auditing
+    # 2. Inherit common and core system configurations
+    "${inputs.self}/modules/common/cachix.nix"
+    "${inputs.self}/modules/common/sops-tools.nix"
+    "${inputs.self}/modules/shared/git.nix"
+    "${inputs.self}/modules/shared/neovim.nix"
+    "${inputs.self}/modules/nixos/core/system.nix"
+    "${inputs.self}/modules/nixos/core/network.nix"
+    "${inputs.self}/modules/nixos/core/user.nix"
+    "${inputs.self}/modules/nixos/hardware/hw-utils.nix"
   ];
-
-  # --- Bypassing Core Module Option Collision ---
-  # Intercepts and blocks core-zsh.nix from polluting the native NixOS option tree
-  # if it gets implicitly inherited down your module dependency chain.
-  disabledModules = [ "${inputs.self}/modules/core-zsh.nix" ];
 
   # Safely activate native NixOS Zsh without option conflicts so the shell environment initializes properly
   programs.zsh.enable = true;
@@ -44,7 +37,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
   ];
 
-  # --- PROJECT 20: Automated Git Repo Cloning Service ---
+  # --- Automated Git Repo Cloning Service ---
   systemd.services.clone-infra-repo = {
     description = "Auto-clone configuration repository on startup";
     after = [ "network-online.target" ];
@@ -73,6 +66,5 @@
   };
 
   # --- Image Construction Optimization ---
-  # Forces zstd compression at level 1 to ensure lightning-fast compile iterations locally.
   isoImage.squashfsCompression = "zstd -Xcompression-level 1";
 }

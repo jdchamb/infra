@@ -18,12 +18,12 @@
 
   # Darwin-Safe Module Imports
   imports = [
-    "${inputs.self}/modules/dev-git.nix"
-    "${inputs.self}/modules/dev-vim.nix"
-    "${inputs.self}/modules/dev-neovim.nix"
-    "${inputs.self}/modules/dev-zellij.nix"
-    "${inputs.self}/modules/sops-tools.nix"
-    "${inputs.self}/modules/app-ghostty.nix"
+    "${inputs.self}/modules/common/sops-tools.nix"
+    "${inputs.self}/modules/shared/git.nix"
+    "${inputs.self}/modules/shared/vim.nix"
+    "${inputs.self}/modules/shared/neovim.nix"
+    "${inputs.self}/modules/shared/zellij.nix"
+    "${inputs.self}/modules/shared/ghostty.nix"
   ];
 
   # Fonts
