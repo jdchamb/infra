@@ -34,7 +34,7 @@
       update308 = "sudo darwin-rebuild switch --flake ~/src/infra#308-225660";
 
       # Run repomix quickly without installing
-      repomix = "nix-shell -p repomix --run repomix"
+      repomix = "nix-shell -p repomix --run repomix";
 
       # System Administration Guardrails
       # Aliases destructive file manipulation commands to prompt for explicit confirmation (-i)
