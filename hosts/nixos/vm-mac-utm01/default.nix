@@ -37,6 +37,19 @@
   services.qemuGuest.enable = true;
   services.spice-vdagentd.enable = true;
 
+  # --- Remote Management via OpenSSH ---
+    services.openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "prohibit-password";
+        PasswordAuthentication = true;
+      };
+    };
+  
+    # Open port 22 in the firewall
+    networking.firewall.allowedTCPPorts = [ 22 ]; 
+    ];
+
   # Do NOT change stateVersion
   system.stateVersion = "24.11";
 }
