@@ -15,15 +15,9 @@
   # inside /etc/passwd and provision the required root directory nodes.
   users.users.jchambers = {
     isNormalUser = true;
-    description = "Joshua Chambers";
-
-    # Security and Hardware Authorization Matrix
-    # wheel = grants password-authenticated sudo command execution permissions
-    # networkmanager = allows control over network connections
-    # video/audio = direct access to kernel device nodes without passing root contexts
+    description = "Joshua Daniel Chambers";
+    initialPassword = "nixos"; # Only sets the password if none exists; does not overwrite later passwd changes
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
-
-    # Assigns the interactive terminal entry shell binary at system level
     shell = pkgs.zsh;
   };
 
