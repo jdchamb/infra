@@ -48,7 +48,6 @@
   
     # Open port 22 in the firewall
     networking.firewall.allowedTCPPorts = [ 22 ]; 
-    ];
 
   # Do NOT change stateVersion
   system.stateVersion = "24.11";
