@@ -16,7 +16,6 @@
   users.users.jchambers = {
     isNormalUser = true;
     description = "Joshua Daniel Chambers";
-    initialPassword = "nixos"; # Only sets the password if none exists; does not overwrite later passwd changes
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     shell = pkgs.zsh;
   };
