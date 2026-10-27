@@ -49,6 +49,14 @@
     # Open port 22 in the firewall
     networking.firewall.allowedTCPPorts = [ 22 ]; 
 
+	users.users.jchambers = {
+      openssh.authorizedKeys.keys = [
+        # If reusing your existing key:
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw
+        ￹joshua@chambers-net.org"
+       ];
+     };
+
   # Do NOT change stateVersion
   system.stateVersion = "24.11";
 }
