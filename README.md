@@ -1,34 +1,47 @@
 # Declarative Multi-OS Fleet Infrastructure
 
-Multi-platform declarative configuration repository managing **NixOS** (Linux workstations and custom ISOs), **nix-darwin** (macOS laptops), and **Windows** (WinGet DSC & PowerShell DSC).
+A unified, declarative fleet repository orchestrating **NixOS** (production workstations, Apple Silicon VMs, and deployment ISOs), **nix-darwin** (Apple Silicon MacBooks), and **Windows** (PowerShell DSC & WinGet).
 
 ---
 
-## Architecture Overview
+## 1. Fleet Roster & Machine Topology
+
+| Hostname | Platform / Architecture | Operating System | Primary Purpose & Hardware | Rebuild Command |
+| :--- | :--- | :--- | :--- | :--- |
+| **`308-225660`** | `aarch64-darwin` | macOS 27.0.1+ | Primary Work Apple Silicon MacBook. Native GUI, Apple VZ Linux Builder. | `rebuild` |
+| **`308-222242`** | `x86_64-linux` | NixOS Unstable | Production Bare-Metal Linux Workstation (Intel Core, Wayland desktop, CIFS shares). | `rebuild` |
+| **`308-225660NixOSVM`** | `aarch64-linux` | NixOS Unstable | Paravirtualized Linux Guest on MacBook (Apple Virtualization / UTM, VirtIO, SSH). | `rebuild` |
+| **`bootstrap-iso`** | `x86_64-linux` | NixOS Live | Minimal headless console deployment ISO for bare-metal fleet provisioning. | *(Build ISO)* |
+| **`recovery-iso`** | `x86_64-linux` | NixOS Live | Graphical live USB recovery environment with disk repair & diagnostic tools. | *(Build ISO)* |
+| **`wrk-win01`** | `x86_64-windows` | Windows 11 | Windows target environment managed via WinGet DSC and PowerShell DSC. | *(Bootstrap script)* |
+
+---
+
+## 2. Directory Architecture & Map
 
 ```
 .
-├── flake.nix                       # Thin entry point orchestrating all Nix builds
-├── flake.lock                      # Locked dependency revisions
+├── flake.nix                       # Fleet blueprint orchestrating all Nix configurations
+├── flake.lock                      # Cryptographically pinned dependency hashes
 ├── secrets/                        # Encrypted secret files managed via sops-nix & age
-│   ├── 308-secrets.yaml
-│   └── personal-secrets.yaml
-├── hosts/
-│   ├── nixos/                      # NixOS system host declarations
-│   │   ├── 308-222242/             # Work workstation (x86_64-linux)
-│   │   ├── 308-225660NixOSVM/      # Apple Silicon UTM VM (aarch64-linux)
+│   ├── 308-secrets.yaml            # USD 308 infrastructure credentials (SMB passwords, keys)
+│   └── personal-secrets.yaml       # Personal / homelab credentials
+├── hosts/                          # Host identity declarations (The "Body")
+│   ├── darwin/
+│   │   └── 308-225660/             # Apple Silicon MacBook (nix-darwin defaults & Homebrew)
+│   ├── nixos/
+│   │   ├── 308-222242/             # Production Linux Workstation (hardware & module graph)
+│   │   ├── 308-225660NixOSVM/      # Apple Silicon UTM / VZ Paravirtualized VM
 │   │   └── installer/              # Deployment ISOs (bootstrap-iso, recovery-iso)
-│   ├── darwin/                     # nix-darwin system host declarations
-│   │   └── 308-225660/             # Apple Silicon MacBook (aarch64-darwin)
-│   └── windows/                    # Windows system target configurations
-│       └── wrk-win01/              # Workstation target profiles
-├── modules/
+│   └── windows/
+│       └── wrk-win01/              # Windows workstation target profiles
+├── modules/                        # Reusable system building blocks (The "Organs")
 │   ├── common/                     # Cross-platform fonts, Cachix, sops tools
-│   ├── shared/                     # Cross-platform user tools (git, vim, neovim, zellij, ghostty)
+│   ├── shared/                     # Multi-OS user tooling (git, vim, neovim, zellij, ghostty)
 │   ├── nixos/                      # Linux/NixOS specific options
 │   │   ├── core/                   # Audio, boot, network, printing, system, user, sops
 │   │   ├── desktop/                # Greetd, Hyprland, Niri, Sway
-│   │   ├── hardware/               # Disko layouts, hardware inspection utilities
+│   │   ├── hardware/               # Disko partitioning layouts & hardware utilities
 │   │   ├── services/               # CIFS mounts (308-storage), Samba, Ollama, AnythingLLM
 │   │   └── apps/                   # Standalone desktop apps (Firefox, Kate, Dolphin, etc.)
 │   ├── darwin/                     # macOS-specific modules (dock, finder, brew)
@@ -37,36 +50,100 @@ Multi-platform declarative configuration repository managing **NixOS** (Linux wo
 │       ├── dsc/                    # PowerShell Desired State Configuration scripts
 │       ├── registry/               # Declarative registry tweaks
 │       └── scripts/                # Bootstrap runner scripts
-└── home/                           # User-space configuration (Home Manager)
-    ├── default.nix                 # Unified user profile entry point
-    └── programs/                   # Modular dotfiles (Zsh, Starship, etc.)
+└── home/                           # User-space configuration via Home Manager (The "Soul")
+    ├── default.nix                 # Unified user profile entry point ('jchambers')
+    └── programs/
+        ├── zsh.nix                 # Interactive shell, 50k history, fzf, zoxide, rebuild()
+        └── starship.nix            # Cross-shell prompt (Catppuccin Mocha theme)
 ```
 
 ---
 
-## Deployment Quickstart
+## 3. Daily Operations & Successor Runbook
 
-### NixOS (308-222242)
+### The Universal Rebuild Command
+Every machine running this repository has a smart shell function called `rebuild` (aliased to `update`):
+
 ```bash
-sudo nixos-rebuild switch --flake .#308-222242
+# Apply changes on whatever machine you are currently sitting at:
+rebuild
+
+# Test changes without making them the default boot generation:
+rebuild test
+
+# Rebuild and switch a specific remote or target node explicitly:
+rebuild switch 308-222242
 ```
 
-### macOS / nix-darwin (308-225660)
-```bash
-sudo darwin-rebuild switch --flake .#308-225660
-```
+### Day-to-Day Navigation Shortcuts
+* **`z <keyword>`**: Teleports directly to any visited folder (e.g. `z infra` or `z 308`).
+* **`zi`**: Interactive fuzzy directory picker powered by `fzf`.
+* **`Ctrl + R`**: Interactive fuzzy search across 50,000 command history entries.
+* **`Ctrl + T`**: Interactive fuzzy file finder (inserts selected path directly into your cursor).
+* **`Option + C`** *(or `Alt+C`)*: Fuzzy directory navigator (immediately `cd`s into the selected folder).
 
-### NixOS Bootstrapping Media
+---
+
+## 4. Disaster Recovery & Bare-Metal Provisioning
+
+### A. Generating Deployment Live ISOs
+To produce bootable installation media on any machine with Nix installed:
+
 ```bash
-# Minimal bootstrap console image
+# 1. Build the minimal console deployment ISO:
 nix build .#nixosConfigurations.bootstrap-iso.config.system.build.isoImage
 
-# Full graphical recovery image
+# 2. Build the graphical recovery ISO:
 nix build .#nixosConfigurations.recovery-iso.config.system.build.isoImage
+
+# The resulting bootable .iso will be symlinked at ./result/iso/
 ```
 
-### Windows (wrk-win01)
-Open PowerShell as Administrator:
+### B. Bootstrapping a New NixOS Node with Disko
+1. Boot the target machine using `bootstrap-iso` or `recovery-iso`.
+2. Connect to the machine via SSH (it automatically advertises port 22).
+3. Run the automated Disko partitioner and installer:
+```bash
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
+  --mode zap_create_mount ./modules/nixos/hardware/disko-standard.nix
+
+sudo nixos-install --flake .#308-222242
+```
+
+### C. Bootstrapping a New macOS MacBook (`nix-darwin`)
+1. Install Nix using the official multi-user installer.
+2. Clone this repository into `~/src/infra`.
+3. Run the one-time initial switch:
+```bash
+cd ~/src/infra
+nix run nix-darwin -- switch --flake .#308-225660
+```
+
+---
+
+## 5. Secrets Management & Decryption (SOPS + Age)
+
+Secrets are encrypted at rest inside the repository (`secrets/*.yaml`) and decrypted on-the-fly at boot:
+
+* **Encryption Tooling:** Managed via `sops` and `age`.
+* **Rules Configuration:** Defined in `.sops.yaml`.
+* **Master Age Key Location:**
+  * macOS: `~/.config/sops/age/keys.txt`
+  * NixOS: `/var/lib/sops-nix/key.txt`
+* **Volatile Decryption:** During system activation, `sops-nix` decrypts secrets straight into an in-memory `tmpfs` RAM filesystem at `/run/secrets/`, ensuring plaintext credentials are never written to permanent disk storage.
+* **Editing Secrets:**
+```bash
+sops secrets/308-secrets.yaml
+```
+
+---
+
+## 6. Windows Fleet Configuration (`wrk-win01`)
+
+For Windows nodes, declarative configuration is applied using WinGet DSC and PowerShell Desired State Configuration:
+
+1. Open PowerShell as Administrator on the target Windows node.
+2. Execute the bootstrap script:
 ```powershell
 Set-ExecutionPolicy RemoteSigned -Scope Process -Force
 .\modules\windows\scripts\bootstrap.ps1
