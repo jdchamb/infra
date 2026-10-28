@@ -56,7 +56,7 @@
   ];
 
   # Host-Specific Identity (The "Body")
-  networking.hostName = "wrk-dt01";
+  networking.hostName = "308-222242";
 
   # Do NOT change this value.
   system.stateVersion = "24.11";

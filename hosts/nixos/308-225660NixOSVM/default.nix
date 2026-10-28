@@ -27,7 +27,7 @@
   ];
 
   # Host Identification
-  networking.hostName = "vm-mac-utm01";
+  networking.hostName = "308-225660NixOSVM";
 
   # Hardware Platform & Storage Controller (VirtIO)
   nixpkgs.hostPlatform = "aarch64-linux";

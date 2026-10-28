@@ -65,9 +65,9 @@
   {
     nixosConfigurations = {
       # --- 1. Main Production Workstation Node ---
-      "wrk-dt01" = mkNixos {
+      "308-222242" = mkNixos {
         system = "x86_64-linux";
-        modules = [ ./hosts/nixos/wrk-dt01 ];
+        modules = [ ./hosts/nixos/308-222242 ];
       };
 
       # --- 2. Minimal Provisioning Bootstrap Live Media ---
@@ -83,11 +83,11 @@
       };
 
       # --- 4. UTM Apple Silicon Virtual Machine Node ---
-      "vm-mac-utm01" = mkNixos {
+      "308-225660NixOSVM" = mkNixos {
         system = "aarch64-linux";
         modules = [
           inputs.disko.nixosModules.disko
-          ./hosts/nixos/vm-mac-utm01
+          ./hosts/nixos/308-225660NixOSVM
         ];
       };
     };

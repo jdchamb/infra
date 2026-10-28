@@ -48,7 +48,7 @@
     * *Resolution:* Labels printed and completed.
 * **Project 17: Setup secrets management using SOPS / age for encrypted credentials**
     * *Completion Date:* 2026-06-26
-    * *Resolution:* Successfully integrated `sops-nix` engine into `wrk-dt01` using a locally stored master age key file. Automated variables securely decrypt straight into a volatile in-memory tmpfs filesystem (`/run/secrets/`), eliminating cleartext keys on permanent physical storage.
+    * *Resolution:* Successfully integrated `sops-nix` engine into `308-222242` using a locally stored master age key file. Automated variables securely decrypt straight into a volatile in-memory tmpfs filesystem (`/run/secrets/`), eliminating cleartext keys on permanent physical storage.
 * **Project 18: Wire up and test USD 308 network share automounts**
     * *Completion Date:* 2026-06-25
     * *Resolution:* Refactored all infrastructure shares (`WorkStorage`, `CloudStorage`, `PDQServer/Software`, and `PDQServer/Scripts`) into true kernel-level boot-time systemd mounts with explicit `network-online.target` dependencies. Verified to ingest the newly created SOPS secret symlinks flawlessly without a machine reboot.

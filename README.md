@@ -15,8 +15,8 @@ Multi-platform declarative configuration repository managing **NixOS** (Linux wo
 │   └── personal-secrets.yaml
 ├── hosts/
 │   ├── nixos/                      # NixOS system host declarations
-│   │   ├── wrk-dt01/               # Work workstation (x86_64-linux)
-│   │   ├── vm-mac-utm01/           # Apple Silicon UTM VM (aarch64-linux)
+│   │   ├── 308-222242/             # Work workstation (x86_64-linux)
+│   │   ├── 308-225660NixOSVM/      # Apple Silicon UTM VM (aarch64-linux)
 │   │   └── installer/              # Deployment ISOs (bootstrap-iso, recovery-iso)
 │   ├── darwin/                     # nix-darwin system host declarations
 │   │   └── 308-225660/             # Apple Silicon MacBook (aarch64-darwin)
@@ -46,9 +46,9 @@ Multi-platform declarative configuration repository managing **NixOS** (Linux wo
 
 ## Deployment Quickstart
 
-### NixOS (wrk-dt01)
+### NixOS (308-222242)
 ```bash
-sudo nixos-rebuild switch --flake .#wrk-dt01
+sudo nixos-rebuild switch --flake .#308-222242
 ```
 
 ### macOS / nix-darwin (308-225660)
