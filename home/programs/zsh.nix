@@ -10,8 +10,18 @@
     autosuggestion.enable = true;  # Enables fish-like inline history auto-suggestions as you type
     syntaxHighlighting.enable = true; # Adds real-time visual color feedback for valid/invalid commands
 
-    # --- Tab-Completion Engine Fine-Tuning ---
-    # Configures the completion behavior, style matching, and localized caching
+    # --- 1. History Configuration (50k lines, shared, de-duplicated) ---
+    history = {
+      size = 50000;
+      save = 50000;
+      extended = true;
+      share = true;
+      expireDuplicatesFirst = true;
+      ignoreAllDups = true;
+      ignoreSpace = true;
+    };
+
+    # --- 2. Tab-Completion Engine Fine-Tuning ---
     completionInit = ''
       # Case-insensitive matching: allows lowercase inputs to map to uppercase completions
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -25,22 +35,60 @@
       zstyle ':completion:*' cache-path "$HOME/.zcompcache"
     '';
 
-    # --- Interactive Shell Aliases ---
+    # --- 3. Interactive Shell Aliases ---
     shellAliases = {
-      # Infrastructure Flake Deployment Shorthand
-      # Rebuilds and activates the 'wrk-dt01' workstation node directly from your local repository
-      updatedt01 = "sudo nixos-rebuild switch --flake ~/src/infra#wrk-dt01";
-      # Rebuild the local nix-darwin host configuration
-      update308 = "sudo darwin-rebuild switch --flake ~/src/infra#308-225660";
+      # Universal Fleet Rebuild Command (auto-detects OS and hostname)
+      rebuild = "rebuild";
+      update  = "rebuild";
+
+      # Modern CLI replacements
+      ls   = "eza --icons=auto --group-directories-first";
+      ll   = "eza -la --icons=auto --group-directories-first";
+      tree = "eza --tree --icons=auto";
+      cat  = "bat --style=plain";
 
       # Run repomix quickly without installing
       repomix = "nix-shell -p repomix --run repomix";
 
       # System Administration Guardrails
-      # Aliases destructive file manipulation commands to prompt for explicit confirmation (-i)
       rm = "rm -i"; # Intercepts random file deletions
       mv = "mv -i"; # Warns before overwriting an existing destination file during a move
       cp = "cp -i"; # Warns before overwriting an existing destination file during a copy
     };
+
+    # --- 4. Smart Multi-OS Fleet Rebuild Function ---
+    initContent = ''
+      rebuild() {
+        local action="''${1:-switch}"
+        local host="''${2:-$(scutil --get LocalHostName 2>/dev/null || hostname -s)}"
+        local flake="''${FLAKE:-$HOME/src/infra}"
+
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+          echo "==> Rebuilding Darwin system for '$host' ($action)..."
+          sudo darwin-rebuild "$action" --flake "$flake#$host" "''${@:3}"
+        else
+          echo "==> Rebuilding NixOS system for '$host' ($action)..."
+          sudo nixos-rebuild "$action" --flake "$flake#$host" "''${@:3}"
+        fi
+      }
+    '';
+  };
+
+  # --- 5. Interactive Fuzzy Finder (fzf) ---
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    defaultOptions = [
+      "--height 40%"
+      "--layout=reverse"
+      "--border"
+      "--inline-info"
+    ];
+  };
+
+  # --- 6. Smart Directory Navigation (zoxide) ---
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
   };
 }
