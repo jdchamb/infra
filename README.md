@@ -57,6 +57,14 @@ A unified, declarative fleet repository orchestrating **NixOS** (production work
         └── starship.nix            # Cross-shell prompt (Catppuccin Mocha theme)
 ```
 
+### Subsystem Documentation Guides
+For detailed operational runbooks and architectural specifications of each subsystem, refer to:
+* **[Hosts Subsystem Guide (`hosts/README.md`)](hosts/README.md):** Host roster, machine hardware profiles, and step-by-step instructions to register a new machine.
+* **[Modules Library Guide (`modules/README.md`)](modules/README.md):** Reusable module taxonomy, cross-platform shared contracts, and system vs. user boundaries.
+* **[User Environment Guide (`home/README.md`)](home/README.md):** Home Manager user-space configuration, dynamic path resolution, and dotfile deployment.
+* **[Secrets Management Guide (`secrets/README.md`)](secrets/README.md):** SOPS + Age security model, master key locations, secret editing, and disaster recovery.
+* **[Engineering Documentation Index (`docs/README.md`)](docs/README.md):** USD 308 project milestones, historical logs, and learning journals.
+
 ---
 
 ## 3. Daily Operations & Successor Runbook
