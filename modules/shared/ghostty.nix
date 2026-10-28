@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
-  environment.systemPackages = [ pkgs.ghostty ];
+  environment.systemPackages = lib.optionals (!pkgs.stdenv.isDarwin) [ pkgs.ghostty ];
 
   home-manager.users.jchambers.home.file.".config/ghostty/config.ghostty".text = ''
     font-family = JetBrains Mono
@@ -10,3 +10,4 @@
     background-opacity = 0.95
   '';
 }
+
