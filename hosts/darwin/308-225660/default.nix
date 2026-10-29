@@ -137,6 +137,7 @@
     "${inputs.self}/modules/shared/neovim.nix"      # Neovim modern development editor
     "${inputs.self}/modules/shared/zellij.nix"      # Zellij terminal workspace manager
     "${inputs.self}/modules/shared/ghostty.nix"     # Ghostty terminal configuration
+    "${inputs.self}/modules/shared/security/yubikey-nordic.nix" # FIDO2 / OpenSK hardware keys
   ];
 
   # System-wide Typography (Nerd Fonts with glyph support for Starship & terminal UI)

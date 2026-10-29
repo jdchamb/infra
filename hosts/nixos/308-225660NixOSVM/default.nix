@@ -39,6 +39,7 @@
     ../../../modules/shared/neovim.nix
     ../../../modules/shared/zellij.nix
     ../../../modules/shared/ghostty.nix
+    ../../../modules/shared/security/yubikey-nordic.nix
 
     # Core NixOS Foundation
     ../../../modules/nixos/core/system.nix

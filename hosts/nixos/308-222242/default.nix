@@ -44,6 +44,7 @@
     ../../../modules/shared/neovim.nix
     ../../../modules/shared/zellij.nix
     ../../../modules/shared/ghostty.nix
+    ../../../modules/shared/security/yubikey-nordic.nix
 
     # Core NixOS Foundation (Kernel, bootloader, users, networking, audio, printing)
     ../../../modules/nixos/core/system.nix
