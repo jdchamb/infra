@@ -42,6 +42,15 @@
   # Target CPU architecture
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  # Disable system documentation builder (avoids upstream nixos-render-docs CLI flag incompatibility in nixpkgs)
+  documentation.enable = false;
+  documentation.doc.enable = false;
+  documentation.man.enable = false;
+  documentation.info.enable = false;
+
+  # Disable darwin-uninstaller generation to avoid building uninstaller's internal documentation
+  system.tools.darwin-uninstaller.enable = false;
+
   # ----------------------------------------------------------------------------
   # 2. APPLE VIRTUALIZATION FRAMEWORK LINUX BUILDER (Metal / VZ Paravirtualization)
   # ----------------------------------------------------------------------------
