@@ -39,7 +39,7 @@ flowchart TD
         A1["Bitwarden / Vaultwarden & KeepassXC"]
         A2["FOSS Adblocking (AdGuard Home / Brave / Librewolf)"]
         A3["Git Directory Hook (Auto-fetch/rebase prompt)"]
-        A4["Nordic Security Keys (FIDO2 / U2F)"]
+        A4["Nordic Security Keys (FIDO2 / U2F) (Done)"]
         A5["RustDesk Remote Access Client"]
     end
 
@@ -86,7 +86,7 @@ flowchart TD
   * `home/programs/git-sync.nix`: Implement the requested Zsh hook:
     * When switching into a git repository directory (`chpwd` hook), run a silent `git fetch`.
     * If remote is ahead and working tree is clean, prompt: *"Upstream has changes. Rebase now? [y/N]"* and run `git pull --rebase`.
-  * `modules/shared/security/yubikey-nordic.nix`: Setup U2F/FIDO2 hardware key authentication rules (PAM + udev).
+  * [x] **COMPLETED**: `modules/shared/security/yubikey-nordic.nix`: Setup U2F/FIDO2 hardware key authentication rules (PAM + udev), OpenSK flasher script (`scripts/flash-nordic-opensk.sh`), and runbook (`docs/hardware_security_keys_runbook.md`).
   * `modules/shared/remote/rustdesk.nix`: Package/configure RustDesk remote client.
 
 ### Phase 2: Storage, Disko & Backups
