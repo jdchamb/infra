@@ -22,32 +22,29 @@ This runbook documents the deployment, firmware architecture, and operational wo
 
 ---
 
-## 2. The Decision to Present as Yubico (`0x1050`)
+## 2. Authentic Nordic Identity vs. Optional Yubico Compatibility (`0x1050`)
 
-### The Problem
-During deployment, we encountered an error with **Duo Authentication for Windows Logon** (*"Enroll your Security Key for Offline use"*):
-`[X] No security key found`
+### Upstream Open-Source Standard: Nordic Semiconductor (`VID: 0x1915`)
+By default, the fleet builds and deploys Google OpenSK with authentic Nordic Semiconductor descriptors:
+* **Vendor ID (`VID`)**: `0x1915` (Nordic Semiconductor ASA)
+* **Product ID (`PID`)**: `0x521f` (OpenSK)
+* **Standards Compliance**: Fully compliant with FIDO Alliance CTAP 2.0 / WebAuthn specifications. Supported natively across modern web browsers (Chrome, Firefox, Safari, Edge), PAM U2F on Linux/macOS, Bitwarden, Google, GitHub, and Forgejo.
 
-### Root Cause
-While web browsers (Chrome, Safari, Firefox) speak standard WebAuthn/FIDO2 regardless of the physical USB brand, **Cisco Duo's Windows Logon client enforces a hardcoded USB Vendor ID whitelist** for offline access. It strictly filters for:
+### Enterprise Whitelisting & The Optional Yubico Patch (`--spoof-yubico`)
+Some proprietary enterprise clients (such as **Cisco Duo Authentication for Windows Logon** offline access) enforce arbitrary, hardcoded vendor whitelists filtering strictly for:
 * **Yubico** (`VID: 0x1050`)
 * **Feitian** (`VID: 0x096E`)
 * **Thetis / GoTrust** (`VID: 0x1EA8`)
 
-Because OpenSK default firmware reported Nordic Semiconductor's manufacturer ID (`0x1915`), Duo ignored the token.
-
-### The Solution: Open-Source USB Descriptor Patch
-In `boards/nordic/nrf52840_dongle_opensk/src/main.rs`, we configured the USB device descriptors:
+For compatibility with vendor-locked legacy software, [`scripts/flash-nordic-opensk.sh`](file:///Users/jchambers/src/infra/scripts/flash-nordic-opensk.sh) includes an optional `--spoof-yubico` flag that patches the USB descriptors:
 ```rust
 const VENDOR_ID: u16 = 0x1050;   // Yubico
 const PRODUCT_ID: u16 = 0x0407;  // YubiKey 5 Series FIDO
 static STRINGS = &["Yubico", "YubiKey FIDO", "v5.4", "FIDO2"];
 ```
 
-### Philosophical & FOSS Alignment
-* **Freedom 1**: FOSS guarantees the right to study and modify source code to serve your computing needs.
-* **Fighting Vendor Lock-In**: A USB Vendor ID is an arbitrary 16-bit number. Cisco Duo created an artificial walled garden around an open standard (WebAuthn). Just as open web browsers send `Mozilla/5.0` to bypass server gatekeeping, open-source firmware can declare standard identifiers to enforce **open interoperability**.
-* **Zero Security Compromise**: The mathematical cryptography (ECDSA P-256) and physical button-touch verification are completely preserved.
+### Dual Fleet Architecture
+Our shared Nix module ([`modules/shared/security/yubikey-nordic.nix`](file:///Users/jchambers/src/infra/modules/shared/security/yubikey-nordic.nix)) configures `udev` and PAM rules for **both** `0x1915` (Nordic) and `0x1050` (Yubico). This ensures complete, seamless compatibility across the fleet whether someone plugs in an authentic YubiKey 5 or a Nordic OpenSK dongle.
 
 ---
 
@@ -85,20 +82,20 @@ cd ~/src/infra
      --sd-req 0x00 \
      --application-version 1 \
      --application target/nrf52840_dongle_dfu_merged.hex \
-     /tmp/yubikey_dfu.zip
+     /tmp/nordic_opensk_dfu.zip
    ```
 
 4. **Flash over USB Serial**:
    ```bash
    # On macOS:
-   nrfutil nrf5sdk-tools dfu usb-serial -pkg /tmp/yubikey_dfu.zip -p /dev/cu.usbmodem<SERIAL>1
+   nrfutil nrf5sdk-tools dfu usb-serial -pkg /tmp/nordic_opensk_dfu.zip -p /dev/cu.usbmodem<SERIAL>1
 
    # On Linux:
-   nrfutil nrf5sdk-tools dfu usb-serial -pkg /tmp/yubikey_dfu.zip -p /dev/ttyACM0
+   nrfutil nrf5sdk-tools dfu usb-serial -pkg /tmp/nordic_opensk_dfu.zip -p /dev/ttyACM0
    ```
 
 5. **Activate**:
-   Unplug the dongle and plug it back in. It boots immediately as **Yubico YubiKey FIDO**.
+   Unplug the dongle and plug it back in. It boots immediately as **Nordic Semiconductor ASA OpenSK** (or YubiKey FIDO if `--spoof-yubico` was used).
 
 ---
 

@@ -10,11 +10,15 @@
 # WHAT THIS SCRIPT DOES:
 #   1. Verifies that the required flasher ('nrfutil') and Rust toolchain ('rustup') are ready.
 #   2. Clones or updates the stable OpenSK 2.1 repository (FIDO Alliance certified CTAP2).
-#   3. Patches the USB descriptors to announce Yubico Vendor ID (0x1050 / 0x0407)
-#      so that enterprise services (such as Duo for Windows Logon Offline Access)
-#      recognize the hardware without "No security key found" rejections.
+#   3. Defaults to authentic upstream Nordic Semiconductor OpenSK identity (VID: 0x1915).
+#      Optionally accepts '--spoof-yubico' to announce Yubico Vendor ID (0x1050 / 0x0407)
+#      for legacy enterprise services that enforce strict vendor ID whitelists.
 #   4. Compiles the Tock OS embedded kernel and OpenSK application.
 #   5. Scans for Nordic dongles pulsing in DFU mode and flashes them sequentially.
+#
+# USAGE:
+#   ./scripts/flash-nordic-opensk.sh                  # Authentic Nordic OpenSK (Default)
+#   ./scripts/flash-nordic-opensk.sh --spoof-yubico  # Optional Yubico VID/PID patch
 #
 # HOW TO PUT A DONGLE INTO DFU MODE:
 #   - Leave the dongle plugged into USB (it needs power).
@@ -23,6 +27,21 @@
 # ==============================================================================
 
 set -euo pipefail
+
+SPOOF_YUBICO=false
+for arg in "$@"; do
+  case "$arg" in
+    --spoof-yubico)
+      SPOOF_YUBICO=true
+      shift
+      ;;
+    -h|--help)
+      echo "Usage: $0 [--spoof-yubico]"
+      echo "  --spoof-yubico  Optional: patch descriptors to Yubico 0x1050 / 0x0407"
+      exit 0
+      ;;
+  esac
+done
 
 # Visual styling
 BOLD="$(tput bold 2>/dev/null || echo '')"
@@ -36,7 +55,11 @@ warn()  { echo "${BOLD}${YELLOW}[WARN]${RESET} $*"; }
 error() { echo "${BOLD}${RED}[ERROR]${RESET} $*" >&2; }
 
 echo "${BOLD}==================================================================${RESET}"
-echo "${BOLD}  Nordic nRF52840 OpenSK (Yubico Identity) Auto-Flasher          ${RESET}"
+if [ "$SPOOF_YUBICO" = true ]; then
+  echo "${BOLD}  Nordic nRF52840 OpenSK (Yubico Compatible Mode) Auto-Flasher    ${RESET}"
+else
+  echo "${BOLD}  Nordic nRF52840 OpenSK (Authentic Nordic Mode) Auto-Flasher     ${RESET}"
+fi
 echo "${BOLD}==================================================================${RESET}"
 
 # ------------------------------------------------------------------------------
@@ -91,22 +114,28 @@ if [ ! -d "py_virtual_env" ]; then
 fi
 
 # ------------------------------------------------------------------------------
-# 3. APPLY YUBICO DESCRIPTOR PATCH (For Duo Windows Logon & Universal Compatibility)
+# 3. CONFIGURE USB DESCRIPTORS (Authentic Nordic vs Optional Yubico Spoof)
 # ------------------------------------------------------------------------------
-info "Enforcing Yubico Vendor ID (0x1050) and Product ID (0x0407)..."
+# Always clean any unstaged modifications first
+git checkout -- . 2>/dev/null || true
 
-MAIN_RS="boards/nordic/nrf52840_dongle_opensk/src/main.rs"
-TOCK_MAIN_RS="third_party/tock/boards/nordic/nrf52840_dongle_opensk/src/main.rs"
+if [ "$SPOOF_YUBICO" = true ]; then
+  info "Applying Yubico descriptor patch (VID: 0x1050, PID: 0x0407)..."
+  MAIN_RS="boards/nordic/nrf52840_dongle_opensk/src/main.rs"
+  TOCK_MAIN_RS="third_party/tock/boards/nordic/nrf52840_dongle_opensk/src/main.rs"
 
-for target_file in "$MAIN_RS" "$TOCK_MAIN_RS"; do
-  if [ -f "$target_file" ]; then
-    sed -i.bak -e 's/const VENDOR_ID: u16 = 0x1915;/const VENDOR_ID: u16 = 0x1050;/' "$target_file"
-    sed -i.bak -e 's/const PRODUCT_ID: u16 = 0x521f;/const PRODUCT_ID: u16 = 0x0407;/' "$target_file"
-    sed -i.bak -e 's/"Nordic Semiconductor ASA"/"Yubico"/' "$target_file"
-    sed -i.bak -e 's/"OpenSK"/"YubiKey FIDO"/' "$target_file"
-    rm -f "${target_file}.bak"
-  fi
-done
+  for target_file in "$MAIN_RS" "$TOCK_MAIN_RS"; do
+    if [ -f "$target_file" ]; then
+      sed -i.bak -e 's/const VENDOR_ID: u16 = 0x1915;/const VENDOR_ID: u16 = 0x1050;/' "$target_file"
+      sed -i.bak -e 's/const PRODUCT_ID: u16 = 0x521f;/const PRODUCT_ID: u16 = 0x0407;/' "$target_file"
+      sed -i.bak -e 's/"Nordic Semiconductor ASA"/"Yubico"/' "$target_file"
+      sed -i.bak -e 's/"OpenSK"/"YubiKey FIDO"/' "$target_file"
+      rm -f "${target_file}.bak"
+    fi
+  done
+else
+  info "Using authentic upstream Nordic Semiconductor identity (VID: 0x1915, PID: 0x521f)..."
+fi
 
 # ------------------------------------------------------------------------------
 # 4. COMPILE FIRMWARE AND PACKAGE DFU ARCHIVE
@@ -116,7 +145,7 @@ export PATH="/opt/homebrew/opt/rustup/bin:$HOME/.cargo/bin:$PWD/elf2tab/bin:$PAT
 py_virtual_env/bin/python3 deploy.py --board=nrf52840_dongle_dfu --opensk --programmer=none --disable-check-patches
 
 HEX_FILE="target/nrf52840_dongle_dfu_merged.hex"
-DFU_ZIP="/tmp/yubikey_dfu.zip"
+DFU_ZIP="/tmp/nordic_opensk_dfu.zip"
 
 info "Generating Nordic DFU zip package..."
 rm -f "$DFU_ZIP"
