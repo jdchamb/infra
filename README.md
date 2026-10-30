@@ -9,6 +9,7 @@ A unified, declarative fleet repository orchestrating **NixOS** (production work
 | Hostname | Platform / Architecture | Operating System | Primary Purpose & Hardware | Rebuild Command |
 | :--- | :--- | :--- | :--- | :--- |
 | **`308-225660`** | `aarch64-darwin` | macOS 27.0.1+ | Primary Work Apple Silicon MacBook. Native GUI, Apple VZ Linux Builder. | `rebuild` |
+| **`MBA-Chambers`** | `aarch64-darwin` | macOS 27.0.1+ | Personal / Portable Apple Silicon MacBook Air mirroring `308-225660`. | `rebuild` |
 | **`308-222242`** | `x86_64-linux` | NixOS Unstable | Production Bare-Metal Linux Workstation (Intel Core, Wayland/KDE desktop, CIFS shares, self-hosted fleet services). | `rebuild` |
 | **`308-225660NixOSVM`** | `aarch64-linux` | NixOS Unstable | Paravirtualized Linux Guest on MacBook (Apple Virtualization / UTM, VirtIO, SSH). | `rebuild` |
 | **`lab-pb01` .. `lab-pb05`** | `x86_64-linux` | NixOS Unstable | 5x HP ProBook Test Fleet Laptops (Parameterized via `hosts/nixos/lab-probook/default.nix`). | `rebuild switch lab-pb01` |

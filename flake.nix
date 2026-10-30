@@ -223,6 +223,17 @@
         system = "aarch64-darwin";
         modules = [ ./hosts/darwin/308-225660 ];
       };
+
+      # ------------------------------------------------------------------------
+      # NODE 6: MBA-Chambers
+      # Personal / Portable Apple Silicon MacBook Air (aarch64-darwin)
+      # Mirrors 308-225660 with nix-darwin defaults, declarative Homebrew,
+      # and Apple Virtualization.framework Linux builder.
+      # ------------------------------------------------------------------------
+      "MBA-Chambers" = mkDarwin {
+        system = "aarch64-darwin";
+        modules = [ ./hosts/darwin/MBA-Chambers ];
+      };
     };
   };
 }
