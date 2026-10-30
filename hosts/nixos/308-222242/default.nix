@@ -128,9 +128,12 @@
   ];
 
   # ----------------------------------------------------------------------------
-  # HOST IDENTITY
+  # HOST IDENTITY & DESKTOP SESSION
   # ----------------------------------------------------------------------------
   networking.hostName = "308-222242";
+
+  # Break tie between multiple installed compositors (Plasma 6, Niri, Hyprland, Sway)
+  services.displayManager.defaultSession = "plasma";
 
   # ----------------------------------------------------------------------------
   # STATE VERSION

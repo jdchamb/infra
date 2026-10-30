@@ -60,7 +60,7 @@
   # 4. Global Packages & Noctalia Shell Integration
   # --------------------------------------------------------------------------
   environment.systemPackages = with pkgs; [
-    noctalia-shell      # Status bar, control center, and notification platform
+    noctalia            # Status bar, control center, and notification platform (v5)
     xwayland-satellite  # Out-of-process XWayland server wrapper
     wl-clipboard        # Wayland command-line clipboard tools ('wl-copy', 'wl-paste')
     brightnessctl       # Display backlight control utility
@@ -118,7 +118,7 @@
       }
 
       // Autostart shell and legacy X11 compatibility bridge
-      spawn-at-startup "noctalia-shell"
+      spawn-at-startup "noctalia"
       spawn-at-startup "xwayland-satellite"
 
       // --- Universal Environment Keybinding Pattern (Project 7) ---

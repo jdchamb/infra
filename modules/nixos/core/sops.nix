@@ -32,13 +32,16 @@
 #       /etc/nixos/secrets/308-admin308
 # ==============================================================================
 
-{ inputs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   # --------------------------------------------------------------------------
   # sops-nix Declarative Configuration
   # --------------------------------------------------------------------------
   sops = {
+    # Use modern sops package from nixpkgs (bypasses legacy sops-nix Go builder)
+    package = pkgs.sops;
+
     # 1. Location of the encrypted secrets file relative to the Flake root
     defaultSopsFile = "${inputs.self}/secrets/308-secrets.yaml";
 
