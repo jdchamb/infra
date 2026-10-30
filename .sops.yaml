@@ -1,0 +1,39 @@
+# ==============================================================================
+# SOPS CREATION RULES & CRYPTOGRAPHIC ROUTING: .sops.yaml
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE (Priority #1 — Zero-Trust Secrets Management from Scratch):
+#   Maps repository secret file patterns to their designated Age public key recipients.
+#   Runbook: docs/sops-bootstrap-runbook.md
+#   Key Generator: scripts/bootstrap-sops-keys.sh
+#
+# INSTRUCTIONS:
+#   1. Generate a new keypair:
+#        ./scripts/bootstrap-sops-keys.sh work
+#        ./scripts/bootstrap-sops-keys.sh personal
+#   2. Replace the public key placeholders below with your generated 'age1...' public keys.
+#   3. Securely backup your private keys offline (e.g., in Bitwarden or 1Password).
+#   4. Re-initialize the secret files:
+#        sops secrets/work.yaml
+#        sops secrets/ips.yaml
+#        sops secrets/personal.yaml
+# ==============================================================================
+
+creation_rules:
+  # ----------------------------------------------------------------------------
+  # 1. Work / Fleet Secrets Routing (Credentials, Shares & Internal IPs)
+  # ----------------------------------------------------------------------------
+  - path_regex: secrets/(work|ips|308-).*\.yaml$
+    key_groups:
+      - age:
+          # Work Age public key:
+          - "age1340sssuqw9fknm2h5we3485wdqmktnjzgkysmgglp243tpjudpjqu7xf5y"
+
+  # ----------------------------------------------------------------------------
+  # 2. Personal / Homelab Secrets Routing
+  # ----------------------------------------------------------------------------
+  - path_regex: secrets/personal.*\.yaml$
+    key_groups:
+      - age:
+          # Personal Age public key:
+          - "age13m97hyrx40mkm48erdz433nmdeeyph7q928eat4g5ne07q8rt4dqf5j3l7"

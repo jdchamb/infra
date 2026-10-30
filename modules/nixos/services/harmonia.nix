@@ -1,0 +1,59 @@
+# ==============================================================================
+# NIXOS SERVICE MODULE: modules/nixos/services/harmonia.nix (Nix Binary Cache)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE (Personal Project 24 — 1-to-1 Module for Harmonia):
+#   Configures 'services.harmonia', a high-performance Rust Nix binary cache
+#   daemon that serves compiled '/nix/store' paths over HTTP (port 5000).
+#   Allows you to host a local or community NixOS binary cache mirror so lab nodes
+#   and peers don't re-download or re-compile packages from upstream cache.nixos.org.
+#
+# WHY THIS EXISTS (NOVICE EXPLANATION):
+#   When you build a package on your main workstation or server, Nix stores the
+#   result in '/nix/store'. Harmonia acts as a lightweight web server in front of
+#   that store. Other computers on your network (like our HP ProBook lab nodes)
+#   can add this machine as a "substituter", downloading pre-built packages at
+#   full local LAN speeds (1 Gbps / 10 Gbps) instead of downloading over the internet.
+#
+# HOW TO USE:
+#   1. Importing this module turns Harmonia ON immediately on port 5000.
+#   2. Generate binary cache signing keys by running the helper script:
+#        sudo init-harmonia-keys
+#   3. On client machines, add this machine to 'nix.settings.substituters':
+#        substituters = [ "http://<cache-ip>:5000" ];
+#        trusted-public-keys = [ "<contents-of-cache.pub>" ];
+# ==============================================================================
+
+{ config, lib, pkgs, ... }:
+
+{
+  # 1. Enable Harmonia Binary Cache Daemon on Port 5000
+  services.harmonia = {
+    enable = true;
+    settings = {
+      bind = "[::]:5000"; # Listen on both IPv4 and IPv6 port 5000
+      priority = 30;      # Lower priority number = preferred over upstream cache.nixos.org (40)
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 5000 ];
+
+  # 2. Helper CLI for Generating Ed25519 Binary Cache Signing Keys
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "init-harmonia-keys" ''
+      set -euo pipefail
+      KEY_DIR="/var/lib/secrets/harmonia"
+      sudo mkdir -p "$KEY_DIR"
+      if [ ! -f "$KEY_DIR/cache.sec" ]; then
+        sudo nix-store --generate-binary-cache-key "${config.networking.hostName}-cache-1" \
+          "$KEY_DIR/cache.sec" "$KEY_DIR/cache.pub"
+        sudo chmod 0600 "$KEY_DIR/cache.sec"
+        echo "==> Generated Nix Binary Cache keypair in $KEY_DIR"
+        cat "$KEY_DIR/cache.pub"
+      else
+        echo "==> Cache keypair already exists at $KEY_DIR:"
+        cat "$KEY_DIR/cache.pub"
+      fi
+    '')
+  ];
+}

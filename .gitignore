@@ -1,0 +1,27 @@
+# Ignore Nix build results
+result
+result-*
+
+# Ignore macOS system files
+.DS_Store
+**/.DS_Store
+
+# Ignore common editor swap files
+*.swp
+*~
+.nfnix
+
+# Ignore all binary image assets
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.pdf
+
+# Ignore editor caches
+.webp
+.direnv/
+.logseq/
+
+# --- AI & Repository Tooling Exports ---
+repomix-output.xml
