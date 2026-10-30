@@ -100,5 +100,29 @@
         };
       };
     })
+
+    # --------------------------------------------------------------------------
+    # 4. macOS SUDO AUTHENTICATION: TOUCH ID + SECURITY KEY (nix-darwin Only)
+    # --------------------------------------------------------------------------
+    # Declaratively manages /etc/pam.d/sudo_local (replaces the hand-edited file).
+    # Order matters: PAM tries each 'sufficient' line top-down, first success wins.
+    #   1. pam_reattach - lets Touch ID work inside Zellij / tmux sessions.
+    #   2. pam_tid      - Touch ID fingerprint.
+    #   3. pam_u2f      - FIDO2 key tap (Nordic OpenSK / YubiKey), fallback.
+    # Key enrollment (one per key, run on each Mac):
+    #   mkdir -p ~/.config/Yubico
+    #   pamu2fcfg > ~/.config/Yubico/u2f_keys      # first key
+    #   pamu2fcfg -n >> ~/.config/Yubico/u2f_keys  # each additional/backup key
+    # NOTE: pam_u2f defaults origin to pam://<hostname>, so re-run pamu2fcfg
+    # if the hostname changes.
+    (lib.mkIf pkgs.stdenv.isDarwin {
+      security.pam.services.sudo_local = {
+        touchIdAuth = true;
+        reattach = true;
+        text = lib.mkAfter ''
+          auth       sufficient     ${pkgs.pam_u2f}/lib/security/pam_u2f.so cue
+        '';
+      };
+    })
   ];
 }
