@@ -1,15 +1,18 @@
+# ==============================================================================
+# NIXOS APP MODULE: modules/nixos/apps/digikam.nix (DigiKam Photo Management)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE (1-to-1 Module for DigiKam):
+#   Installs DigiKam alongside 'exiftool' and 'ffmpeg' for organizing local
+#   photography libraries, batch-tagging metadata, and inspecting RAW media.
+# ==============================================================================
+
 { pkgs, ... }:
 
 {
-  # Install DigiKam and its core runtime dependencies globally for the system profile
   environment.systemPackages = with pkgs; [
     digikam
-
-    # Optional companion tools for media handling and metadata extraction
     exiftool
     ffmpeg
   ];
-
-  # Optional: Optimize the KDE/Qt runtime environment variables if needed
-  # DigiKam integrates natively with your Plasma 6 desktop environment shell.
 }

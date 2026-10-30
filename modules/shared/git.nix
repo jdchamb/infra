@@ -2,9 +2,9 @@
 # SHARED MODULE: modules/shared/git.nix (Cross-Platform Version Control)
 # ==============================================================================
 #
-# ROLE & ARCHITECTURE:
-#   Provides global Git identity and markdown language server tooling across
-#   all nodes in the fleet (macOS and NixOS).
+# ROLE & ARCHITECTURE (Personal Project 5):
+#   Provides global Git identity, SSH/GPG commit signing defaults, and Markdown
+#   LSP tooling across all nodes in the fleet (macOS and NixOS).
 #
 # CROSS-PLATFORM COMPATIBILITY NOTE:
 #   NixOS defines 'programs.git' at the system level. nix-darwin does not.
@@ -32,12 +32,10 @@
           user.name = "Joshua Daniel Chambers";
           user.email = "joshua@chambers-net.org";
           init.defaultBranch = "master";
-          pull.rebase = false; # Merge commits on pull by default
+          pull.rebase = false;
+          gpg.format = "ssh";
         };
       };
     })
   ];
 }
-
-
-

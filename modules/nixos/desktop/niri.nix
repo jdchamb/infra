@@ -1,3 +1,14 @@
+# ==============================================================================
+# NIXOS DESKTOP MODULE: modules/nixos/desktop/niri.nix (Niri Scrollable Tiling)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE:
+#   Configures the Niri infinite-strip scrollable Wayland compositor paired with
+#   Noctalia Shell and XWayland-Satellite. Uses Super+H/J/K/L for compositor
+#   column/window navigation while reserving Alt+H/J/K/L for Zellij and
+#   Ctrl+Shift+H/J/K/L for Ghostty (Project 7).
+# ==============================================================================
+
 { pkgs, ... }:
 
 {
@@ -41,6 +52,7 @@
               xkb {
                   layout "us"
               }
+              numlock
           }
           touchpad {
               tap
@@ -65,6 +77,7 @@
       spawn-at-startup "noctalia-shell"
       spawn-at-startup "xwayland-satellite"
 
+      // Universal Environment Keybinding Pattern (Mod = Super for Compositor Layer)
       binds {
           Mod+Q { spawn "ghostty"; }
           Mod+E { spawn "firefox"; }

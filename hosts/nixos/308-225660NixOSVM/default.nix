@@ -28,26 +28,25 @@
     # Declarative Disko Layout: Automates formatting & mounting /dev/vda
     (import ../../../modules/nixos/hardware/disko-standard.nix { device = "/dev/vda"; })
 
-    # Common Fleet Modules (Fonts, binary caches, secrets CLI)
-    ../../../modules/common/fonts.nix
-    ../../../modules/common/cachix.nix
-    ../../../modules/common/sops-tools.nix
+    # Unified Core NixOS Foundation (Project 19)
+    ../../../modules/nixos/core/global.nix
+    ../../../modules/nixos/core/boot.nix
+    ../../../modules/nixos/core/audio.nix
+    ../../../modules/nixos/hardware/apple-keyboard.nix
 
-    # Shared User & Developer Tools (Cross-Platform)
+    # Shared User & Developer Tools (1-to-1 Cross-Platform Modules)
     ../../../modules/shared/git.nix
+    ../../../modules/shared/git-bug.nix
+    ../../../modules/shared/tea.nix
+    ../../../modules/shared/lazygit.nix
     ../../../modules/shared/vim.nix
     ../../../modules/shared/neovim.nix
     ../../../modules/shared/zellij.nix
     ../../../modules/shared/ghostty.nix
     ../../../modules/shared/security/yubikey-nordic.nix
-
-    # Core NixOS Foundation
-    ../../../modules/nixos/core/system.nix
-    ../../../modules/nixos/core/boot.nix
-    ../../../modules/nixos/core/network.nix
-    ../../../modules/nixos/core/user.nix
-    ../../../modules/nixos/core/audio.nix
-    ../../../modules/nixos/hardware/hw-utils.nix
+    ../../../modules/shared/security/gpg.nix
+    ../../../modules/shared/security/vaultwarden-client.nix
+    ../../../modules/shared/storage/file-integrity-monitor.nix
   ];
 
   # ----------------------------------------------------------------------------
@@ -57,8 +56,6 @@
   nixpkgs.hostPlatform = "aarch64-linux";
 
   # Paravirtualized VirtIO Storage & Bus Drivers
-  # These kernel modules allow the Linux guest to talk directly to Apple's VZ hypervisor
-  # with zero hardware emulation overhead.
   boot.initrd.availableKernelModules = [
     "virtio_pci"
     "virtio_blk"
@@ -70,10 +67,7 @@
   # ----------------------------------------------------------------------------
   # GUEST-HOST INTEGRATION UTILITIES
   # ----------------------------------------------------------------------------
-  # Allows host to signal graceful shutdowns, resize guest resolution, and sync clock
   services.qemuGuest.enable = true;
-
-  # SPICE agent: Enables seamless two-way clipboard sharing between macOS and VM
   services.spice-vdagentd.enable = true;
 
   # ----------------------------------------------------------------------------
@@ -82,21 +76,18 @@
   services.openssh = {
     enable = true;
     settings = {
-      PermitRootLogin = "prohibit-password"; # Security: Require key-based root login
-      PasswordAuthentication = true;        # User password fallback allowed
+      PermitRootLogin = "prohibit-password";
+      PasswordAuthentication = true;
     };
   };
 
-  # Open SSH port 22 in the firewall
   networking.firewall.allowedTCPPorts = [ 22 ];
 
-  # Pre-authorize primary user's SSH key for passwordless terminal access
   users.users.jchambers = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
     ];
   };
 
-  # NixOS State Version: Determines backward compatibility defaults for stateful data.
   system.stateVersion = "24.11";
 }

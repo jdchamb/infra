@@ -1,20 +1,28 @@
-# lm-greetd.nix
-# ROLE: Standalone Wayland Login Manager Configuration Layer
+# ==============================================================================
+# NIXOS DESKTOP MODULE: modules/nixos/desktop/greetd.nix (Wayland Login Manager)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE:
+#   Configures the lightweight 'greetd' login daemon paired with 'regreet' running
+#   inside a minimal 'cage' Wayland kiosk compositor. Allows seamless switching
+#   between Hyprland, Niri, Sway, and KDE Plasma 6 sessions at login.
+# ==============================================================================
 
-{ pkgs, ... }: {
-  # Enable the decoupled greetd service
+{ pkgs, ... }:
+
+{
+  # 1. Enable the decoupled greetd authentication daemon
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        # Boots the rust-based front-end directly into a minimal container environment
         command = "${pkgs.dbus}/bin/dbus-run-session ${pkgs.cage}/bin/cage -s -d -- ${pkgs.regreet}/bin/regreet";
         user = "greeter";
       };
     };
   };
 
-  # Direct declarative visual adjustments for the ReGreet menu workspace
+  # 2. Declarative Visual Theme & Typography for ReGreet
   programs.regreet = {
     enable = true;
     theme = {
@@ -27,7 +35,7 @@
     };
   };
 
-  # Underlying system dependencies required to paint the greeter environment safely
+  # 3. Underlying System Dependencies Required to Paint the Greeter Session
   environment.systemPackages = with pkgs; [
     cage
     regreet

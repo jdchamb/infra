@@ -1,3 +1,14 @@
+# ==============================================================================
+# NIXOS DESKTOP MODULE: modules/nixos/desktop/hyprland.nix (Hyprland Compositor)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE:
+#   Activates the Hyprland compositor at the system level alongside SDDM Wayland,
+#   Polkit authentication, XDG desktop portals, and a unified Home Manager layout
+#   (Waybar, Dunst, Rofi, Hyprpaper) styled with Catppuccin Mocha accents and
+#   aligned with the Universal Environment Keybinding Pattern (Project 7).
+# ==============================================================================
+
 { pkgs, ... }:
 
 {
@@ -48,7 +59,7 @@
       }
     '';
 
-    # Direct Compositor Configuration File Bindings
+    # Direct Compositor Configuration File Bindings (Universal Keybinding Pattern)
     xdg.configFile."hypr/hyprland.conf".text = ''
       # --- Hyprland Core Initialization Matrix ---
       monitor=,highrr,auto,1
@@ -59,6 +70,7 @@
 
       input {
           kb_layout = us
+          numlock_by_default = true
           follow_mouse = 1
       }
 
@@ -75,12 +87,25 @@
           rounding = 8
       }
 
+      # Universal Environment Keybinding Pattern (Super = Window/Compositor Layer)
       $mainMod = SUPER
       bind = $mainMod, Q, exec, ghostty
       bind = $mainMod, E, exec, firefox
       bind = $mainMod, R, exec, rofi -show drun
       bind = $mainMod, C, killactive,
       bind = $mainMod, M, exit,
+
+      # Directional Focus (Vim H/J/K/L)
+      bind = $mainMod, H, movefocus, l
+      bind = $mainMod, J, movefocus, d
+      bind = $mainMod, K, movefocus, u
+      bind = $mainMod, L, movefocus, r
+
+      # Directional Window Movement
+      bind = $mainMod SHIFT, H, movewindow, l
+      bind = $mainMod SHIFT, J, movewindow, d
+      bind = $mainMod SHIFT, K, movewindow, u
+      bind = $mainMod SHIFT, L, movewindow, r
     '';
   };
 }

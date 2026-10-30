@@ -1,10 +1,20 @@
+# ==============================================================================
+# COMMON MODULE: modules/common/cachix.nix (Binary Cache Substituters)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE:
+#   Configures the Nix daemon to pull pre-compiled store paths from both the
+#   official NixOS cache and the 'nix-community' Cachix pool before compiling
+#   from source, dramatically accelerating builds across workstations and ISOs.
+# ==============================================================================
+
 { config, pkgs, ... }:
 
 {
-  # Enable Cachix package management tooling
+  # 1. Install the Cachix CLI utility for managing custom binary caches
   environment.systemPackages = [ pkgs.cachix ];
 
-  # Global binary cache settings
+  # 2. Declare Binary Cache Endpoints and Ed25519 Public Verification Keys
   nix.settings = {
     substituters = [
       "https://cache.nixos.org"

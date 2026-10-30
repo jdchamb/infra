@@ -17,6 +17,8 @@ hosts/
 │   │   └── hardware.nix        # Kernel modules, CPU microcode, disk UUIDs
 │   ├── 308-225660NixOSVM/      # Apple Silicon UTM / VZ Virtual Machine (aarch64-linux)
 │   │   └── default.nix         # VirtIO paravirtualization, SPICE, QEMU agent
+│   ├── lab-probook/            # 5-Node HP ProBook Validation Lab (lab-pb01 .. lab-pb05)
+│   │   └── default.nix         # Parameterized clamshell lab node definition
 │   └── installer/              # Bootable Live ISO Definitions
 │       ├── bootstrap-iso.nix   # Headless minimal console installer
 │       └── recovery-iso.nix    # Full graphical rescue USB with partitioning tools

@@ -167,6 +167,46 @@
           ./hosts/nixos/308-225660NixOSVM
         ];
       };
+
+      # ------------------------------------------------------------------------
+      # NODES 5–9: lab-pb01 .. lab-pb05 (Personal Project 11)
+      # 5-Node HP ProBook Physical Validation Lab Cluster (x86_64-linux)
+      # ------------------------------------------------------------------------
+      "lab-pb01" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/lab-probook { hostName = "lab-pb01"; })
+        ];
+      };
+      "lab-pb02" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/lab-probook { hostName = "lab-pb02"; })
+        ];
+      };
+      "lab-pb03" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/lab-probook { hostName = "lab-pb03"; })
+        ];
+      };
+      "lab-pb04" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/lab-probook { hostName = "lab-pb04"; })
+        ];
+      };
+      "lab-pb05" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/lab-probook { hostName = "lab-pb05"; })
+        ];
+      };
     };
 
     # ==========================================================================

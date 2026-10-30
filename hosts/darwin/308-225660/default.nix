@@ -129,15 +129,20 @@
   # ----------------------------------------------------------------------------
   networking.hostName = "308-225660";
 
-  # Import reusable, multi-OS modules from the fleet library
+  # Import reusable, multi-OS modules from the fleet library (1-to-1 Modules)
   imports = [
-    "${inputs.self}/modules/common/sops-tools.nix" # Age & SOPS secret tooling
-    "${inputs.self}/modules/shared/git.nix"         # Global Git author configuration
-    "${inputs.self}/modules/shared/vim.nix"         # System-level Vim editor fallback
-    "${inputs.self}/modules/shared/neovim.nix"      # Neovim modern development editor
-    "${inputs.self}/modules/shared/zellij.nix"      # Zellij terminal workspace manager
-    "${inputs.self}/modules/shared/ghostty.nix"     # Ghostty terminal configuration
+    "${inputs.self}/modules/common/sops-tools.nix"            # Age & SOPS secret tooling
+    "${inputs.self}/modules/shared/git.nix"                   # Global Git author configuration
+    "${inputs.self}/modules/shared/git-bug.nix"               # Distributed Git-native issue tracker
+    "${inputs.self}/modules/shared/lazygit.nix"               # Terminal UI for Git
+    "${inputs.self}/modules/shared/vim.nix"                   # System-level Vim editor fallback
+    "${inputs.self}/modules/shared/neovim.nix"                # Neovim modern development editor
+    "${inputs.self}/modules/shared/zellij.nix"                # Zellij terminal workspace manager
+    "${inputs.self}/modules/shared/ghostty.nix"               # Ghostty terminal configuration
     "${inputs.self}/modules/shared/security/yubikey-nordic.nix" # FIDO2 / OpenSK hardware keys
+    "${inputs.self}/modules/shared/security/gpg.nix"          # GnuPG cryptographic identity tools
+    "${inputs.self}/modules/shared/security/vaultwarden-client.nix" # Bitwarden/Vaultwarden CLI
+    "${inputs.self}/modules/shared/storage/file-integrity-monitor.nix" # Checksum bitrot verifier
   ];
 
   # System-wide Typography (Nerd Fonts with glyph support for Starship & terminal UI)

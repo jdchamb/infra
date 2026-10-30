@@ -9,8 +9,9 @@ A unified, declarative fleet repository orchestrating **NixOS** (production work
 | Hostname | Platform / Architecture | Operating System | Primary Purpose & Hardware | Rebuild Command |
 | :--- | :--- | :--- | :--- | :--- |
 | **`308-225660`** | `aarch64-darwin` | macOS 27.0.1+ | Primary Work Apple Silicon MacBook. Native GUI, Apple VZ Linux Builder. | `rebuild` |
-| **`308-222242`** | `x86_64-linux` | NixOS Unstable | Production Bare-Metal Linux Workstation (Intel Core, Wayland desktop, CIFS shares). | `rebuild` |
+| **`308-222242`** | `x86_64-linux` | NixOS Unstable | Production Bare-Metal Linux Workstation (Intel Core, Wayland/KDE desktop, CIFS shares, self-hosted fleet services). | `rebuild` |
 | **`308-225660NixOSVM`** | `aarch64-linux` | NixOS Unstable | Paravirtualized Linux Guest on MacBook (Apple Virtualization / UTM, VirtIO, SSH). | `rebuild` |
+| **`lab-pb01` .. `lab-pb05`** | `x86_64-linux` | NixOS Unstable | 5x HP ProBook Test Fleet Laptops (Parameterized via `hosts/nixos/lab-probook/default.nix`). | `rebuild switch lab-pb01` |
 | **`bootstrap-iso`** | `x86_64-linux` | NixOS Live | Minimal headless console deployment ISO for bare-metal fleet provisioning. | *(Build ISO)* |
 | **`recovery-iso`** | `x86_64-linux` | NixOS Live | Graphical live USB recovery environment with disk repair & diagnostic tools. | *(Build ISO)* |
 | **`wrk-win01`** | `x86_64-windows` | Windows 11 | Windows target environment managed via WinGet DSC and PowerShell DSC. | *(Bootstrap script)* |
@@ -32,29 +33,35 @@ A unified, declarative fleet repository orchestrating **NixOS** (production work
 │   ├── nixos/
 │   │   ├── 308-222242/             # Production Linux Workstation (hardware & module graph)
 │   │   ├── 308-225660NixOSVM/      # Apple Silicon UTM / VZ Paravirtualized VM
+│   │   ├── lab-probook/            # Parameterized HP ProBook test fleet (lab-pb01..05)
 │   │   └── installer/              # Deployment ISOs (bootstrap-iso, recovery-iso)
 │   └── windows/
 │       └── wrk-win01/              # Windows workstation target profiles
-├── modules/                        # Reusable system building blocks (The "Organs")
+├── modules/                        # Reusable 1-to-1 system building blocks (The "Organs")
 │   ├── common/                     # Cross-platform fonts, Cachix, sops tools
-│   ├── shared/                     # Multi-OS user tooling (git, vim, neovim, zellij, ghostty)
-│   ├── nixos/                      # Linux/NixOS specific options
-│   │   ├── core/                   # Audio, boot, network, printing, system, user, sops
-│   │   ├── desktop/                # Greetd, Hyprland, Niri, Sway
-│   │   ├── hardware/               # Disko partitioning layouts & hardware utilities
-│   │   ├── services/               # CIFS mounts (308-storage), Samba, Ollama, AnythingLLM
-│   │   └── apps/                   # Standalone desktop apps (Firefox, Kate, Dolphin, etc.)
+│   ├── shared/                     # Multi-OS 1-to-1 tooling (git, git-bug, tea, lazygit, vim, neovim, zellij, ghostty)
+│   │   ├── security/               # GPG, KeePassXC, Vaultwarden CLI
+│   │   ├── remote/                 # RustDesk remote desktop
+│   │   └── storage/                # File Integrity Monitor (FIM)
+│   ├── nixos/                      # Linux/NixOS specific 1-to-1 modules
+│   │   ├── core/                   # Global aggregator, bootstrap, impermanence, audio, boot, network, printing, system, user, sops, deploy-rs, colmena, nixos-anywhere
+│   │   ├── desktop/                # Greetd, Hyprland, Niri, Sway, KDE Plasma 6, Krohnkite
+│   │   ├── hardware/               # Disko layouts (standard, btrfs, impermanence), Apple keyboard, HP ProBook, hw-utils
+│   │   ├── services/               # 1-to-1 self-hosted fleet services (Vaultwarden, Snipe-IT, Zammad, Forgejo, Harmonia, AdGuard, NUT, Nextcloud, Paperless, etc.)
+│   │   │   └── game-servers/       # Pelican Panel, Minecraft, Terraria, Palworld
+│   │   └── apps/                   # 1-to-1 standalone desktop & diagnostic apps (Dolphin, Kate, KRDC, TigerVNC, VLC, Wireshark, Minicom, Dymo, ADB, etc.)
 │   ├── darwin/                     # macOS-specific modules (dock, finder, brew)
 │   └── windows/                    # Windows declarative configuration layer
 │       ├── winget/                 # WinGet DSC YAML manifests
 │       ├── dsc/                    # PowerShell Desired State Configuration scripts
 │       ├── registry/               # Declarative registry tweaks
-│       └── scripts/                # Bootstrap runner scripts
+│       └── scripts/                # Bootstrap & deployment scripts (Autodesk, UltraVNC, Win11 image, PDQ)
 └── home/                           # User-space configuration via Home Manager (The "Soul")
     ├── default.nix                 # Unified user profile entry point ('jchambers')
     └── programs/
         ├── zsh.nix                 # Interactive shell, 50k history, fzf, zoxide, rebuild()
-        └── starship.nix            # Cross-shell prompt (Catppuccin Mocha theme)
+        ├── starship.nix            # Cross-shell prompt (Catppuccin Mocha theme)
+        └── git-sync.nix            # Zsh chpwd hook for interactive git pull --rebase
 ```
 
 ### Subsystem Documentation Guides

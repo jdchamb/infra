@@ -36,41 +36,41 @@ The handwritten Technical Agenda maps directly to the following modular layers:
 ```mermaid
 flowchart TD
     subgraph Client ["Phase 1: Client & Workflow"]
-        A1["Bitwarden / Vaultwarden & KeepassXC"]
-        A2["FOSS Adblocking (AdGuard Home / Brave / Librewolf)"]
-        A3["Git Directory Hook (Auto-fetch/rebase prompt)"]
+        A1["Bitwarden / Vaultwarden & KeepassXC (Done)"]
+        A2["FOSS Adblocking (AdGuard Home / Pi-hole) (Done)"]
+        A3["Git Directory Hook (Auto-fetch/rebase prompt) (Done)"]
         A4["Nordic Security Keys (FIDO2 / U2F) (Done)"]
-        A5["RustDesk Remote Access Client"]
+        A5["RustDesk Remote Access Client (Done)"]
     end
 
     subgraph Storage ["Phase 2: Storage & Resiliency"]
-        B1["Disko Btrfs Layout (Nix Store deduplication + Subvolumes)"]
-        B2["BorgBackup (Client & Server fleet backups)"]
-        B3["NUT (Network UPS Tools) Power Management"]
-        B4["Bcachefs / XFS / MDADM Evaluation"]
-        B5["File Integrity & Checksum Health Monitor (Bitrot / ISO / Archive verifier)"]
+        B1["Disko Btrfs Layout (Nix Store deduplication + Subvolumes) (Done)"]
+        B2["BorgBackup (Client & Server fleet backups) (Done)"]
+        B3["NUT (Network UPS Tools) Power Management (Done)"]
+        B4["Bcachefs / XFS / MDADM Evaluation (Done)"]
+        B5["File Integrity & Checksum Health Monitor (Bitrot / ISO / Archive verifier) (Done)"]
     end
 
     subgraph CoreCloud ["Phase 3: Self-Hosted Core Cloud"]
-        C1["Vaultwarden (Password Server)"]
-        C2["Forgejo (Git Server)"]
-        C3["SilverBullet / Memos (Wiki & Notes)"]
-        C4["Paperless-ngx (Document Archival)"]
-        C5["Nextcloud (Unified Suite Evaluation)"]
+        C1["Vaultwarden (Password Server) (Done)"]
+        C2["Forgejo (Git Server & Actions Runner) (Done)"]
+        C3["SilverBullet / Memos (Wiki & Notes) (Done)"]
+        C4["Paperless-ngx (Document Archival) (Done)"]
+        C5["Nextcloud (Unified Suite Evaluation) (Done)"]
     end
 
     subgraph Media ["Phase 4: Home & Media Hub"]
-        D1["Immich (Photo Management with ML)"]
-        D2["Jellyfin (Hardware-Accelerated Video)"]
-        D3["Navidrome (Music Streaming)"]
-        D4["Home Assistant (IoT Automation)"]
-        D5["Miniflux (Minimalist RSS)"]
-        D6["Cockpit (Web GUI System Admin)"]
+        D1["Immich (Photo Management with ML) (Done)"]
+        D2["Jellyfin (Hardware-Accelerated Video) (Done)"]
+        D3["Navidrome (Music Streaming) (Done)"]
+        D4["Home Assistant (IoT Automation) (Done)"]
+        D5["Miniflux (Minimalist RSS) (Done)"]
+        D6["Cockpit (Web GUI System Admin) (Done)"]
     end
 
     subgraph Gaming ["Phase 5: Game Servers"]
-        E1["Pelican / Pterodactyl Panel & Wings"]
-        E2["Dedicated Game Profiles (Minecraft, Terraria, Palworld)"]
+        E1["Pelican / Pterodactyl Panel & Wings (Done)"]
+        E2["Dedicated Game Profiles (Minecraft, Terraria, Palworld) (Done)"]
     end
 
     Client --> Storage --> CoreCloud --> Media --> Gaming
@@ -82,52 +82,52 @@ flowchart TD
 
 ### Phase 1: Client Workflow & FOSS Replacements (Workstations & Mac)
 * **Goal**: Replace proprietary tools and streamline developer muscle memory across macOS and Linux.
-* **Modules to build**:
-  * `modules/shared/security/vaultwarden-client.nix`: Configure Bitwarden CLI (`rbw` or `bitwarden-cli`) and KeePassXC.
-  * `home/programs/git-sync.nix`: Implement the requested Zsh hook:
-    * When switching into a git repository directory (`chpwd` hook), run a silent `git fetch`.
-    * If remote is ahead and working tree is clean, prompt: *"Upstream has changes. Rebase now? [y/N]"* and run `git pull --rebase`.
-  * [x] **COMPLETED**: `modules/shared/security/yubikey-nordic.nix`: Setup U2F/FIDO2 hardware key authentication rules (PAM + udev), OpenSK flasher script (`scripts/flash-nordic-opensk.sh`), and runbook (`docs/hardware_security_keys_runbook.md`).
-  * `modules/shared/remote/rustdesk.nix`: Package/configure RustDesk remote client.
+* **Modules built (1-to-1)**:
+  * [x] **COMPLETED**: [`modules/shared/security/vaultwarden-client.nix`](../modules/shared/security/vaultwarden-client.nix) & [`modules/shared/security/keepassxc.nix`](../modules/shared/security/keepassxc.nix): Configured Bitwarden CLI (`bw`) and KeePassXC in dedicated 1-to-1 modules.
+  * [x] **COMPLETED**: [`home/programs/git-sync.nix`](../home/programs/git-sync.nix): Implemented the requested Zsh hook:
+    * When switching into a git repository directory (`chpwd` hook), runs a background `git fetch`.
+    * If remote is ahead and working tree is clean, prompts: *"Upstream has changes. Rebase now? [y/N]"* and runs `git pull --rebase`.
+  * [x] **COMPLETED**: [`modules/shared/security/yubikey-nordic.nix`](../modules/shared/security/yubikey-nordic.nix) & [`modules/shared/security/gpg.nix`](../modules/shared/security/gpg.nix): Setup U2F/FIDO2 hardware key authentication rules (PAM + udev), GPG signing, OpenSK flasher script (`scripts/flash-nordic-opensk.sh`), and runbook (`docs/hardware_security_keys_runbook.md`).
+  * [x] **COMPLETED**: [`modules/shared/remote/rustdesk.nix`](../modules/shared/remote/rustdesk.nix): Packaged/configured RustDesk remote client across Linux and macOS.
 
 ### Phase 2: Storage, Disko & Backups
 * **Goal**: Establish rock-solid, snapshot-enabled storage and power protection.
-* **Modules to build**:
-  * `modules/nixos/hardware/disko-btrfs.nix`: Declarative Disko layout using Btrfs subvolumes (`@root`, `@nix`, `@home`, `@snapshots`, `@swap`) with zstd compression to maximize Nix store speed and deduplication.
-  * `modules/nixos/services/backup-borg.nix`: Declarative BorgBackup jobs targeting local NAS shares or remote repositories with Age-encrypted credentials.
-  * `modules/nixos/services/nut.nix`: Network UPS Tools (NUT) monitoring daemon for battery backup telemetry and automated graceful shutdown.
-  * `modules/shared/storage/file-integrity-monitor.nix` (and custom CLI/daemon project): Automated checksum verification & bitrot health monitor that tracks `.sha256` / `.md5` / `SHA256SUMS` manifests alongside files (such as Soundstone USB ISO libraries, NAS archives, and cold storage) to periodically verify every file stays healthy and alert on silent corruption.
+* **Modules built (1-to-1)**:
+  * [x] **COMPLETED**: [`modules/nixos/hardware/disko-btrfs.nix`](../modules/nixos/hardware/disko-btrfs.nix) & [`modules/nixos/hardware/disko-impermanence.nix`](../modules/nixos/hardware/disko-impermanence.nix): Declarative Disko layouts using Btrfs subvolumes (`@`, `@nix`, `@home`, `@persist`, `@log`) with `zstd` compression, `btrbk` snapshots, and `scrutiny` SMART monitoring.
+  * [x] **COMPLETED**: [`modules/nixos/services/backup-borg.nix`](../modules/nixos/services/backup-borg.nix): Declarative BorgBackup jobs targeting local NAS shares or remote repositories with Age/SOPS-encrypted credentials.
+  * [x] **COMPLETED**: [`modules/nixos/services/nut.nix`](../modules/nixos/services/nut.nix): Network UPS Tools (NUT) monitoring daemon for battery backup telemetry and automated graceful shutdown.
+  * [x] **COMPLETED**: [`modules/shared/storage/file-integrity-monitor.nix`](../modules/shared/storage/file-integrity-monitor.nix): Automated SHA-256 checksum verification & bitrot health monitor (`fim-init`, `fim-verify`, plus scheduled systemd timer / macOS LaunchAgent).
 
 ### Phase 3: Core Homelab Cloud & Productivity Services
 * **Goal**: Enable self-hosted infrastructure services.
-* **Modules to build**:
-  * `modules/nixos/services/vaultwarden.nix`: Lightweight Bitwarden-compatible password vault.
-  * `modules/nixos/services/forgejo.nix`: Lightweight, FOSS Git software forge (Codeberg's engine).
-  * `modules/nixos/services/silverbullet.nix`: Extensible markdown-based knowledge base and wiki.
-  * `modules/nixos/services/memos.nix`: Privacy-first, lightweight note-taking service.
-  * `modules/nixos/services/paperless.nix`: Document scanner & OCR archival with automatic classification.
-  * `modules/nixos/services/nextcloud.nix`: Full collaboration suite configuration (file sync, calendars, contacts).
+* **Modules built (1-to-1)**:
+  * [x] **COMPLETED**: [`modules/nixos/services/vaultwarden.nix`](../modules/nixos/services/vaultwarden.nix): Lightweight Bitwarden-compatible password vault (`127.0.0.1:8222`).
+  * [x] **COMPLETED**: [`modules/nixos/services/forgejo.nix`](../modules/nixos/services/forgejo.nix) & [`modules/nixos/services/forgejo-runner.nix`](../modules/nixos/services/forgejo-runner.nix): Lightweight FOSS Git software forge (`:3000`) and CI/CD runner.
+  * [x] **COMPLETED**: [`modules/nixos/services/silverbullet.nix`](../modules/nixos/services/silverbullet.nix): Extensible Markdown-based knowledge base and wiki (`:3001`).
+  * [x] **COMPLETED**: [`modules/nixos/services/memos.nix`](../modules/nixos/services/memos.nix): Privacy-first, lightweight note-taking service (`:5230`).
+  * [x] **COMPLETED**: [`modules/nixos/services/paperless.nix`](../modules/nixos/services/paperless.nix): Document scanner & OCR archival with automatic classification (`:28981`).
+  * [x] **COMPLETED**: [`modules/nixos/services/nextcloud.nix`](../modules/nixos/services/nextcloud.nix): Full collaboration suite configuration with Redis caching (`:8084`).
 
 ### Phase 4: Media, Home Automation & Network Defense
 * **Goal**: Entertainment, IoT, and network-wide protection.
-* **Modules to build**:
-  * `modules/nixos/services/adguard-home.nix` & `pihole.nix`: DNS-level adblocking and query filtering.
-  * `modules/nixos/services/immich.nix`: High-performance self-hosted photo/video backup with machine-learning facial recognition.
-  * `modules/nixos/services/jellyfin.nix`: Media streaming server with VAAPI/QuickSync transcoding.
-  * `modules/nixos/services/navidrome.nix`: Lightweight Subsonic-compatible music server.
-  * `modules/nixos/services/home-assistant.nix`: Local smart home orchestration.
-  * `modules/nixos/services/miniflux.nix`: Fast, minimalist RSS reader.
-  * `modules/nixos/services/cockpit.nix`: Web-based graphical Linux system administration.
-  * `modules/nixos/services/project-tracker.nix`: Planka / Taiga kanban board service.
+* **Modules built (1-to-1)**:
+  * [x] **COMPLETED**: [`modules/nixos/services/adguard-home.nix`](../modules/nixos/services/adguard-home.nix) & [`modules/nixos/services/pihole.nix`](../modules/nixos/services/pihole.nix): DNS-level adblocking and query filtering.
+  * [x] **COMPLETED**: [`modules/nixos/services/immich.nix`](../modules/nixos/services/immich.nix): High-performance self-hosted photo/video backup with ML facial recognition (`:2283`).
+  * [x] **COMPLETED**: [`modules/nixos/services/jellyfin.nix`](../modules/nixos/services/jellyfin.nix): Media streaming server with VAAPI/QuickSync transcoding (`:8096`).
+  * [x] **COMPLETED**: [`modules/nixos/services/navidrome.nix`](../modules/nixos/services/navidrome.nix): Lightweight Subsonic-compatible music server (`:4533`).
+  * [x] **COMPLETED**: [`modules/nixos/services/home-assistant.nix`](../modules/nixos/services/home-assistant.nix): Local smart home orchestration (`:8123`).
+  * [x] **COMPLETED**: [`modules/nixos/services/miniflux.nix`](../modules/nixos/services/miniflux.nix): Fast, minimalist RSS reader (`:8085`).
+  * [x] **COMPLETED**: [`modules/nixos/services/cockpit.nix`](../modules/nixos/services/cockpit.nix): Web-based graphical Linux system administration (`:9090`).
+  * [x] **COMPLETED**: [`modules/nixos/services/planka.nix`](../modules/nixos/services/planka.nix): Planka real-time kanban board service (`:3002`), plus [`modules/nixos/services/snipeit.nix`](../modules/nixos/services/snipeit.nix) (`:8081`) and [`modules/nixos/services/zammad.nix`](../modules/nixos/services/zammad.nix) (`:8082`).
 
 ### Phase 5: Game Server Orchestration
 * **Goal**: Scalable hosting for multiplayer game servers.
-* **Modules to build**:
-  * `modules/nixos/services/game-servers/pelican.nix`: Pelican Panel and Wings daemon (the next-generation successor to Pterodactyl).
-  * Standalone service modules for lightweight native hosting:
-    * `minecraft.nix` (Paper / Fabric)
-    * `terraria.nix` (tShock)
-    * `palworld.nix` (SteamCMD headless container)
+* **Modules built (1-to-1)**:
+  * [x] **COMPLETED**: [`modules/nixos/services/game-servers/pelican.nix`](../modules/nixos/services/game-servers/pelican.nix): Pelican Panel (`:8086`) and Wings daemon (`:8443`).
+  * [x] **COMPLETED**: Standalone 1-to-1 service modules for lightweight native hosting:
+    * [`modules/nixos/services/game-servers/minecraft.nix`](../modules/nixos/services/game-servers/minecraft.nix) (`:25565`)
+    * [`modules/nixos/services/game-servers/terraria.nix`](../modules/nixos/services/game-servers/terraria.nix) (`:7777`)
+    * [`modules/nixos/services/game-servers/palworld.nix`](../modules/nixos/services/game-servers/palworld.nix) (`:8211/udp`)
 
 ---
 

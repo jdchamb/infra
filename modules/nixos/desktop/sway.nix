@@ -1,3 +1,13 @@
+# ==============================================================================
+# NIXOS DESKTOP MODULE: modules/nixos/desktop/sway.nix (Sway Wayland Compositor)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE:
+#   Provides a lightweight, deterministic i3-compatible Wayland compositor
+#   environment with Waybar, Dunst, and Rofi. Shares the exact Super+Q/E/R/C/M
+#   and Super+H/J/K/L keybinding topology used across Hyprland and Niri.
+# ==============================================================================
+
 { pkgs, ... }:
 
 {
@@ -66,6 +76,7 @@
 
       input * {
           xkb_layout "us"
+          xkb_numlock enabled
       }
 
       gaps inner 5
@@ -79,6 +90,16 @@
       bindsym $mod+r exec $menu
       bindsym $mod+c kill
       bindsym $mod+m exit
+
+      bindsym $mod+$left focus left
+      bindsym $mod+$down focus down
+      bindsym $mod+$up focus up
+      bindsym $mod+$right focus right
+
+      bindsym $mod+Shift+$left move left
+      bindsym $mod+Shift+$down move down
+      bindsym $mod+Shift+$up move up
+      bindsym $mod+Shift+$right move right
     '';
   };
 }

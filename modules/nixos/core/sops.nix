@@ -1,15 +1,26 @@
+# ==============================================================================
+# NIXOS CORE MODULE: modules/nixos/core/sops.nix (SOPS-Nix Secret Decryption)
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE (308 Project 17):
+#   Integrates 'sops-nix' into the host activation sequence. Uses the local master
+#   Age private key ('/var/lib/sops-nix/308-key.txt') to decrypt encrypted YAML
+#   credentials straight into an in-memory tmpfs filesystem ('/run/secrets/'),
+#   exposing strict mode 0600 symlinks for systemd CIFS automounts and services.
+# ==============================================================================
+
 { inputs, ... }:
 
 {
   sops = {
-    # 1. Point to your default secrets file in the repository
+    # 1. Default encrypted secrets payload inside the repository
     defaultSopsFile = "${inputs.self}/secrets/308-secrets.yaml";
     defaultSopsFormat = "yaml";
 
-    # 2. Tell it to look specifically for your new work private key file
+    # 2. Local Age private key path (provisioned via 'bootstrap-age-key' on install)
     age.keyFile = "/var/lib/sops-nix/308-key.txt";
 
-    # 3. Define the secrets to extract and where they should go on the live system
+    # 3. Runtime Secret Extraction Targets
     secrets = {
       "credentials-adminjc" = {
         path = "/etc/nixos/secrets/308-adminjc";

@@ -39,6 +39,7 @@
   # Interactive shell and terminal styling modules
   imports = [
     ./programs/zsh.nix      # Zsh shell, fzf, zoxide, history, and rebuild script
+    ./programs/git-sync.nix # Zsh chpwd auto-fetch & rebase prompt hook
     ./programs/starship.nix # Starship cross-shell prompt (Catppuccin Mocha theme)
   ];
 }
