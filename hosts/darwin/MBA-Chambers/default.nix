@@ -158,27 +158,36 @@
   # While Nix handles CLI binaries, Homebrew provides native macOS GUI applications
   # packaged as .dmg / .app bundles.
   #
-  # WARNING ON CLEANUP:
-  #   'cleanup = "zap"' ensures strict idempotency: any application NOT listed
-  #   in this block will be uninstalled. Always declare user applications here.
+  # SAFETY POLICY ON MBA-Chambers:
+  #   'cleanup = "none"' ensures that NO existing applications, games, or Homebrew
+  #   packages installed on this Mac are ever uninstalled or zapped during rebuilds.
   # ----------------------------------------------------------------------------
   homebrew = {
     enable = true;
-    onActivation.cleanup = "zap"; # Removes unmanaged casks and formulae automatically
+    onActivation.cleanup = "none"; # Never delete/zap existing casks, apps, or formulae
 
-    # GUI Application Bundles (.app)
+    # GUI Application Bundles (.app) — Union of MBA-Chambers existing apps + 308-225660 suite
     casks = [
-      # Core Desktop & Web Browsing
-      "firefox"
-      "google-chrome"
+      # Core Desktop, Editors & Web Browsing (Installed on MBA-Chambers & 308-225660)
       "1password"
       "1password-cli"
-      "ghostty"
-      "zed"
-      "google-drive"
       "adguard"
+      "antigravity-cli"
+      "discord"
+      "firefox"
+      "ghostty"
+      "google-chrome"
+      "google-drive"
+      "visual-studio-code"
+      "zed"
 
-      # Remote Management, File Transfer & Diagnostics
+      # Gaming & Entertainment (MBA-Chambers Specific)
+      "ea"
+      "gog-galaxy"
+      "steam"
+      "spotify"
+
+      # Remote Management, File Transfer & Diagnostics (308-225660 Suite)
       "cyberduck"
       "localsend"
       "raspberry-pi-imager"
@@ -186,13 +195,10 @@
       "tigervnc"
       "wireshark-app"
       "windows-app"
-      "antigravity-cli"
 
       # Virtualization & Multimedia
       "utm"
       "kdenlive"
-      "spotify"
-      "discord"
 
       # Local AI, LLM & Machine Learning Workbenches
       "anythingllm"
@@ -200,11 +206,16 @@
       "lm-studio"
     ];
 
-    # Command-Line Formulae (native Homebrew tools where Nix packages are impractical)
+    # Command-Line Formulae (Preserves existing MBA-Chambers brews + 308-225660 brews)
     brews = [
-      "mas"       # Mac App Store command line interface
-      "wireshark" # Packet dissection engine
-      "tea"       # Gitea command line assistant
+      "dotnet@8"          # Installed on MBA-Chambers (.NET 8 SDK/Runtime)
+      "git"               # Installed on MBA-Chambers
+      "zsh-autocomplete"  # Installed on MBA-Chambers
+      "zsh-autopair"      # Installed on MBA-Chambers
+      "zsh-autosuggestions" # Installed on MBA-Chambers
+      "mas"               # Mac App Store command line interface
+      "wireshark"         # Packet dissection engine
+      "tea"               # Gitea / Codeberg command line assistant
     ];
   };
 

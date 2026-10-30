@@ -18,6 +18,8 @@
         pinentry-curses
         ssh-to-age
         paperkey
+      ] ++ lib.optionals pkgs.stdenv.isDarwin [
+        pinentry_mac
       ];
     }
 
@@ -25,6 +27,7 @@
       programs.gnupg.agent = {
         enable = true;
         enableSSHSupport = true;
+      } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
         pinentryPackage = pkgs.pinentry-curses;
       };
     })
