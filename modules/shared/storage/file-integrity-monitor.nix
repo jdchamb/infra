@@ -7,11 +7,32 @@
 #   'fleet-integrity-check' CLI) across Linux and macOS nodes. Generates and
 #   verifies '.sha256' / 'SHA256SUMS' manifests alongside critical archives,
 #   USB ISO libraries, and NAS cold storage to detect silent bitrot corruption.
+#
+# WHY THIS EXISTS (NOVICE EXPLANATION):
+#   Hard drives, SSDs, and especially USB flash drives can suffer from "bitrot"—
+#   where magnetic or flash cells slowly degrade over months or years, flipping a
+#   single bit inside a large Windows/NixOS installer ISO or backup archive without
+#   changing the file's size or timestamp. If you don't verify checksums, you won't
+#   know a file is corrupted until an emergency restore fails!
+#
+#   This module builds a custom shell command called 'fleet-integrity-check'
+#   powered by 'rhash' (Recursive Hasher):
+#     1. 'fleet-integrity-check init /path/to/folder'
+#        Scans every file in the folder (and subfolders) and writes its digital
+#        fingerprint (SHA-256 hash) into a 'SHA256SUMS' file.
+#     2. 'fleet-integrity-check update /path/to/folder'
+#        Adds hashes for any newly added files without re-hashing unchanged files.
+#     3. 'fleet-integrity-check verify /path/to/folder'
+#        Re-calculates every file's SHA-256 fingerprint and alerts you immediately
+#        if any file has suffered bitrot or unexpected modification.
 # ==============================================================================
 
 { pkgs, ... }:
 
 let
+  # 'pkgs.writeShellScriptBin' compiles an executable bash script directly into
+  # '/nix/store/.../bin/fleet-integrity-check' with its exact dependency paths
+  # (${pkgs.rhash}/bin/rhash) permanently baked in so it can never break.
   fleetIntegrityCheck = pkgs.writeShellScriptBin "fleet-integrity-check" ''
     set -euo pipefail
     ACTION="''${1:-verify}"
@@ -40,6 +61,8 @@ let
   '';
 in
 {
+  # Install both the underlying 'rhash' utility and our 'fleet-integrity-check'
+  # wrapper script globally across all Linux and macOS machines.
   environment.systemPackages = [
     pkgs.rhash
     fleetIntegrityCheck

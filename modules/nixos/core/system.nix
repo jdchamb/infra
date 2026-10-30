@@ -3,18 +3,49 @@
 # ==============================================================================
 #
 # ROLE & ARCHITECTURE:
-#   Defines universal OS parameters shared across every Linux workstation and VM:
-#   timezone (America/Chicago), UTF-8 localization tables, XKB US keyboard layout,
-#   experimental Nix Flake evaluation flags, hard-link store deduplication, and
-#   automated weekly garbage collection so mobile/lab SSDs never run out of space.
+#   Defines universal operating system settings shared across every Linux workstation,
+#   laptop, and virtual machine in the fleet:
+#     - Timezone and UTF-8 internationalization (America/Chicago).
+#     - Standard US keyboard layout mapping.
+#     - Nix Flake evaluation flags and hard-link store deduplication.
+#     - Proprietary package license filtering ('allowUnfree = true').
+#     - Automated weekly Nix garbage collection to preserve SSD disk space.
+#
+# WHY THIS EXISTS (NOVICE EXPLANATION):
+#   - Timezone & Locales: Ensures system clocks, terminal logs, and timestamps
+#     align with USD 308 central time, and guarantees UTF-8 support for special characters.
+#   - Nix Flakes ('experimental-features'): Flakes are the modern standard for
+#     declarative, reproducible Nix systems with pinned dependency lockfiles ('flake.lock').
+#     Nix still classifies them as "experimental", so this setting enables them system-wide.
+#   - Store Optimization ('auto-optimise-store'): When new packages are built or
+#     downloaded, Nix scans for identical binary files and replaces duplicates with
+#     filesystem hardlinks, saving gigabytes of disk space automatically.
+#   - Unfree Packages ('allowUnfree'): By default, Nixpkgs only allows pure open-source
+#     software. Turning this on allows installing proprietary packages like Steam,
+#     Discord, Google Chrome, VS Code, and Intel/Nvidia microcode drivers.
+#   - Garbage Collection ('nix.gc'): Because Nix preserves previous generations so
+#     you can roll back, the '/nix/store' will slowly grow over time. This policy
+#     automatically deletes unused package versions older than 7 days every week.
+#
+# HOW TO USE:
+#   - Included automatically by all NixOS host configurations.
+#   - Manually trigger store deduplication: 'nix-store --optimise'
+#   - Manually run garbage collection right now: 'nix-collect-garbage -d'
 # ==============================================================================
 
 { config, pkgs, ... }:
 
 {
-  # 1. Timezone & UTF-8 Localization Tables
+  # --------------------------------------------------------------------------
+  # 1. Timezone & Localization
+  # --------------------------------------------------------------------------
+  # Set system clock to US Central Time (Hutchinson, KS / USD 308)
   time.timeZone = "America/Chicago";
+
+  # Primary system locale for terminal messages and interface translations
   i18n.defaultLocale = "en_US.UTF-8";
+
+  # Explicit regional formatting settings for currency, dates, measurements, and addresses
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -27,22 +58,33 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # 2. Base X11/Wayland Keyboard Layout Matrix
+  # --------------------------------------------------------------------------
+  # 2. Keyboard Layout
+  # Base XKB configuration applied across X11, Wayland compositors, and virtual consoles
+  # --------------------------------------------------------------------------
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
-  # 3. Nix Daemon & Content-Addressable Store Optimization
+  # --------------------------------------------------------------------------
+  # 3. Nix Package Manager & Store Configuration
+  # --------------------------------------------------------------------------
   nix.settings = {
+    # Enable modern Flake subcommands ('nix build', 'nix flake check', 'nix develop')
     experimental-features = [ "nix-command" "flakes" ];
-    auto-optimise-store = true; # Deduplicates identical files in /nix/store via hardlinks
+
+    # Automatically hard-link identical files in /nix/store to conserve disk space
+    auto-optimise-store = true;
   };
 
-  # Permit proprietary firmware and enterprise packages where required by host profiles
+  # Permit installation of packages with proprietary or unfree licenses (e.g. Chrome, Steam)
   nixpkgs.config.allowUnfree = true;
 
-  # 4. Automated Store Garbage Collection (Prunes generations older than 7 days)
+  # --------------------------------------------------------------------------
+  # 4. Automated Garbage Collection
+  # Deletes unreferenced derivations and builds older than 7 days every week
+  # --------------------------------------------------------------------------
   nix.gc = {
     automatic = true;
     dates = "weekly";

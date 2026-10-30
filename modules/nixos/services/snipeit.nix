@@ -4,24 +4,62 @@
 #
 # ROLE & ARCHITECTURE (USD 308 Projects 3, 11, 25 — 1-to-1 Module for Snipe-IT):
 #   Addresses all three Snipe-IT initiatives:
-#     - Project 3: Toggleable declarative Snipe-IT + MariaDB container stack
-#       ('services.fleet.snipeitServer.enable') to replace the legacy Debian VM.
+#     - Project 3: Declarative Snipe-IT web application + MariaDB database container
+#       stack running via Podman/OCI ('services.fleet.snipeitServer.enable') to
+#       replace the legacy Debian VM.
 #     - Project 11: Installs 'snipeit-export-macs', a CLI script that queries the
 #       Snipe-IT REST API for every hardware asset's Wi-Fi MAC address and outputs
 #       a normalized CSV for RADIUS 'macauth' validation.
 #     - Project 25: Installs 'snipeit-add-ct-mac' to batch-register ClearTouch
-#       wireless module MAC addresses into Snipe-IT asset records.
+#       wireless module MAC addresses into Snipe-IT asset records via REST API.
+#
+# WHY THIS EXISTS (NOVICE EXPLANATION):
+#   Snipe-IT is an IT asset management system used to track computers, monitors,
+#   and hardware accessories. USD 308 uses Snipe-IT to maintain an inventory of
+#   all district devices.
+#   - This module provides two client CLI utility scripts directly to the system
+#     PATH so administrators can automate inventory and RADIUS tasks from the terminal.
+#   - It optionally provides a fully containerized local Snipe-IT server stack
+#     (web UI + MariaDB database) managed declaratively by systemd and Podman.
+#
+# HOW TO USE:
+#   - Client scripts ('snipeit-export-macs', 'snipeit-add-ct-mac') are available
+#     on the command line whenever this module is imported.
+#   - To enable the self-hosted container stack on a server host, set:
+#       services.fleet.snipeitServer.enable = true;
+#   - Web interface: http://<host-ip>:8081
+#   - API Token: Store your API bearer token in /etc/nixos/secrets/snipeit-api-token
+#     or supply via the SNIPE_TOKEN environment variable.
+#   - DB Secrets: Create /etc/nixos/secrets/snipeit-env containing:
+#       MYSQL_ROOT_PASSWORD=<secret>
+#       MYSQL_PASSWORD=<secret>
+#       APP_KEY=base64:<generated-32-byte-key>
+#
+# >>> SECURITY & CONFIGURATION NOTICE <<<
+#   1. The container stack requires '/etc/nixos/secrets/snipeit-env' to exist
+#      before starting, populated with strong passwords and an APP_KEY.
+#   2. Notice: 'snipeit-app' declares both 'ports = [ "8081:80" ]' and
+#      'extraOptions = [ "--network=host" ]'. In host networking mode, Docker/Podman
+#      attaches directly to the host network stack, so internal port 80 would bind
+#      directly to host port 80 unless configured otherwise.
 # ==============================================================================
 
 { config, lib, pkgs, ... }:
 
 let
+  # --------------------------------------------------------------------------
+  # CLI Tool: snipeit-export-macs (Project 11)
+  # Queries Snipe-IT hardware API in pages of 500, extracts Wi-Fi MAC addresses,
+  # normalizes them to lowercase hex (no colons/dashes), and saves to CSV for
+  # import into network switch / RADIUS MAC authentication tables.
+  # --------------------------------------------------------------------------
   snipeitExportMacs = pkgs.writeShellScriptBin "snipeit-export-macs" ''
     set -euo pipefail
     SNIPE_URL="''${SNIPE_URL:-https://assets.usd308.com}"
     SNIPE_TOKEN_FILE="''${SNIPE_TOKEN_FILE:-/etc/nixos/secrets/snipeit-api-token}"
     OUTPUT_CSV="''${1:-./usd308-macauth-export.csv}"
 
+    # Verify API token is present before executing HTTP requests
     if [ ! -f "$SNIPE_TOKEN_FILE" ] && [ -z "''${SNIPE_TOKEN:-}" ]; then
       echo "Error: Provide SNIPE_TOKEN env var or place API token in $SNIPE_TOKEN_FILE"
       exit 1
@@ -34,15 +72,18 @@ let
     OFFSET=0
     LIMIT=500
     while true; do
+      # Fetch paginated JSON list of hardware assets
       RESPONSE=$(${pkgs.curl}/bin/curl -sS -H "Authorization: Bearer $TOKEN" \
         -H "Accept: application/json" \
         "$SNIPE_URL/api/v1/hardware?limit=$LIMIT&offset=$OFFSET")
 
+      # Break when no more records are returned
       COUNT=$(echo "$RESPONSE" | ${pkgs.jq}/bin/jq '.rows | length')
       if [ "$COUNT" -eq 0 ]; then
         break
       fi
 
+      # Parse custom MAC address fields, normalize format, and append to CSV
       echo "$RESPONSE" | ${pkgs.jq}/bin/jq -r '
         .rows[]
         | select(.custom_fields != null)
@@ -75,6 +116,11 @@ let
     echo "==> Export complete: $OUTPUT_CSV ($(wc -l < "$OUTPUT_CSV") lines)"
   '';
 
+  # --------------------------------------------------------------------------
+  # CLI Tool: snipeit-add-ct-mac (Project 25)
+  # Looks up an asset by its USD 308 tag, resolves the Snipe-IT internal ID,
+  # and issues a REST API PATCH request to update its wireless MAC custom field.
+  # --------------------------------------------------------------------------
   snipeitAddCtMac = pkgs.writeShellScriptBin "snipeit-add-ct-mac" ''
     set -euo pipefail
     ASSET_TAG="''${1:-}"
@@ -89,6 +135,7 @@ let
       exit 1
     fi
 
+    # Read token from file if not provided as environment variable
     TOKEN="''${SNIPE_TOKEN:-$(cat "$SNIPE_TOKEN_FILE")}"
     ASSET_ID=$(${pkgs.curl}/bin/curl -sS -H "Authorization: Bearer $TOKEN" \
       -H "Accept: application/json" \
@@ -108,32 +155,42 @@ let
   '';
 in
 {
+  # Declarative toggle option to turn the full container server stack ON or OFF
   options.services.fleet.snipeitServer.enable = lib.mkEnableOption "Self-hosted Snipe-IT OCI container stack (308 Project 3)";
 
   config = {
+    # System packages installed on the host whenever this module is included
     environment.systemPackages = [
-      pkgs.curl
-      pkgs.jq
-      snipeitExportMacs
-      snipeitAddCtMac
+      pkgs.curl          # HTTP client for API queries
+      pkgs.jq            # JSON processor for extracting API response fields
+      snipeitExportMacs  # Custom CSV export CLI tool
+      snipeitAddCtMac    # Custom MAC registration CLI tool
     ];
 
+    # OCI container definition for running Snipe-IT under Podman / systemd
     virtualisation.oci-containers.containers = lib.mkIf config.services.fleet.snipeitServer.enable {
+      # MariaDB database backend container
       "snipeit-db" = {
         image = "mariadb:11.4";
+        # Persist database files to the host filesystem
         volumes = [ "/var/lib/snipeit/db:/var/lib/mysql" ];
         environment = {
           MYSQL_DATABASE = "snipeit";
           MYSQL_USER = "snipeit";
         };
+        # External environment file containing MYSQL_PASSWORD and MYSQL_ROOT_PASSWORD
         environmentFiles = [ "/etc/nixos/secrets/snipeit-env" ];
         autoStart = true;
       };
 
+      # Snipe-IT web application container
       "snipeit-app" = {
         image = "snipe/snipe-it:latest";
+        # Wait for the database container to launch before starting Snipe-IT
         dependsOn = [ "snipeit-db" ];
+        # Port mapping: host 8081 -> container 80
         ports = [ "8081:80" ];
+        # Persist uploaded files, avatars, and application storage
         volumes = [ "/var/lib/snipeit/storage:/var/lib/snipeit" ];
         environment = {
           APP_ENV = "production";
@@ -144,12 +201,14 @@ in
           MYSQL_DATABASE = "snipeit";
           MYSQL_USER = "snipeit";
         };
+        # External environment file containing APP_KEY and database secrets
         environmentFiles = [ "/etc/nixos/secrets/snipeit-env" ];
         extraOptions = [ "--network=host" ];
         autoStart = true;
       };
     };
 
+    # Declarative directory creation with strict permissions (0750 = read/write for root/owner only)
     systemd.tmpfiles.rules = lib.mkIf config.services.fleet.snipeitServer.enable [
       "d /var/lib/snipeit/db 0750 root root -"
       "d /var/lib/snipeit/storage 0750 root root -"

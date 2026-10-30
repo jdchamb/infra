@@ -2,20 +2,51 @@
 # NIXOS CORE MODULE: modules/nixos/core/bootstrap.nix (Zero-Touch ISO Engine)
 # ==============================================================================
 #
-# ROLE & ARCHITECTURE (Personal Projects 1 & 20):
-#   Provides headless SSH orchestration, automated Codeberg repository cloning,
-#   and helper scripts ('bootstrap-age-key' and 'bootstrap-install') for live ISO
-#   environments. Allows you to boot a bare-metal machine from USB, connect over
-#   SSH, inject the runtime SOPS 'age' private key into the target disk's
-#   '/var/lib/sops-nix/308-key.txt' before first boot, and execute a zero-touch
-#   Disko + NixOS installation.
+# ROLE & ARCHITECTURE (Personal Projects 1 & 20 — Bare-Metal Automation Engine):
+#   Provides headless SSH orchestration, automated Codeberg repository fetching,
+#   and pre-baked installation CLI helpers ('bootstrap-age-key' and 'bootstrap-install')
+#   for live installation and recovery ISO images.
+#   Allows booting any physical x86_64 machine from a flash drive, connecting remotely
+#   over SSH via public key authentication, staging the host's SOPS Age private key,
+#   and executing automated Disko partitioning and NixOS system deployment.
+#
+# WHY THIS EXISTS (NOVICE EXPLANATION):
+#   Installing a traditional Linux distribution involves clicking through graphical
+#   installers, manually partitioning disks, and typing usernames.
+#   With NixOS and this bootstrap module:
+#     - You plug a USB stick into a new laptop or server and power it on.
+#     - The ISO boots headless and automatically starts an SSH server.
+#     - Because your administrative SSH public key is pre-authorized, you can SSH
+#       straight into the machine from your workstation without needing a monitor
+#       or keyboard attached to the target machine.
+#     - 'bootstrap-install' partitions the drive declaratively via Disko, installs
+#       the target NixOS Flake profile, and preps the system for clean reboot.
+#
+# HOW TO USE:
+#   1. Boot target machine from the custom installer ISO (see 'hosts/nixos/installer/').
+#   2. Find its IP on the network (or via DHCP lease tables).
+#   3. Connect over SSH:
+#        ssh nixos@<target-ip>
+#   4. Run the automated installer:
+#        bootstrap-install 308-222242
+#   5. When prompted, inject the host's Age private key using 'bootstrap-age-key /mnt'.
+#   6. Reboot into your finished NixOS installation!
+#
+# >>> DISCREPANCY & REPOSITORY NOTICE <<<
+#   Line 103 and 110 reference 'https://codeberg.org/jchambers-codeberg/infra.git'.
+#   If your Codeberg username is 'jdchambers', verify whether the remote repository
+#   is 'jdchambers/infra' or 'jchambers-codeberg/infra' before running offline clones.
 # ==============================================================================
 
 { config, lib, pkgs, ... }:
 
 let
-  # Helper script to stage an Age private key onto a newly mounted target system
-  # before running nixos-install, ensuring SOPS secrets decrypt cleanly on first boot.
+  # --------------------------------------------------------------------------
+  # CLI Helper: bootstrap-age-key
+  # Prompts the administrator to paste the host's Age private secret key and writes
+  # it directly to the target filesystem with strict 0600 permissions so that
+  # sops-nix can decrypt drive credentials and passwords on the first boot.
+  # --------------------------------------------------------------------------
   bootstrapAgeKey = pkgs.writeShellScriptBin "bootstrap-age-key" ''
     set -euo pipefail
     TARGET_MNT="''${1:-/mnt}"
@@ -31,7 +62,11 @@ let
     echo "==> Age key secured with mode 0600 at $KEY_DEST"
   '';
 
-  # Helper script to partition via Disko, stage keys, and install a target host profile
+  # --------------------------------------------------------------------------
+  # CLI Helper: bootstrap-install
+  # Executes Disko to wipe and partition the drive according to declarative disk
+  # specifications, checks for the presence of the SOPS Age key, and runs nixos-install.
+  # --------------------------------------------------------------------------
   bootstrapInstall = pkgs.writeShellScriptBin "bootstrap-install" ''
     set -euo pipefail
     HOST_TARGET="''${1:-}"
@@ -44,6 +79,7 @@ let
     fi
 
     echo "==> [1/3] Running Disko declarative partitioning for #$HOST_TARGET..."
+    # CAUTION: Running Disko will erase all partition tables on the target drive!
     sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
       --mode disko --flake "$REPO_DIR#$HOST_TARGET"
 
@@ -55,34 +91,48 @@ let
     fi
 
     echo "==> [3/3] Installing NixOS configuration #$HOST_TARGET..."
+    # nixos-install compiles the toplevel system derivation and copies store paths to /mnt
     sudo nixos-install --no-root-passwd --flake "$REPO_DIR#$HOST_TARGET"
     echo "==> Installation complete! Safe to reboot."
   '';
 
+  # Administrative public key. Public keys are cryptographically safe to store in Git.
   sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg";
 in
 {
-  # 1. Headless SSH Daemon for Remote Bootstrap Control (Project 1)
+  # --------------------------------------------------------------------------
+  # 1. OpenSSH Remote Management Daemon
+  # --------------------------------------------------------------------------
   services.openssh = {
     enable = true;
     settings = {
+      # Allow root login during initial ISO rescue/bootstrap operations
       PermitRootLogin = lib.mkDefault "yes";
+      # Disallow insecure password logins; require SSH public key authentication
       PasswordAuthentication = lib.mkDefault false;
     };
   };
 
-  # 2. Bake Authorized SSH Keys into Live Session & Root Accounts
+  # --------------------------------------------------------------------------
+  # 2. Pre-Authorized SSH Public Keys
+  # Bakes the administrative SSH public key into standard accounts in the ISO
+  # --------------------------------------------------------------------------
   users.users.nixos.openssh.authorizedKeys.keys = [ sshPubKey ];
   users.users.root.openssh.authorizedKeys.keys = [ sshPubKey ];
   users.users.jchambers.openssh.authorizedKeys.keys = [ sshPubKey ];
 
-  # 3. Install Bootstrap Automation Scripts into System PATH
+  # --------------------------------------------------------------------------
+  # 3. Automation Scripts
+  # --------------------------------------------------------------------------
   environment.systemPackages = [
     bootstrapAgeKey
     bootstrapInstall
   ];
 
-  # 4. Automated Git Repository Cloning Service on Startup (Project 20)
+  # --------------------------------------------------------------------------
+  # 4. Auto-Clone Service
+  # Runs once network is online to clone the latest infrastructure code
+  # --------------------------------------------------------------------------
   systemd.services.clone-infra-repo = {
     description = "Auto-clone declarative infrastructure repository from Codeberg on startup";
     after = [ "network-online.target" ];
@@ -105,7 +155,9 @@ in
     '';
   };
 
-  # 5. Interactive Bootstrap Shorthand Alias
+  # --------------------------------------------------------------------------
+  # 5. Shell Helper Alias
+  # --------------------------------------------------------------------------
   environment.shellAliases = {
     bootstrap-fetch = "git clone https://codeberg.org/jchambers-codeberg/infra.git ~/src/infra";
   };

@@ -1,45 +1,80 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+# ==============================================================================
+# WINGET DSC MANIFEST: modules/windows/winget/packages.work.yaml
+# ==============================================================================
+#
+# ROLE & ARCHITECTURE:
+#   Declarative package manifest consumed by 'winget configure' on Windows 11
+#   workstations (invoked by 'modules/windows/scripts/bootstrap.ps1').
+#
+# WHY THIS EXISTS (NOVICE EXPLANATION):
+#   Instead of manually visiting 8 different websites to download .exe/.msi
+#   installers on a new Windows workstation, this YAML file lists the exact
+#   WinGet package IDs we want installed. Running 'winget configure -f' against
+#   this file brings a fresh Windows 11 installation up to parity with our
+#   Linux and macOS workstations automatically.
+# ==============================================================================
+
 properties:
   configurationVersion: 0.2.0
   resources:
+    # --- 1. Core Archive & Compression Utility ---
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       directives:
-        description: Install Core System Utilities
+        description: Install Core System Utilities (7-Zip for .7z, .tar, .xz, .wim inspection)
         allowPrerelease: false
       settings:
         id: 7zip.7zip
         source: winget
+
+    # --- 2. Version Control & Terminal Emulator ---
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       directives:
-        description: Install Version Control & Terminal
+        description: Install Git for Windows (Git Bash, SSH, and credential helper)
       settings:
         id: Git.Git
         source: winget
+
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Microsoft Windows Terminal (modern tabbed GPU terminal)
       settings:
         id: Microsoft.WindowsTerminal
         source: winget
+
+    # --- 3. Security & Web Browsers ---
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       directives:
-        description: Install Password Manager & Web Browser
+        description: Install 1Password Desktop Password & SSH Agent Manager
       settings:
         id: AgileBits.1Password
         source: winget
+
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Mozilla Firefox Web Browser
       settings:
         id: Mozilla.Firefox
         source: winget
+
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Google Chrome Web Browser
       settings:
         id: Google.Chrome
         source: winget
+
+    # --- 4. Developer Editor & Shell Prompt ---
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       directives:
-        description: Install Developer Tooling
+        description: Install Neovim Modal Text Editor (matches Linux/macOS fleet editor)
       settings:
         id: Neovim.Neovim
         source: winget
+
     - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Starship Cross-Shell Prompt (matches Linux/macOS prompt)
       settings:
         id: Starship.Starship
         source: winget
