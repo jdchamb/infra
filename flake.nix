@@ -230,15 +230,13 @@
       };
 
       # ------------------------------------------------------------------------
-      # NODE 6: MBA-Chambers (and aliases: mba-jchambers, MBA-jchambers, mba-chambers)
+      # NODE 6: MBA-Chambers (alias: mba-jchambers)
       # Personal / Portable Apple Silicon MacBook Air (aarch64-darwin)
       # Mirrors 308-225660 with nix-darwin defaults, declarative Homebrew,
       # and Apple Virtualization.framework Linux builder.
       # ------------------------------------------------------------------------
       "MBA-Chambers"  = mbaConfig;
       "mba-jchambers" = mbaConfig;
-      "MBA-jchambers" = mbaConfig;
-      "mba-chambers"  = mbaConfig;
     };
   };
 }
