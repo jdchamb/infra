@@ -40,6 +40,7 @@
   imports = [
     ./programs/zsh.nix      # Zsh shell, fzf, zoxide, history, and rebuild script
     ./programs/git-sync.nix # Zsh chpwd auto-fetch & rebase prompt hook
+    ./programs/git-tools.nix # Git difftool/mergetool (nvimdiff)
     ./programs/starship.nix # Starship cross-shell prompt (Catppuccin Mocha theme)
   ];
 }
