@@ -212,7 +212,12 @@
     # ==========================================================================
     # NIX-DARWIN HOST CONFIGURATIONS (macOS)
     # ==========================================================================
-    darwinConfigurations = {
+    darwinConfigurations = let
+      mbaConfig = mkDarwin {
+        system = "aarch64-darwin";
+        modules = [ ./hosts/darwin/MBA-Chambers ];
+      };
+    in {
       # ------------------------------------------------------------------------
       # NODE 5: 308-225660
       # Primary Work Apple Silicon MacBook (aarch64-darwin)
@@ -225,15 +230,15 @@
       };
 
       # ------------------------------------------------------------------------
-      # NODE 6: MBA-Chambers
+      # NODE 6: MBA-Chambers (and aliases: mba-jchambers, MBA-jchambers, mba-chambers)
       # Personal / Portable Apple Silicon MacBook Air (aarch64-darwin)
       # Mirrors 308-225660 with nix-darwin defaults, declarative Homebrew,
       # and Apple Virtualization.framework Linux builder.
       # ------------------------------------------------------------------------
-      "MBA-Chambers" = mkDarwin {
-        system = "aarch64-darwin";
-        modules = [ ./hosts/darwin/MBA-Chambers ];
-      };
+      "MBA-Chambers"  = mbaConfig;
+      "mba-jchambers" = mbaConfig;
+      "MBA-jchambers" = mbaConfig;
+      "mba-chambers"  = mbaConfig;
     };
   };
 }
