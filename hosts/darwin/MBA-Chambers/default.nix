@@ -179,7 +179,6 @@
       "google-chrome"
       "google-drive"
       "visual-studio-code"
-      "zed"
 
       # Gaming & Entertainment (MBA-Chambers Specific)
       "ea"
@@ -189,11 +188,9 @@
 
       # Remote Management, File Transfer & Diagnostics (308-225660 Suite)
       "cyberduck"
-      "localsend"
-      "raspberry-pi-imager"
+      "raspberry-pi-imager" # Kept in Homebrew (Nixpkgs marked badPlatform on aarch64-darwin)
       "teamviewer"
       "tigervnc"
-      "wireshark-app"
       "windows-app"
 
       # Virtualization & Multimedia
@@ -206,28 +203,31 @@
       "lm-studio"
     ];
 
-    # Command-Line Formulae (Preserves existing MBA-Chambers brews + 308-225660 brews)
+    # Command-Line Formulae (Preserves existing MBA-Chambers brews; mas, wireshark, tea migrated to Nixpkgs)
     brews = [
       "dotnet@8"          # Installed on MBA-Chambers (.NET 8 SDK/Runtime)
       "git"               # Installed on MBA-Chambers
       "zsh-autocomplete"  # Installed on MBA-Chambers
       "zsh-autopair"      # Installed on MBA-Chambers
       "zsh-autosuggestions" # Installed on MBA-Chambers
-      "mas"               # Mac App Store command line interface
-      "wireshark"         # Packet dissection engine
-      "tea"               # Gitea / Codeberg command line assistant
     ];
   };
 
   # ----------------------------------------------------------------------------
-  # 6. SYSTEM-LEVEL CLI TOOLING (Managed via Nix)
+  # 6. SYSTEM-LEVEL CLI & DESKTOP TOOLING (Managed via Nix)
   # ----------------------------------------------------------------------------
   # Core toolchain available globally across all terminal sessions and users.
   # ----------------------------------------------------------------------------
   environment.systemPackages = with pkgs; [
-    # Core Editors & Version Control
+    # Core Editors, IDEs & Version Control
     vim
     git
+    zed-editor  # Swapped from Homebrew cask to pure Nixpkgs
+
+    # Desktop Utilities & Networking (Swapped from Homebrew to pure Nixpkgs)
+    localsend
+    mas
+    wireshark
 
     # System Status, Prompt & Information
     starship

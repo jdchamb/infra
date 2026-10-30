@@ -173,17 +173,14 @@
       "1password"
       "1password-cli"
       "ghostty"
-      "zed"
       "google-drive"
       "adguard"
 
       # Remote Management, File Transfer & Diagnostics
       "cyberduck"
-      "localsend"
-      "raspberry-pi-imager"
+      "raspberry-pi-imager" # Kept in Homebrew (Nixpkgs marked badPlatform on aarch64-darwin)
       "teamviewer"
       "tigervnc"
-      "wireshark-app"
       "windows-app"
       "antigravity-cli"
 
@@ -199,23 +196,25 @@
       "lm-studio"
     ];
 
-    # Command-Line Formulae (native Homebrew tools where Nix packages are impractical)
-    brews = [
-      "mas"       # Mac App Store command line interface
-      "wireshark" # Packet dissection engine
-      "tea"       # Gitea command line assistant
-    ];
+    # Command-Line Formulae (Native Homebrew tools — all eligible CLI tools migrated to Nixpkgs)
+    brews = [];
   };
 
   # ----------------------------------------------------------------------------
-  # 6. SYSTEM-LEVEL CLI TOOLING (Managed via Nix)
+  # 6. SYSTEM-LEVEL CLI & DESKTOP TOOLING (Managed via Nix)
   # ----------------------------------------------------------------------------
   # Core toolchain available globally across all terminal sessions and users.
   # ----------------------------------------------------------------------------
   environment.systemPackages = with pkgs; [
-    # Core Editors & Version Control
+    # Core Editors, IDEs & Version Control
     vim
     git
+    zed-editor  # Swapped from Homebrew cask to pure Nixpkgs
+
+    # Desktop Utilities & Networking (Swapped from Homebrew to pure Nixpkgs)
+    localsend
+    mas
+    wireshark
 
     # System Status, Prompt & Information
     starship
