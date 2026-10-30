@@ -48,6 +48,7 @@ flowchart TD
         B2["BorgBackup (Client & Server fleet backups)"]
         B3["NUT (Network UPS Tools) Power Management"]
         B4["Bcachefs / XFS / MDADM Evaluation"]
+        B5["File Integrity & Checksum Health Monitor (Bitrot / ISO / Archive verifier)"]
     end
 
     subgraph CoreCloud ["Phase 3: Self-Hosted Core Cloud"]
@@ -95,6 +96,7 @@ flowchart TD
   * `modules/nixos/hardware/disko-btrfs.nix`: Declarative Disko layout using Btrfs subvolumes (`@root`, `@nix`, `@home`, `@snapshots`, `@swap`) with zstd compression to maximize Nix store speed and deduplication.
   * `modules/nixos/services/backup-borg.nix`: Declarative BorgBackup jobs targeting local NAS shares or remote repositories with Age-encrypted credentials.
   * `modules/nixos/services/nut.nix`: Network UPS Tools (NUT) monitoring daemon for battery backup telemetry and automated graceful shutdown.
+  * `modules/shared/storage/file-integrity-monitor.nix` (and custom CLI/daemon project): Automated checksum verification & bitrot health monitor that tracks `.sha256` / `.md5` / `SHA256SUMS` manifests alongside files (such as Soundstone USB ISO libraries, NAS archives, and cold storage) to periodically verify every file stays healthy and alert on silent corruption.
 
 ### Phase 3: Core Homelab Cloud & Productivity Services
 * **Goal**: Enable self-hosted infrastructure services.

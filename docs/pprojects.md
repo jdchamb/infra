@@ -31,6 +31,7 @@
 * **Project 24:** Find a way to support codeberg and nixos. Host server or mirrors or something. I want to give back.
 * **Project 25:** Have Gemini prepare better comments for all of my nix configurations
 * **Project 26:** Add kate snippets + they're shortcuts to work with nix declarations in de-plasma.nix
+* **Project 27:** Build a File Integrity & Checksum Health Monitor tool/daemon that reads sidecar `.sha256`/`.md5` and `SHA256SUMS`/`MD5SUMS` files (e.g., on Soundstone drives and NAS storage) to continuously verify file health and detect bitrot or corruption early.
 
 ---
 
