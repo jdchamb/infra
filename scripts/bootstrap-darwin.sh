@@ -30,6 +30,22 @@
 #   -o pipefail: Pipeline return status is the value of the last non-zero exit command
 set -euo pipefail
 
+# Prevent running directly with 'sudo':
+# nix-darwin must run in the user's login environment so that Home Manager
+# targets $HOME (/Users/jchambers) rather than root (/var/root).
+# nix-darwin will automatically prompt for sudo when writing system files.
+if [ "$(id -u)" -eq 0 ]; then
+  echo "=================================================================="
+  echo "  ERROR: Do not run this script as root (e.g. 'sudo $0')."
+  echo "  Run it as your standard user. nix-darwin will prompt for sudo"
+  echo "  internally when escalating to write system files."
+  echo "=================================================================="
+  exit 1
+fi
+
+# Pre-authenticate sudo timestamp to avoid silent timeouts
+sudo -v
+
 # Redirect both standard output (stdout) and standard error (stderr) to /tmp/bootstrap-darwin.log
 # while simultaneously echoing output live to the terminal console (using 'tee')
 LOG_FILE="/tmp/bootstrap-darwin.log"
@@ -70,15 +86,20 @@ fi
 # Ensure Nix binaries are present in PATH for subsequent commands in this script
 export PATH="/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:$PATH"
 
+# Enable Nix Flakes & nix-command via environment variable
+# This ensures Nix commands succeed even while /etc/nix/nix.conf is in transition
+export NIX_CONFIG="experimental-features = nix-command flakes"
+
 # ------------------------------------------------------------------------------
-# 2. PREPARE /etc SHELL FILES FOR NIX-DARWIN ACTIVATION
+# 2. PREPARE /etc CONFIGURATION FILES FOR NIX-DARWIN ACTIVATION
 # ------------------------------------------------------------------------------
-# nix-darwin links its own version of /etc/zshrc and /etc/bashrc. If Apple's original
-# plain files exist, nix-darwin will abort with an error to prevent overwriting them.
+# nix-darwin links its own version of system files (/etc/bashrc, /etc/zshrc,
+# /etc/nix/nix.conf, /etc/pam.d/sudo_local). If Apple's original files or previous
+# unmanaged configs exist as regular files, nix-darwin aborts with a collision error.
 # We safely rename any non-symlink file with a '.before-nix-darwin' suffix.
-echo "==> [2/3] Preparing /etc shell configuration backups for nix-darwin..."
-for etc_file in /etc/bashrc /etc/zshrc /etc/bash.bashrc; do
-  if [ -f "$etc_file" ] && [ ! -L "$etc_file" ]; then
+echo "==> [2/3] Preparing /etc configuration backups for nix-darwin..."
+for etc_file in /etc/bashrc /etc/zshrc /etc/bash.bashrc /etc/nix/nix.conf /etc/pam.d/sudo_local; do
+  if [ -e "$etc_file" ] && [ ! -L "$etc_file" ]; then
     echo "    Moving existing $etc_file to ${etc_file}.before-nix-darwin"
     sudo mv "$etc_file" "${etc_file}.before-nix-darwin"
   fi
@@ -90,15 +111,19 @@ done
 echo "==> [3/3] Building and activating nix-darwin configuration (.#${TARGET_HOST})..."
 cd "$FLAKE_DIR"
 
+# IMPORTANT: Do NOT invoke these commands with 'sudo'!
+# Running as standard user preserves $HOME for Home Manager.
+# darwin-rebuild / nix-darwin will prompt for sudo when activating system files.
+
 # Case A: darwin-rebuild is already installed on the system PATH
 if command -v darwin-rebuild &>/dev/null; then
-  sudo darwin-rebuild switch --flake "${FLAKE_DIR}#${TARGET_HOST}"
-# Case B: darwin-rebuild was compiled into the Flake result build folder
+  darwin-rebuild switch --flake "${FLAKE_DIR}#${TARGET_HOST}"
+# Case B: darwin-rebuild was pre-compiled into the Flake result build folder
 elif [ -x "${FLAKE_DIR}/result/sw/bin/darwin-rebuild" ]; then
-  sudo "${FLAKE_DIR}/result/sw/bin/darwin-rebuild" switch --flake "${FLAKE_DIR}#${TARGET_HOST}"
+  "${FLAKE_DIR}/result/sw/bin/darwin-rebuild" switch --flake "${FLAKE_DIR}#${TARGET_HOST}"
 # Case C: First run: bootstrap using 'nix run nix-darwin'
 else
-  sudo /nix/var/nix/profiles/default/bin/nix \
+  nix \
     --extra-experimental-features "nix-command flakes" \
     run nix-darwin -- switch --flake "${FLAKE_DIR}#${TARGET_HOST}"
 fi

@@ -26,6 +26,7 @@ This document tracks the exact hardware architecture, storage topology, cryptogr
 
 ## 2. `308-225660` & `MBA-Chambers` — Apple Silicon MacBooks
 - **Entrypoints:** [`hosts/darwin/308-225660/default.nix`](../hosts/darwin/308-225660/default.nix) & [`hosts/darwin/MBA-Chambers/default.nix`](../hosts/darwin/MBA-Chambers/default.nix)
+- **Bootstrap Automation & Runbook:** [`scripts/bootstrap-darwin.sh`](../scripts/bootstrap-darwin.sh) & [`docs/darwin-bootstrap-runbook.md`](./darwin-bootstrap-runbook.md)
 - **Architecture:** `aarch64-darwin` (Apple Silicon M-Series, macOS 27.0.1+)
 - **Management Engine:** `nix-darwin` + `home-manager` + `nix-homebrew` + native `nix.linux-builder` (Virtualization.framework compiling both `aarch64-linux` and `x86_64-linux`).
 - **Shared 1-to-1 Modules:**
