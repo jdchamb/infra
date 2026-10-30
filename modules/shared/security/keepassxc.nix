@@ -19,7 +19,7 @@
 
 {
   # Install KeePassXC on Linux/NixOS nodes (macOS GUI apps are managed via Homebrew)
-  environment.systemPackages = lib.optionals (!pkgs.stdenv.isDarwin) [
+  environment.systemPackages = lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
     pkgs.keepassxc
   ];
 }

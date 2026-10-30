@@ -199,7 +199,7 @@
 
       # Local AI, LLM & Machine Learning Workbenches
       "anythingllm"
-      "ollama"
+      "ollama-app"
       "lm-studio"
     ];
 

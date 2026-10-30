@@ -24,7 +24,7 @@
     username = "jchambers";
 
     # Dynamic path detection: macOS places homes in /Users, Linux in /home
-    homeDirectory = if pkgs.stdenv.isDarwin then "/Users/jchambers" else "/home/jchambers";
+    homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/jchambers" else "/home/jchambers";
 
     # Home Manager state version (determines compatibility defaults)
     stateVersion = "24.11";

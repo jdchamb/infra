@@ -16,7 +16,7 @@
 
 {
   # Only install the Nix package on Linux nodes (macOS uses Homebrew Cask)
-  environment.systemPackages = lib.optionals (!pkgs.stdenv.isDarwin) [
+  environment.systemPackages = lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
     pkgs.ghostty
   ];
 

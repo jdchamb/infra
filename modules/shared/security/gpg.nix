@@ -32,7 +32,7 @@
         pinentry-curses # Terminal-based PIN/passphrase dialog (works over SSH)
         ssh-to-age      # Bridges SSH Ed25519 keys with SOPS/Age secret files
         paperkey        # Printable disaster-recovery backup generator for private keys
-      ] ++ lib.optionals pkgs.stdenv.isDarwin [
+      ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
         pinentry_mac    # Native macOS Keychain-integrated GUI passphrase dialog
       ];
     }
@@ -44,7 +44,7 @@
         # Allow gpg-agent to act as an ssh-agent so hardware PGP authentication
         # subkeys can also authenticate SSH connections (e.g. to Codeberg/servers)
         enableSSHSupport = true;
-      } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+      } // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
         # Note: 'pinentryPackage' is a NixOS-specific module option; nix-darwin
         # does not define this option, so we guard it with '!pkgs.stdenv.isDarwin'.
         pinentryPackage = pkgs.pinentry-curses;

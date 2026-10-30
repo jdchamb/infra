@@ -23,7 +23,7 @@
 
 {
   # Install the RustDesk Flutter desktop client on Linux/NixOS machines
-  environment.systemPackages = lib.optionals (!pkgs.stdenv.isDarwin) [
+  environment.systemPackages = lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
     pkgs.rustdesk-flutter
   ];
 }

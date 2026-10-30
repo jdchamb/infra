@@ -115,7 +115,7 @@
     #   pamu2fcfg -n >> ~/.config/Yubico/u2f_keys  # each additional/backup key
     # NOTE: pam_u2f defaults origin to pam://<hostname>, so re-run pamu2fcfg
     # if the hostname changes.
-    (lib.mkIf pkgs.stdenv.isDarwin {
+    (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
       security.pam.services.sudo_local = {
         touchIdAuth = true;
         reattach = true;
