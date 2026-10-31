@@ -14,7 +14,7 @@
 #   server so screen streams never leave our controlled network.
 #
 # PLATFORM NOTE:
-#   We guard the Nixpkgs package with 'lib.optionals (!pkgs.stdenv.isDarwin)'
+#   We guard the Nixpkgs package with 'lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin)'
 #   because the Flutter GUI package in Nixpkgs targets Linux X11/Wayland, while
 #   macOS hosts install native GUI bundles via Homebrew Casks.
 # ==============================================================================

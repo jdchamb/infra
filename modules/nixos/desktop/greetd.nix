@@ -50,7 +50,7 @@
   # --------------------------------------------------------------------------
   # 2. Visual Theme & Typography (ReGreet)
   # --------------------------------------------------------------------------
-  programs.regreet = {
+  services.displayManager.regreet = {
     enable = true;
 
     # GTK visual theme applied to login boxes and dropdowns

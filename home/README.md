@@ -28,7 +28,7 @@ home-manager.users.jchambers = import ./home;
 Because macOS and Linux use different filesystem conventions for home directories, `home/default.nix` dynamically evaluates the correct path at build time:
 
 ```nix
-homeDirectory = if pkgs.stdenv.isDarwin then "/Users/jchambers" else "/home/jchambers";
+homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/jchambers" else "/home/jchambers";
 ```
 
 This guarantees that all dotfiles (`~/.config/`, shell configs, prompt configurations) are linked to the correct location regardless of whether you are sitting at a MacBook, a Linux workstation, or an SSH session into a VM.

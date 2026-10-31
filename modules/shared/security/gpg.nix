@@ -46,7 +46,7 @@
         enableSSHSupport = true;
       } // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
         # Note: 'pinentryPackage' is a NixOS-specific module option; nix-darwin
-        # does not define this option, so we guard it with '!pkgs.stdenv.isDarwin'.
+        # does not define this option, so we guard it with '!pkgs.stdenv.hostPlatform.isDarwin'.
         pinentryPackage = pkgs.pinentry-curses;
       };
     })
