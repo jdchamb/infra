@@ -56,6 +56,10 @@
 
     # nix-flatpak: Declarative Flatpak application deployment for Linux desktops
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    # Lanzaboote: Declarative UEFI Secure Boot for NixOS
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.2.0";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   # ----------------------------------------------------------------------------
@@ -73,6 +77,7 @@
       inherit system;
       specialArgs = { inherit inputs; };
       modules = modules ++ [
+        inputs.lanzaboote.nixosModules.lanzaboote
         home-manager.nixosModules.home-manager
         {
           # Integrate user packages directly into system-level package tracking
@@ -219,6 +224,21 @@
         modules = [
           inputs.disko.nixosModules.disko
           (import ./hosts/nixos/nuc-game01 { hostName = "nuc-game01"; })
+        ];
+      };
+
+      # ------------------------------------------------------------------------
+      # NODE 11: m920q-01
+      # Lenovo ThinkCentre M920q Tiny + ThinkServer SA120 12-Bay DAS
+      # Hardened storage appliance running OpenZFS dual-vdev RAIDZ2 ('tank',
+      # 2x 6-disk vdevs), automated weekly scrubs, Sanoid local snapshots,
+      # and hardened Samba file sharing.
+      # ------------------------------------------------------------------------
+      "m920q-01" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/m920q-01 { hostName = "m920q-01"; })
         ];
       };
     };

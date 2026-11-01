@@ -25,3 +25,5 @@ result-*
 
 # --- AI & Repository Tooling Exports ---
 repomix-output.xml
+__pycache__/
+*.pyc

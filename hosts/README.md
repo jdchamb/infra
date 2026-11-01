@@ -21,6 +21,10 @@ hosts/
 │   │   └── default.nix         # VirtIO paravirtualization, SPICE, QEMU agent
 │   ├── lab-probook/            # 5-Node HP ProBook Validation Lab (lab-pb01 .. lab-pb05)
 │   │   └── default.nix         # Parameterized clamshell lab node definition
+│   ├── nuc-game01/             # Intel NUC 7 Sandboxed Game Server Appliance (x86_64-linux)
+│   │   └── default.nix         # Containerized Minecraft, Palworld, Terraria, OliveTin
+│   ├── m920q-01/               # Lenovo M920q + SA120 DAS Storage Appliance (x86_64-linux)
+│   │   └── default.nix         # OpenZFS dual-vdev RAIDZ2 ('tank'), SES fan control, Samba
 │   └── installer/              # Bootable Live ISO Definitions
 │       ├── bootstrap-iso.nix   # Headless minimal console installer
 │       └── recovery-iso.nix    # Full graphical rescue USB with partitioning tools

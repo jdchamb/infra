@@ -35,15 +35,19 @@
 #   - Check current running kernel version: 'uname -r'
 # ==============================================================================
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
+  imports = [
+    ./secureboot.nix
+  ];
+
   # --------------------------------------------------------------------------
   # 1. Linux Kernel Selection
   # Tracks the newest stable mainline Linux kernel from Nixpkgs for up-to-date
   # hardware support, Intel CPU schedulers, and wireless chipset drivers.
   # --------------------------------------------------------------------------
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
   # --------------------------------------------------------------------------
   # 2. Kernel Command-Line Parameters
