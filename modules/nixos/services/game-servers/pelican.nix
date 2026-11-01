@@ -2,82 +2,89 @@
 # NIXOS SERVICE MODULE: modules/nixos/services/game-servers/pelican.nix (Pelican)
 # ==============================================================================
 #
-# ROLE & ARCHITECTURE (Fleet Services Roadmap Phase 5 — 1-to-1 Module for Pelican):
-#   Deploys the Pelican Panel container ('pelican-panel'), the modern open-source
-#   successor to Pterodactyl Panel, used for orchestrating, isolating, and managing
-#   containerized game server instances (Minecraft, Palworld, Terraria, etc.)
-#   through an intuitive web management dashboard on port 8084.
+# ROLE & ARCHITECTURE (Fleet Services Roadmap Phase 5 — Pelican Panel):
+#   Deploys Pelican Panel ('ghcr.io/pelican-dev/panel') on port 8084.
+#   Pelican is the modern open-source successor to Pterodactyl Panel, providing
+#   an interactive web management dashboard with real-time in-game console
+#   execution, player management, and CPU/RAM graphs.
 #
 # WHY THIS EXISTS (NOVICE EXPLANATION):
-#   Running multiple dedicated game servers manually can get messy: each server
-#   needs its own ports, files, Java/Node versions, and backup schedules.
-#   Pelican provides a unified web control panel where administrators and players
-#   can start, stop, monitor CPU/RAM usage, edit config files, and view real-time
-#   console logs for any game server running on the machine.
-#   - 'virtualisation.docker.enable = true' ensures Docker is running, which Pelican
-#     Wings uses to spin up sandboxed game instances.
-#   - 'ghcr.io/pelican-dev/panel' runs the web UI and API.
-#   - Persistent data is stored in '/var/lib/pelican/'.
+#   While OliveTin provides simple 1-click on/off buttons for your son, Pelican
+#   is a full gaming administration panel. It gives server operators a web-based
+#   terminal to run in-game commands (e.g. '/gamemode creative', '/op player',
+#   '/time set day') without needing SSH terminal access.
 #
 # HOW TO USE:
-#   - Importing this module turns the Pelican Panel container ON immediately.
+#   - Enable via:
+#       services.fleet.game-servers.gui.pelican.enable = true;
 #   - Web interface: http://<host-ip>:8084
 #   - Wings daemon communication port: 8443
 #   - First-run setup: Enter the container to create your initial administrator account:
-#       docker exec -it pelican-panel php artisan p:user:make
-#
-# >>> PORT & RUNTIME NOTES <<<
-#   - Web UI is mapped to host port 8084 (container port 80).
-#   - Port 8443 is opened in the firewall for incoming SSL communication from Wings.
+#       podman exec -it pelican-panel php artisan p:user:make
 # ==============================================================================
 
 { config, lib, pkgs, ... }:
 
+let
+  parentCfg = config.services.fleet.game-servers;
+  cfg = parentCfg.gui.pelican;
+in
 {
-  # --------------------------------------------------------------------------
-  # Docker Daemon
-  # Pelican requires the Docker engine to spawn and isolate individual game servers.
-  # --------------------------------------------------------------------------
-  virtualisation.docker.enable = true;
+  options.services.fleet.game-servers.gui.pelican = {
+    enable = lib.mkEnableOption "Pelican Game Server Management Panel & Wings";
 
-  # --------------------------------------------------------------------------
-  # OCI Container Definition: Pelican Panel Web Dashboard
-  # --------------------------------------------------------------------------
-  virtualisation.oci-containers.containers."pelican-panel" = {
-    # Official container image maintained by the Pelican development team
-    image = "ghcr.io/pelican-dev/panel:latest";
-
-    # Port mapping: host 8084 -> container web port 80
-    ports = [ "8084:80" ];
-
-    # Persist SQLite/MySQL database, uploads, and server metadata to host disk
-    volumes = [
-      "/var/lib/pelican/panel:/pelican-data"
-    ];
-
-    # Environment settings for the Laravel-based web application
-    environment = {
-      APP_URL = "http://localhost:8084";
-      APP_TIMEZONE = "America/Chicago"; # USD 308 central time zone
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 8084;
+      description = "Host web dashboard port for Pelican Panel.";
     };
 
-    # Automatically start the container when the host boots
-    autoStart = true;
+    wingsPort = lib.mkOption {
+      type = lib.types.port;
+      default = 8443;
+      description = "SSL port for Wings daemon communication.";
+    };
+
+    dataDir = lib.mkOption {
+      type = lib.types.str;
+      default = "${parentCfg.stateDir}/pelican";
+      description = "Host directory where Pelican panel and wings data persist.";
+    };
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Open web and Wings ports in the NixOS firewall.";
+    };
   };
 
-  # --------------------------------------------------------------------------
-  # Filesystem Directory Creation (systemd-tmpfiles)
-  # 'd' rule: creates the directories if missing.
-  # Mode 0750: read/write/execute for root, read/execute for root group.
-  # --------------------------------------------------------------------------
-  systemd.tmpfiles.rules = [
-    "d /var/lib/pelican/panel 0750 root root -"
-    "d /var/lib/pelican/wings 0750 root root -"
-  ];
+  config = lib.mkIf (parentCfg.enable && cfg.enable) {
+    # --------------------------------------------------------------------------
+    # OCI Container Definition: Pelican Panel Web Dashboard
+    # --------------------------------------------------------------------------
+    virtualisation.oci-containers.containers."pelican-panel" = {
+      image = "ghcr.io/pelican-dev/panel:latest";
+      ports = [ "${toString cfg.port}:80" ];
 
-  # --------------------------------------------------------------------------
-  # Firewall Configuration
-  # Open web UI (8084) and Wings SSL communication port (8443)
-  # --------------------------------------------------------------------------
-  networking.firewall.allowedTCPPorts = [ 8084 8443 ];
+      volumes = [
+        "${cfg.dataDir}/panel:/pelican-data"
+      ];
+
+      environment = {
+        APP_URL = "http://localhost:${toString cfg.port}";
+        APP_TIMEZONE = config.time.timeZone or "America/Chicago";
+      };
+
+      autoStart = true;
+    };
+
+    # Directory creation for Panel and Wings state
+    systemd.tmpfiles.rules = [
+      "d ${cfg.dataDir}/panel 0750 root root -"
+      "d ${cfg.dataDir}/wings 0750 root root -"
+    ];
+
+    # Open web UI and Wings ports in firewall
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [ cfg.port cfg.wingsPort ];
+  };
 }

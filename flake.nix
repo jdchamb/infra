@@ -207,6 +207,20 @@
           (import ./hosts/nixos/lab-probook { hostName = "lab-pb05"; })
         ];
       };
+
+      # ------------------------------------------------------------------------
+      # NODE 10: nuc-game01
+      # Dedicated Intel NUC 7 (NUC7i7DNFE) Sandboxed Game Server Appliance
+      # Hosts Minecraft, Terraria, Palworld, Barotrauma in Podman sandboxes
+      # with on-demand OliveTin web GUI (:1337) and persistent world saves.
+      # ------------------------------------------------------------------------
+      "nuc-game01" = mkNixos {
+        system = "x86_64-linux";
+        modules = [
+          inputs.disko.nixosModules.disko
+          (import ./hosts/nixos/nuc-game01 { hostName = "nuc-game01"; })
+        ];
+      };
     };
 
     # ==========================================================================

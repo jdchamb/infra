@@ -144,10 +144,14 @@ modules/
 | [`nixos/services/miniflux.nix`](./nixos/services/miniflux.nix) | Miniflux Minimalist RSS Feed Reader (`:8088`) | Fleet Roadmap Phase 4 |
 | [`nixos/services/cockpit.nix`](./nixos/services/cockpit.nix) | Cockpit Web-Based Linux System Admin GUI (`:9090`) | Fleet Roadmap Phase 4 |
 | [`nixos/services/planka.nix`](./nixos/services/planka.nix) | Planka Self-Hosted Kanban Project Board (`:3003`) | Fleet Roadmap Phase 4 |
+| [`nixos/services/game-servers/default.nix`](./nixos/services/game-servers/default.nix) | Fleet Sandboxed Game Servers Orchestrator (`services.fleet.game-servers`) | Fleet Roadmap Phase 5 |
+| [`nixos/services/game-servers/olivetin.nix`](./nixos/services/game-servers/olivetin.nix) | Kid-Friendly Push-Button Game Dashboard (`:1337`) | Fleet Roadmap Phase 5 |
+| [`nixos/services/game-servers/minecraft.nix`](./nixos/services/game-servers/minecraft.nix) | Sandboxed Minecraft Server (Paper, Modrinth & CurseForge) (`:25565`) | Fleet Roadmap Phase 5 |
+| [`nixos/services/game-servers/terraria.nix`](./nixos/services/game-servers/terraria.nix) | Sandboxed Terraria Server (`:7777`) | Fleet Roadmap Phase 5 |
+| [`nixos/services/game-servers/palworld.nix`](./nixos/services/game-servers/palworld.nix) | Sandboxed Palworld Dedicated Server (`:8211/udp`, `:27015/udp`) | Fleet Roadmap Phase 5 |
+| [`nixos/services/game-servers/barotrauma.nix`](./nixos/services/game-servers/barotrauma.nix) | Sandboxed Barotrauma Dedicated Server (`:27015/udp`, `:27016/udp`) | Fleet Roadmap Phase 5 |
+| [`nixos/services/game-servers/custom.nix`](./nixos/services/game-servers/custom.nix) | Extensible Containerized Game Server Engine (`customServers.<name>`) | Fleet Roadmap Phase 5 |
 | [`nixos/services/game-servers/pelican.nix`](./nixos/services/game-servers/pelican.nix) | Pelican Panel & Wings Game Server Orchestrator (`:8084`) | Fleet Roadmap Phase 5 |
-| [`nixos/services/game-servers/minecraft.nix`](./nixos/services/game-servers/minecraft.nix) | Dedicated Minecraft Server (`:25565`) | Fleet Roadmap Phase 5 |
-| [`nixos/services/game-servers/terraria.nix`](./nixos/services/game-servers/terraria.nix) | Dedicated Terraria Server (`:7777`) | Fleet Roadmap Phase 5 |
-| [`nixos/services/game-servers/palworld.nix`](./nixos/services/game-servers/palworld.nix) | Dedicated Palworld Server (`:8211/udp`) | Fleet Roadmap Phase 5 |
 | [`nixos/services/308-storage.nix`](./nixos/services/308-storage.nix) | USD 308 Systemd CIFS Share Automounts | 308 Project 18 |
 | [`nixos/services/samba.nix`](./nixos/services/samba.nix) | Hardened SMB2/3 Client, GVfs & WSDD Discovery | Core Network Storage |
 | [`nixos/services/ollama.nix`](./nixos/services/ollama.nix) | Ollama LLM Client Bound to `ai.internal:11434` | Local AI Stack |
