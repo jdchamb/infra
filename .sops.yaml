@@ -26,8 +26,10 @@ creation_rules:
   - path_regex: secrets/(work|ips|308-).*\.yaml$
     key_groups:
       - age:
-          # Work Age public key:
+          # 308-225660 Work Key:
           - "age1340sssuqw9fknm2h5we3485wdqmktnjzgkysmgglp243tpjudpjqu7xf5y"
+          # mba-jchambers Work Key:
+          - "age1r22g6chyud47w0sdhkqc3tl768hec44ngxwha36eurgdrzdvpygqwv4jdx"
 
   # ----------------------------------------------------------------------------
   # 2. Personal / Homelab Secrets Routing
@@ -35,5 +37,7 @@ creation_rules:
   - path_regex: secrets/personal.*\.yaml$
     key_groups:
       - age:
-          # Personal Age public key:
+          # 308-225660 Personal Key:
           - "age13m97hyrx40mkm48erdz433nmdeeyph7q928eat4g5ne07q8rt4dqf5j3l7"
+          # mba-jchambers Personal Key:
+          - "age1r22g6chyud47w0sdhkqc3tl768hec44ngxwha36eurgdrzdvpygqwv4jdx"
