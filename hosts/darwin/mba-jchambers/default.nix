@@ -126,6 +126,11 @@
       Clicking = true;           # Tap to click (avoids heavy physical clicks)
       TrackpadRightClick = true; # Two-finger tap for secondary/right click
     };
+
+    # Global Preferences (Mouse tracking speed)
+    ".GlobalPreferences" = {
+      "com.apple.mouse.scaling" = 1.5;
+    };
   };
 
   # ----------------------------------------------------------------------------
