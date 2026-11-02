@@ -14,7 +14,7 @@
 # WHY THIS EXISTS (NOVICE EXPLANATION):
 #   When working across multiple machines (e.g., making a change on your Linux
 #   workstation '308-222242', pushing it, and later opening your MacBook
-#   'MBA-Chambers' or '308-225660'), it is very easy to 'cd ~/src/infra' and
+#   'mba-jchambers' or '308-225660'), it is very easy to 'cd ~/src/infra' and
 #   start editing files before remembering to run 'git pull'. That leads to
 #   painful merge conflicts!
 #   In Zsh, 'chpwd' is a special event hook that fires automatically every time

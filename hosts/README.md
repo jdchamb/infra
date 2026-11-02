@@ -11,7 +11,7 @@ hosts/
 ├── darwin/
 │   ├── 308-225660/             # Primary Work Apple Silicon MacBook (aarch64-darwin)
 │   │   └── default.nix         # macOS defaults, nix-darwin settings, Homebrew casks
-│   └── MBA-Chambers/           # Portable Apple Silicon MacBook Air mirroring 308-225660
+│   └── mba-jchambers/          # Portable Apple Silicon MacBook Air mirroring 308-225660
 │       └── default.nix         # macOS defaults, nix-darwin settings, Homebrew casks
 ├── nixos/
 │   ├── 308-222242/             # Production Linux Workstation (x86_64-linux)

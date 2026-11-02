@@ -4,7 +4,7 @@
 # ==============================================================================
 #
 # PURPOSE & ARCHITECTURE:
-#   Bootstraps a fresh Apple Silicon or Intel macOS machine (such as 'MBA-Chambers'
+#   Bootstraps a fresh Apple Silicon or Intel macOS machine (such as 'mba-jchambers'
 #   or '308-225660') with the official multi-user Nix daemon and activates its
 #   declarative nix-darwin + Home Manager + nix-homebrew configuration.
 #
@@ -21,7 +21,7 @@
 # USAGE:
 #   chmod +x ~/src/infra/scripts/bootstrap-darwin.sh
 #   ~/src/infra/scripts/bootstrap-darwin.sh [hostname]
-#   Example: ~/src/infra/scripts/bootstrap-darwin.sh MBA-Chambers
+#   Example: ~/src/infra/scripts/bootstrap-darwin.sh mba-jchambers
 # ==============================================================================
 
 # Bash strict mode:

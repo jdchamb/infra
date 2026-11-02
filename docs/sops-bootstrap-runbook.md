@@ -27,7 +27,7 @@ We employ a **Zero-Trust, Multi-Recipient Architecture** separating Work (USD 30
 ```mermaid
 flowchart TD
     subgraph Admins ["Admin Workstations (Operator Layer)"]
-        MAC["macOS MacBook (308-225660 / MBA-Chambers)<br/>Private: ~/.config/sops/age/keys.txt"]
+        MAC["macOS MacBook (308-225660 / mba-jchambers)<br/>Private: ~/.config/sops/age/keys.txt"]
         WS["Linux Workstation (308-222242)<br/>Private: ~/.config/sops/age/keys.txt"]
     end
 

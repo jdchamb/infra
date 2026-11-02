@@ -1,7 +1,7 @@
 # macOS / nix-darwin Bootstrap Runbook (`docs/darwin-bootstrap-runbook.md`)
 
-> **Target Hosts:** `308-225660` (Apple Silicon MacBook) and `MBA-Chambers` (MacBook Air)  
-> **Flake Targets:** `darwinConfigurations."308-225660"` & `darwinConfigurations."MBA-Chambers"`  
+> **Target Hosts:** `308-225660` (Apple Silicon MacBook) and `mba-jchambers` (MacBook Air)  
+> **Flake Targets:** `darwinConfigurations."308-225660"` & `darwinConfigurations."mba-jchambers"`  
 > **Primary Script:** [`scripts/bootstrap-darwin.sh`](../scripts/bootstrap-darwin.sh)
 
 ---
@@ -72,9 +72,9 @@ The repository provides [`scripts/bootstrap-darwin.sh`](../scripts/bootstrap-dar
 ~/src/infra/scripts/bootstrap-darwin.sh 308-225660
 ```
 
-### Run on `MBA-Chambers`:
+### Run on `mba-jchambers`:
 ```bash
-~/src/infra/scripts/bootstrap-darwin.sh MBA-Chambers
+~/src/infra/scripts/bootstrap-darwin.sh mba-jchambers
 ```
 
 ---

@@ -117,6 +117,9 @@
             user = "jchambers";
             autoMigrate = true;   # Migrate unmanaged brew installations into declarative control
           };
+
+          # Declarative Remote Login (OpenSSH Server) across all macOS nodes
+          services.openssh.enable = true;
         }
       ];
     };
@@ -246,12 +249,7 @@
     # ==========================================================================
     # NIX-DARWIN HOST CONFIGURATIONS (macOS)
     # ==========================================================================
-    darwinConfigurations = let
-      mbaConfig = mkDarwin {
-        system = "aarch64-darwin";
-        modules = [ ./hosts/darwin/MBA-Chambers ];
-      };
-    in {
+    darwinConfigurations = {
       # ------------------------------------------------------------------------
       # NODE 5: 308-225660
       # Primary Work Apple Silicon MacBook (aarch64-darwin)
@@ -264,13 +262,15 @@
       };
 
       # ------------------------------------------------------------------------
-      # NODE 6: MBA-Chambers (alias: mba-jchambers)
+      # NODE 6: mba-jchambers
       # Personal / Portable Apple Silicon MacBook Air (aarch64-darwin)
       # Mirrors 308-225660 with nix-darwin defaults, declarative Homebrew,
       # and Apple Virtualization.framework Linux builder.
       # ------------------------------------------------------------------------
-      "MBA-Chambers"  = mbaConfig;
-      "mba-jchambers" = mbaConfig;
+      "mba-jchambers" = mkDarwin {
+        system = "aarch64-darwin";
+        modules = [ ./hosts/darwin/mba-jchambers ];
+      };
     };
   };
 }

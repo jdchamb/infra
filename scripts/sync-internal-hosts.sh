@@ -6,7 +6,7 @@
 # ROLE & ARCHITECTURE:
 #   Synchronizes decrypted internal LAN host mappings (storage.internal, ai.internal)
 #   from secrets/ips.yaml into the local operating system's /etc/hosts file.
-#   Designed for macOS nodes (308-225660, MBA-Chambers) and standalone Linux nodes.
+#   Designed for macOS nodes (308-225660, mba-jchambers) and standalone Linux nodes.
 #
 # USAGE:
 #   ./scripts/sync-internal-hosts.sh

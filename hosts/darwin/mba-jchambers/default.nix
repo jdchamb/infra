@@ -1,5 +1,5 @@
 # ==============================================================================
-# HOST CONFIGURATION: MBA-Chambers (Apple Silicon MacBook Air)
+# HOST CONFIGURATION: mba-jchambers (Apple Silicon MacBook Air)
 # ==============================================================================
 #
 # ROLE & ARCHITECTURE:
@@ -14,7 +14,7 @@
 # OPERATIONAL RUNBOOK FOR SUCCESSORS:
 #   - To apply changes on this MacBook:
 #       rebuild
-#     (which executes: sudo darwin-rebuild switch --flake ~/src/infra#MBA-Chambers)
+#     (which executes: sudo darwin-rebuild switch --flake ~/src/infra#mba-jchambers)
 #   - To test changes without permanently activating:
 #       rebuild test
 #   - To add a new GUI application: Add its cask name to `homebrew.casks`.
@@ -29,6 +29,9 @@
   # ----------------------------------------------------------------------------
   # Enable Zsh at the system level so /etc/shells and login hooks are registered
   programs.zsh.enable = true;
+
+  # Enable Apple Remote Login (OpenSSH Server)
+  services.openssh.enable = true;
 
   # Nix Daemon Security & Feature Flags
   nix.settings = {
@@ -128,7 +131,7 @@
   # ----------------------------------------------------------------------------
   # 4. HOST IDENTITY & SHARED MODULE IMPORTS
   # ----------------------------------------------------------------------------
-  networking.hostName = "MBA-Chambers";
+  networking.hostName = "mba-jchambers";
 
   # Import reusable, multi-OS modules from the fleet library (1-to-1 Modules)
   imports = [
@@ -158,7 +161,7 @@
   # While Nix handles CLI binaries, Homebrew provides native macOS GUI applications
   # packaged as .dmg / .app bundles.
   #
-  # SAFETY POLICY ON MBA-Chambers:
+  # SAFETY POLICY ON mba-jchambers:
   #   'cleanup = "none"' ensures that NO existing applications, games, or Homebrew
   #   packages installed on this Mac are ever uninstalled or zapped during rebuilds.
   # ----------------------------------------------------------------------------
@@ -166,9 +169,9 @@
     enable = true;
     onActivation.cleanup = "none"; # Never delete/zap existing casks, apps, or formulae
 
-    # GUI Application Bundles (.app) — Union of MBA-Chambers existing apps + 308-225660 suite
+    # GUI Application Bundles (.app) — Union of mba-jchambers existing apps + 308-225660 suite
     casks = [
-      # Core Desktop, Editors & Web Browsing (Installed on MBA-Chambers & 308-225660)
+      # Core Desktop, Editors & Web Browsing (Installed on mba-jchambers & 308-225660)
       "1password"
       "1password-cli"
       "adguard"
@@ -180,7 +183,7 @@
       "google-drive"
       "visual-studio-code"
 
-      # Gaming & Entertainment (MBA-Chambers Specific)
+      # Gaming & Entertainment (mba-jchambers Specific)
       "ea"
       "gog-galaxy"
       "steam"
@@ -203,13 +206,13 @@
       "lm-studio"
     ];
 
-    # Command-Line Formulae (Preserves existing MBA-Chambers brews; mas, wireshark, tea migrated to Nixpkgs)
+    # Command-Line Formulae (Preserves existing mba-jchambers brews; mas, wireshark, tea migrated to Nixpkgs)
     brews = [
-      "dotnet@8"          # Installed on MBA-Chambers (.NET 8 SDK/Runtime)
-      "git"               # Installed on MBA-Chambers
-      "zsh-autocomplete"  # Installed on MBA-Chambers
-      "zsh-autopair"      # Installed on MBA-Chambers
-      "zsh-autosuggestions" # Installed on MBA-Chambers
+      "dotnet@8"          # Installed on mba-jchambers (.NET 8 SDK/Runtime)
+      "git"               # Installed on mba-jchambers
+      "zsh-autocomplete"  # Installed on mba-jchambers
+      "zsh-autopair"      # Installed on mba-jchambers
+      "zsh-autosuggestions" # Installed on mba-jchambers
     ];
   };
 

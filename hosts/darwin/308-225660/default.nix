@@ -29,6 +29,9 @@
   # Enable Zsh at the system level so /etc/shells and login hooks are registered
   programs.zsh.enable = true;
 
+  # Enable Apple Remote Login (OpenSSH Server)
+  services.openssh.enable = true;
+
   # Nix Daemon Security & Feature Flags
   nix.settings = {
     # Activate modern Flakes engine and experimental CLI commands
