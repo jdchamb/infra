@@ -47,10 +47,12 @@
   # 2. Clamshell Lab Mode (systemd-logind)
   # Prevents the laptops from entering sleep/suspend mode when their lids are shut.
   # --------------------------------------------------------------------------
-  services.logind = {
-    lidSwitch = "ignore";               # Ignore lid close on battery
-    lidSwitchDocked = "ignore";         # Ignore lid close when attached to dock/monitors
-    lidSwitchExternalPower = "ignore";  # Ignore lid close when plugged into AC wall power
+  services.logind.settings = {
+    Login = {
+      HandleLidSwitch = "ignore";               # Ignore lid close on battery
+      HandleLidSwitchDocked = "ignore";         # Ignore lid close when attached to dock/monitors
+      HandleLidSwitchExternalPower = "ignore";  # Ignore lid close when plugged into AC wall power
+    };
   };
 
   # --------------------------------------------------------------------------

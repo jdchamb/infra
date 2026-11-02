@@ -15,9 +15,9 @@
 { pkgs, lib, ... }:
 
 {
-  # Only install the Nix package on Linux nodes (macOS uses Homebrew Cask)
-  environment.systemPackages = lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [
-    pkgs.ghostty
+  # On Linux install Ghostty; on macOS (GUI managed via Homebrew Cask) install Ghostty's terminfo
+  environment.systemPackages = [
+    (if pkgs.stdenv.hostPlatform.isDarwin then pkgs.ghostty-bin.terminfo else pkgs.ghostty)
   ];
 
   # Declarative configuration file shared across all platforms
@@ -31,6 +31,10 @@
     window-padding-y = 6
     confirm-close-surface = false
     copy-on-select = clipboard
+
+    # --- Shell & SSH Integration ---
+    shell-integration = detect
+    shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 
     # --- Universal Environment Keybinding Pattern (Project 7) ---
     # Clipboard & Font Scaling

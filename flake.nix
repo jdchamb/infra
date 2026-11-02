@@ -80,6 +80,9 @@
         inputs.lanzaboote.nixosModules.lanzaboote
         home-manager.nixosModules.home-manager
         {
+          # Enable all standard terminfo outputs (Ghostty, Foot, Kitty, Alacritty, etc.)
+          environment.enableAllTerminfo = true;
+
           # Integrate user packages directly into system-level package tracking
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
@@ -103,6 +106,9 @@
         home-manager.darwinModules.home-manager
         nix-homebrew.darwinModules.nix-homebrew
         {
+          # Enable all standard terminfo outputs (Ghostty, Kitty, Alacritty, etc.)
+          environment.enableAllTerminfo = true;
+
           # Mirror global package registry for consistency
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
