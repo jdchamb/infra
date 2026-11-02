@@ -81,16 +81,18 @@
     };
 
     # --------------------------------------------------------------------------
-    # 4. SMART MULTI-OS FLEET REBUILD FUNCTION
-    # --------------------------------------------------------------------------
-    # How this works:
-    #   1. Detects OS: On macOS ($OSTYPE == darwin), uses 'darwin-rebuild'.
-    #                  On Linux, uses 'nixos-rebuild'.
-    #   2. Detects Hostname: Uses 'scutil --get LocalHostName' on macOS or 'hostname -s'
-    #                        on Linux, automatically targeting the active host.
-    #   3. Allows action override: 'rebuild test' runs a dry/test build.
+    # 4. STANDARD KEY BINDINGS & SMART MULTI-OS REBUILD FUNCTION
     # --------------------------------------------------------------------------
     initContent = ''
+      # Terminal Keybindings: Fix Delete key printing '~', navigation, and word jumps
+      bindkey "^[[3~" delete-char          # Fn+Delete / Forward Delete
+      bindkey "^[3;5~" delete-char         # Ctrl+Delete
+      bindkey "\e[3~" delete-char          # Esc[3~ fallback
+      bindkey "^[[1;5C" forward-word       # Ctrl+Right Arrow
+      bindkey "^[[1;5D" backward-word      # Ctrl+Left Arrow
+      bindkey "^[[H" beginning-of-line     # Home
+      bindkey "^[[F" end-of-line           # End
+
       rebuild() {
         local action="''${1:-switch}"
         local host="''${2:-$(scutil --get LocalHostName 2>/dev/null || hostname -s)}"

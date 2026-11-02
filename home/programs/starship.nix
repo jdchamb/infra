@@ -85,9 +85,9 @@
 
       # Prompt character indicator (turns red on error, green on success)
       character = {
-        success_symbol = "[❯](bold fg:green)";
-        error_symbol = "[❯](bold fg:red)";
-        vimcmd_symbol = "[❮](bold fg:green)";
+        success_symbol = "[❯](bold fg:green) ";
+        error_symbol = "[❯](bold fg:red) ";
+        vimcmd_symbol = "[❮](bold fg:green) ";
       };
 
       # Complete Catppuccin Mocha Color Palette
