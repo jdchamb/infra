@@ -2,8 +2,8 @@
 # FLEET SECURITY MODULE: modules/shared/security/yubikey-nordic.nix
 # ==============================================================================
 #
-# WHAT IS THIS MODULE?
-#   This module sets up physical hardware security keys across the entire fleet.
+# ROLE & ARCHITECTURE (Fleet Roadmap Phase 1 — Physical FIDO2/U2F Hardware Keys):
+#   Sets up physical hardware security keys across the entire fleet.
 #   It works seamlessly on both Apple Silicon macOS (nix-darwin) and bare-metal
 #   or virtual Linux workstations (NixOS).
 #
@@ -12,7 +12,7 @@
 #   2. Nordic Semiconductor nRF52840 Dongles flashed with Google OpenSK
 #      (Both when reporting native Nordic 0x1915 or patched Yubico 0x1050 IDs)
 #
-# WHY DO WE NEED THIS CONFIGURATION?
+# WHY THIS EXISTS (NOVICE EXPLANATION):
 #   - On Linux (NixOS), the kernel by default restricts direct raw USB and HID
 #     access to the 'root' administrator. Without 'udev' rules, ordinary users
 #     cannot tap their security key to log in or use WebAuthn in their browser.

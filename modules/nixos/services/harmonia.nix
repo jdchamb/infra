@@ -28,7 +28,7 @@
 
 {
   # 1. Enable Harmonia Binary Cache Daemon on Port 5000
-  services.harmonia = {
+  services.harmonia.cache = {
     enable = true;
     settings = {
       bind = "[::]:5000"; # Listen on both IPv4 and IPv6 port 5000

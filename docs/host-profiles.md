@@ -62,5 +62,5 @@ This document tracks the exact hardware architecture, storage topology, cryptogr
 - **Hardware Profile:** [`modules/nixos/hardware/hp-probook.nix`](../modules/nixos/hardware/hp-probook.nix)
 - **Architecture:** `x86_64-linux` (5x repurposed workspace HP ProBook laptops)
 - **Key Features:**
-  - Clamshell operation (`services.logind.lidSwitch = "ignore"`) so all 5 laptops operate with lids closed on the lab rack.
+  - Clamshell operation (`services.logind.settings.Login.HandleLidSwitch = "ignore"`) so all 5 laptops operate with lids closed on the lab rack.
   - Configured as Network UPS Tools followers (`services.fleet.nut.mode = "netclient"`) via [`modules/nixos/services/nut.nix`](../modules/nixos/services/nut.nix) with Cockpit web admin ([`cockpit.nix`](../modules/nixos/services/cockpit.nix)) on port `9090`.

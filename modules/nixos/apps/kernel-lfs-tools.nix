@@ -72,7 +72,7 @@
     zstd                        # Real-time compression engine used to compress modern Linux kernels
     strace                      # System call tracer: captures interactions between programs and the kernel
     ltrace                      # Dynamic library call tracer: intercepts shared library calls (libc)
-    linuxPackages_latest.perf   # Linux kernel performance profiler for CPU cache misses and flamegraphs
+    perf                        # Linux kernel performance profiler for CPU cache misses and flamegraphs
 
     # --------------------------------------------------------------------------
     # Milestone 3: Declarative NixOS, Derivations & Dependency Graph Inspection

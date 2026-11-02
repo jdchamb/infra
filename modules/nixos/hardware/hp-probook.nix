@@ -56,7 +56,72 @@
   };
 
   # --------------------------------------------------------------------------
-  # 3. Thermal & Power Daemon Management
+  # 3. Declarative HP BIOS Power & Wake-on-AC Management
+  # Configures the laptop to automatically power on from a cold shutdown whenever
+  # AC wall power is connected/restored (via barrel plug, power strip, or inline switch).
+  # --------------------------------------------------------------------------
+  boot.kernelModules = [ "hp-bioscfg" ];
+
+  systemd.services.hp-bios-power-config = {
+    description = "Declarative HP ProBook BIOS Power Configuration";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-modules-load.service" ];
+    path = with pkgs; [ coreutils gnugrep kmod ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      BIOS_DIR="/sys/class/firmware-attributes/hp-bioscfg/attributes"
+
+      if [ ! -d "$BIOS_DIR" ]; then
+        modprobe hp-bioscfg 2>/dev/null || true
+      fi
+
+      if [ -d "$BIOS_DIR" ]; then
+        set_attr() {
+          local pattern="$1"
+          local target_val="$2"
+
+          for attr_path in "$BIOS_DIR"/*; do
+            [ -d "$attr_path" ] || continue
+            local attr_name
+            attr_name="$(basename "$attr_path")"
+
+            if echo "$attr_name" | grep -iqE "$pattern"; then
+              if [ -f "$attr_path/current_value" ]; then
+                local current
+                current="$(cat "$attr_path/current_value" 2>/dev/null || true)"
+
+                local final_val="$target_val"
+                if [ -f "$attr_path/possible_values" ]; then
+                  local matched
+                  matched="$(grep -iE "^$target_val" "$attr_path/possible_values" 2>/dev/null | head -n1 || true)"
+                  [ -n "$matched" ] && final_val="$matched"
+                fi
+
+                if [ "$current" != "$final_val" ]; then
+                  echo "hp-bioscfg: Updating $attr_name from '$current' to '$final_val'"
+                  echo "$final_val" > "$attr_path/current_value" 2>/dev/null || true
+                else
+                  echo "hp-bioscfg: $attr_name is already set to '$current'"
+                fi
+              fi
+            fi
+          done
+        }
+
+        # Set AC Power Loss behavior to "Power On"
+        set_attr "ac.*power.*loss|after.*power.*loss|restore.*on.*ac" "Power On"
+
+        # Set Wake on AC to "Enable" or "Enabled"
+        set_attr "wake.*on.*ac" "Enable"
+      fi
+    '';
+  };
+
+  # --------------------------------------------------------------------------
+  # 4. Thermal & Power Daemon Management
   # --------------------------------------------------------------------------
   # Intel Open Source Technology Center Thermal Daemon (prevents thermal runaway)
   services.thermald.enable = true;
