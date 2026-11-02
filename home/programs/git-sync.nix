@@ -40,9 +40,8 @@
       local upstream
       upstream=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null) || return 0
 
-      # 3. Quietly fetch remote metadata without modifying local files.
-      #    GIT_TERMINAL_PROMPT=0 prevents hanging on password prompts if offline.
-      GIT_TERMINAL_PROMPT=0 command git fetch --quiet 2>/dev/null || return 0
+      # 3. Asynchronously fetch remote metadata in the background without blocking terminal navigation
+      (GIT_TERMINAL_PROMPT=0 command git fetch --quiet >/dev/null 2>&1 &)
 
       # 4. Count how many commits the remote branch is ahead of our local HEAD.
       local behind

@@ -58,20 +58,11 @@
   # ----------------------------------------------------------------------------
   # 2. APPLE VIRTUALIZATION FRAMEWORK LINUX BUILDER (Metal / VZ Paravirtualization)
   # ----------------------------------------------------------------------------
-  # Why this exists:
-  #   macOS cannot natively compile Linux binaries (e.g. for our NixOS fleet nodes).
-  #   Instead of running slow user-space QEMU, this spins up an in-memory NixOS
-  #   virtual machine directly using Apple's hardware-accelerated Virtualization.framework.
-  #
-  # Capabilities:
-  #   - Runs at near-native CPU speeds (0% hypervisor overhead).
-  #   - Automatically manages an SSH keypair (/etc/nix/builder_ed25519) and registers
-  #     itself in /etc/nix/machines for transparent derivation offloading.
-  #   - Uses Apple's paravirtualized Rosetta directory mount so this single ARM64
-  #     Mac can build BOTH 'aarch64-linux' AND 'x86_64-linux' packages!
+  # Disabled at boot to prevent Apple Watchdog reboot loops (wdog) and high I/O stalls.
+  # Can be started on demand when compiling Linux binaries.
   # ----------------------------------------------------------------------------
   nix.linux-builder = {
-    enable = true;
+    enable = false;
 
     # Supported build architectures (native ARM64 Linux + Rosetta 2 Intel Linux)
     systems = [ "aarch64-linux" "x86_64-linux" ];
@@ -116,7 +107,7 @@
       AppleInterfaceStyle = "Dark";     # Permanent Dark Mode theme
       AppleShowAllExtensions = true;    # System-wide file extension visibility
       ApplePressAndHoldEnabled = false; # Disable accent popup; enable fast key repeats for Vim
-      KeyRepeat = 2;                    # Ultra-fast key repeat rate
+      KeyRepeat = 6;                    # Balanced fast key repeat (prevents SSH chattering)
       InitialKeyRepeat = 25;            # Short delay before key repeat kicks in
       "com.apple.trackpad.scaling" = 3.0; # Fast cursor tracking speed
     };
