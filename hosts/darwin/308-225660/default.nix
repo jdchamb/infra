@@ -131,6 +131,7 @@
   # 4. HOST IDENTITY & SHARED MODULE IMPORTS
   # ----------------------------------------------------------------------------
   networking.hostName = "308-225660";
+  networking.computerName = "308-225660";
 
   # Import reusable, multi-OS modules from the fleet library (1-to-1 Modules)
   imports = [

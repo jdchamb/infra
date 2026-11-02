@@ -132,6 +132,7 @@
   # 4. HOST IDENTITY & SHARED MODULE IMPORTS
   # ----------------------------------------------------------------------------
   networking.hostName = "mba-jchambers";
+  networking.computerName = "mba-jchambers";
 
   # Import reusable, multi-OS modules from the fleet library (1-to-1 Modules)
   imports = [
