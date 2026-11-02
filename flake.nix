@@ -124,8 +124,9 @@
             autoMigrate = true;   # Migrate unmanaged brew installations into declarative control
           };
 
-          # Declarative Remote Login (OpenSSH Server) across all macOS nodes
-          services.openssh.enable = true;
+          # Remote Login (OpenSSH) is managed natively by macOS System Settings
+          # to avoid requiring Full Disk Access permissions during rebuilds.
+          services.openssh.enable = null;
         }
       ];
     };

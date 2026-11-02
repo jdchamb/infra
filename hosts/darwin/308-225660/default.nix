@@ -29,8 +29,9 @@
   # Enable Zsh at the system level so /etc/shells and login hooks are registered
   programs.zsh.enable = true;
 
-  # Enable Apple Remote Login (OpenSSH Server)
-  services.openssh.enable = true;
+  # Remote Login (OpenSSH Server): Managed natively by macOS System Settings
+  # (Avoids requiring Full Disk Access permissions during darwin-rebuild)
+  services.openssh.enable = null;
 
   # Nix Daemon Security & Feature Flags
   nix.settings = {
@@ -129,6 +130,13 @@
     # Global Preferences (Mouse tracking speed)
     ".GlobalPreferences" = {
       "com.apple.mouse.scaling" = 1.5;
+    };
+
+    # Custom Preferences (Disable pointer acceleration / linear mouse curve)
+    CustomUserPreferences = {
+      "NSGlobalDomain" = {
+        "com.apple.mouse.linear" = true;
+      };
     };
   };
 
