@@ -41,9 +41,10 @@
     (lib.optionalAttrs (options ? programs && options.programs ? gnupg) {
       programs.gnupg.agent = {
         enable = true;
-        # Allow gpg-agent to act as an ssh-agent so hardware PGP authentication
-        # subkeys can also authenticate SSH connections (e.g. to Codeberg/servers)
-        enableSSHSupport = true;
+        # Allow gpg-agent to act as an ssh-agent on NixOS.
+        # On macOS, keeping enableSSHSupport disabled preserves Apple's native
+        # Keychain-integrated ssh-agent so standard SSH keys (and Codeberg) don't prompt for passphrases.
+        enableSSHSupport = !pkgs.stdenv.hostPlatform.isDarwin;
       } // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
         # Note: 'pinentryPackage' is a NixOS-specific module option; nix-darwin
         # does not define this option, so we guard it with '!pkgs.stdenv.hostPlatform.isDarwin'.
