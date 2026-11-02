@@ -93,6 +93,19 @@
       bindkey "^[[H" beginning-of-line     # Home
       bindkey "^[[F" end-of-line           # End
 
+      # Persistent SSH-Agent Socket across remote SSH sessions and local terminals
+      if [[ -z "$SSH_AUTH_SOCK" || ! -S "$SSH_AUTH_SOCK" ]]; then
+        export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+        if [[ ! -S "$SSH_AUTH_SOCK" ]]; then
+          mkdir -p "$HOME/.ssh"
+          rm -f "$SSH_AUTH_SOCK"
+          eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" >/dev/null 2>&1
+        fi
+      fi
+
+      # SOPS Age Key location
+      export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
+
       rebuild() {
         local action="''${1:-switch}"
         local host="''${2:-$(scutil --get LocalHostName 2>/dev/null || hostname -s)}"
