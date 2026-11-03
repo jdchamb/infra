@@ -38,10 +38,11 @@
   # ----------------------------------------------------------------------------
   # Interactive shell and terminal styling modules
   imports = [
-    ./programs/zsh.nix       # Zsh shell, fzf, zoxide, history, and rebuild script
-    ./programs/git-sync.nix  # Zsh chpwd auto-fetch & rebase prompt hook
-    ./programs/git-tools.nix # Git difftool/mergetool (nvimdiff)
-    ./programs/starship.nix  # Starship cross-shell prompt (Catppuccin Mocha theme)
-    ./programs/yubico.nix    # Declarative U2F / FIDO2 security key mappings
+    ./programs/zsh.nix              # Zsh shell, fzf, zoxide, history, and rebuild script
+    ./programs/git-sync.nix         # Zsh chpwd auto-fetch & rebase prompt hook
+    ./programs/git-tools.nix        # Git difftool/mergetool (nvimdiff)
+    ./programs/starship.nix         # Starship cross-shell prompt (Catppuccin Mocha theme)
+    ./programs/yubico.nix           # Declarative U2F / FIDO2 security key mappings
+    ./programs/macos-app-state.nix  # Automatic macOS SOPS app & Keychain sync on rebuild
   ];
 }

@@ -108,8 +108,8 @@
       AppleInterfaceStyle = "Dark";     # Permanent Dark Mode theme
       AppleShowAllExtensions = true;    # System-wide file extension visibility
       ApplePressAndHoldEnabled = false; # Disable accent popup; enable fast key repeats for Vim
-      KeyRepeat = 6;                    # Balanced fast key repeat (prevents SSH chattering)
-      InitialKeyRepeat = 25;            # Short delay before key repeat kicks in
+      KeyRepeat = 4;                    # Snappy key repeat (60ms — faster than 6, step below max slider of 2)
+      InitialKeyRepeat = 20;            # Responsive delay before key repeat kicks in (300ms — faster than 25)
       "com.apple.trackpad.scaling" = 3.0; # Fast cursor tracking speed
     };
 

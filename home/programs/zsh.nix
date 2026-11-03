@@ -112,8 +112,18 @@
         local flake="''${FLAKE:-$HOME/src/infra}"
 
         if [[ "$OSTYPE" == "darwin"* ]]; then
-          echo "==> Rebuilding Darwin system for '$host' ($action)..."
+          if command -v macos-state-sync >/dev/null 2>&1; then
+            macos-state-sync pre-rebuild "$flake" || true
+          fi
+          echo "=================================================================="
+          echo "  [2/3] SYSTEM REBUILD: darwin-rebuild $action ($host)"
+          echo "=================================================================="
           sudo darwin-rebuild "$action" --flake "$flake#$host" "''${@:3}"
+          local rc=$?
+          if [[ $rc -eq 0 && "$action" == "switch" ]] && command -v macos-state-sync >/dev/null 2>&1; then
+            macos-state-sync post-rebuild "$flake" || true
+          fi
+          return $rc
         else
           echo "==> Rebuilding NixOS system for '$host' ($action)..."
           sudo nixos-rebuild "$action" --flake "$flake#$host" "''${@:3}"
