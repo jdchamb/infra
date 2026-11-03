@@ -62,13 +62,14 @@
   # Can be started on demand when compiling Linux binaries.
   # ----------------------------------------------------------------------------
   nix.linux-builder = {
-    enable = false;
+    enable = true;
 
     # Supported build architectures (native ARM64 Linux + Rosetta 2 Intel Linux)
     systems = [ "aarch64-linux" "x86_64-linux" ];
 
     config = {
       virtualisation = {
+        rosetta.enable = true;
         # VM Resource Allocation
         darwin-builder = {
           diskSize = 40 * 1024;  # 40 GB storage space for compilation caches
@@ -78,6 +79,13 @@
         cores = 4;
       };
     };
+  };
+
+  # Keep linux-builder disabled at boot; start on-demand via:
+  #   sudo launchctl start org.nixos.linux-builder
+  launchd.daemons.linux-builder.serviceConfig = {
+    RunAtLoad = lib.mkForce false;
+    KeepAlive = lib.mkForce false;
   };
 
   # ----------------------------------------------------------------------------

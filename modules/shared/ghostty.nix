@@ -29,7 +29,7 @@
     background-opacity = 0.95
     window-padding-x = 8
     window-padding-y = 6
-    confirm-close-surface = false
+    confirm-close-surface = always
     copy-on-select = clipboard
 
     # --- Shell & SSH Integration ---
