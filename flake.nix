@@ -152,7 +152,7 @@
 
       # ------------------------------------------------------------------------
       # NODE 2: bootstrap-iso
-      # Minimal Bare-Metal Provisioning Live Media (x86_64-linux)
+      # Minimal Bare-Metal Provisioning Live Media (x86_64-linux & aarch64-linux)
       # Used to boot bare metal hardware, partition with Disko, and bootstrap
       # new fleet nodes over SSH without a graphical desktop.
       # ------------------------------------------------------------------------
@@ -160,15 +160,23 @@
         system = "x86_64-linux";
         modules = [ ./hosts/nixos/installer/bootstrap-iso.nix ];
       };
+      "bootstrap-iso-arm" = mkNixos {
+        system = "aarch64-linux";
+        modules = [ ./hosts/nixos/installer/bootstrap-iso.nix ];
+      };
 
       # ------------------------------------------------------------------------
       # NODE 3: recovery-iso
-      # Full-Featured Fleet Recovery Graphical Live Media (x86_64-linux)
+      # Full-Featured Fleet Recovery Graphical Live Media (x86_64-linux & aarch64-linux)
       # Bootable live USB environment equipped with graphical partitioning tools,
       # disk repair utilities, and emergency diagnostics.
       # ------------------------------------------------------------------------
       "recovery-iso" = mkNixos {
         system = "x86_64-linux";
+        modules = [ ./hosts/nixos/installer/recovery-iso.nix ];
+      };
+      "recovery-iso-arm" = mkNixos {
+        system = "aarch64-linux";
         modules = [ ./hosts/nixos/installer/recovery-iso.nix ];
       };
 
