@@ -5,7 +5,7 @@
 # ROLE & ARCHITECTURE (Primary Physical Production Workstation):
 #   Primary bare-metal Linux production workstation for Joshua Chambers.
 #   - Architecture: x86_64-linux (Intel Core / KVM virtualization)
-#   - Storage Layout: Declared in ./hardware.nix (Ext4 root + vfat EFI partition)
+#   - Storage Layout: Declarative Disko GPT / Ext4 NVMe layout (/dev/nvme0n1)
 #   - Secrets Management: SOPS / Age decryption into volatile tmpfs (/run/secrets)
 #   - Desktop Sessions: Hyprland, Niri, Sway, and KDE Plasma 6 (+ Krohnkite)
 #   - Network Storage: Auto-mounting USD 308 CIFS/SMB storage shares via 308-storage.nix
@@ -32,6 +32,8 @@
 #     select any previous generation in the systemd-boot menu to boot the known-good state.
 # ==============================================================================
 
+{ hostName ? "308-222242", diskDevice ? "/dev/nvme0n1" }:
+
 { config, pkgs, inputs, ... }:
 
 {
@@ -42,7 +44,8 @@
     # --------------------------------------------------------------------------
     # 1. Machine Hardware & Peripheral Layer
     # --------------------------------------------------------------------------
-    ./hardware.nix                                      # Physical CPU microcode, drives, initrd
+    (import ../../../modules/nixos/hardware/disko-standard.nix { device = diskDevice; })
+    ./hardware.nix                                      # Physical CPU microcode, initrd
     ../../../modules/nixos/hardware/apple-keyboard.nix  # Top-row F1-F12 Fn swap & NumLock fix
 
     # --------------------------------------------------------------------------
@@ -130,7 +133,7 @@
   # ----------------------------------------------------------------------------
   # HOST IDENTITY & DESKTOP SESSION
   # ----------------------------------------------------------------------------
-  networking.hostName = "308-222242";
+  networking.hostName = hostName;
 
   # Break tie between multiple installed compositors (Plasma 6, Niri, Hyprland, Sway)
   services.displayManager.defaultSession = "plasma";

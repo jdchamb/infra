@@ -106,10 +106,10 @@
   # Open port 22 in Linux firewall for SSH connections
   networking.firewall.allowedTCPPorts = [ 22 ];
 
-  # Pre-authorize administrative SSH public key
+  # Pre-authorize administrative SSH public key (308-225660)
   users.users.jchambers = {
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw jchambers@308-225660"
     ];
   };
 

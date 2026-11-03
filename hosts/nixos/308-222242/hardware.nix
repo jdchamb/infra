@@ -3,20 +3,16 @@
 # ==============================================================================
 #
 # ROLE & ARCHITECTURE:
-#   Hardware-specific kernel modules, disk partition UUIDs, and CPU microcode
-#   settings for '308-222242' (Primary Bare-Metal Linux Workstation).
+#   Hardware-specific kernel modules and CPU microcode settings for
+#   '308-222242' (Primary Bare-Metal Linux Workstation).
+#   Disk partitioning and mounts ('/' and '/boot') are managed declaratively
+#   by Disko ('modules/nixos/hardware/disko-standard.nix').
 #
 # WHY THIS EXISTS (NOVICE EXPLANATION):
-#   When NixOS boots, it needs to know TWO things that are unique to the physical
-#   motherboard and hard drive inside this specific computer:
-#     1. Which kernel storage/USB drivers ('availableKernelModules') must be
-#        loaded into the initial RAM disk ('initrd') so the kernel can read the
-#        SSD before the root filesystem is even mounted.
-#     2. The exact Globally Unique Identifiers ('/dev/disk/by-uuid/...') of the
-#        physical partitions for '/' (root) and '/boot' (EFI System Partition).
-#   Using UUIDs instead of device names like '/dev/sda1' or '/dev/nvme0n1p2'
-#   guarantees the machine will still boot even if you plug in extra drives or
-#   move SATA cables to different motherboard ports!
+#   When NixOS boots, it needs to know which kernel storage/USB drivers
+#   ('availableKernelModules') must be loaded into the initial RAM disk ('initrd')
+#   so the kernel can read the NVMe/SATA SSD before the root filesystem is mounted,
+#   as well as whether to apply Intel CPU microcode patches.
 # ==============================================================================
 
 { config, lib, pkgs, modulesPath, ... }:
@@ -39,28 +35,7 @@
   boot.extraModulePackages = [ ];
 
   # ----------------------------------------------------------------------------
-  # 2. PHYSICAL DISK PARTITION MOUNTS (By Cryptographic/Filesystem UUID)
-  # ----------------------------------------------------------------------------
-  # Primary Linux Root Filesystem (ext4)
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/45ed33f8-dd8c-49f6-bbaf-e24406716bc6";
-    fsType = "ext4";
-  };
-
-  # UEFI System Partition (/boot formatted as FAT32/vfat)
-  # 'fmask=0077' and 'dmask=0077' restrict /boot permissions to root-only (0700)
-  # so unprivileged users cannot tamper with kernel images or systemd-boot entries.
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/F07A-954D";
-    fsType = "vfat";
-    options = [ "fmask=0077" "dmask=0077" ];
-  };
-
-  # No dedicated disk swap partition (RAM is sufficient)
-  swapDevices = [ ];
-
-  # ----------------------------------------------------------------------------
-  # 3. CPU ARCHITECTURE & INTEL MICROCODE UPDATES
+  # 2. CPU ARCHITECTURE & INTEL MICROCODE UPDATES
   # ----------------------------------------------------------------------------
   # Target 64-bit x86 Linux binaries
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

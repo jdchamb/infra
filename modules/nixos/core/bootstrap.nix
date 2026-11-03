@@ -91,15 +91,8 @@ let
     echo "==> Installation complete! Safe to reboot."
   '';
 
-  # Administrative public keys. Public keys are cryptographically safe to store in Git.
-  sshPubKeys = [
-    # Primary Codeberg & Fleet Administration Key (id_ed25519_codeberg)
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw joshua@chambers-net.org"
-    # Secondary Workstation / NixVM Key (id_ed25519_nixvm)
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
-    # Legacy Codeberg Key
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
-  ];
+  # Administrative public key for 308-225660. Public keys are cryptographically safe to store in Git.
+  sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw jchambers@308-225660";
 in
 {
   # --------------------------------------------------------------------------
@@ -117,11 +110,11 @@ in
 
   # --------------------------------------------------------------------------
   # 2. Pre-Authorized SSH Public Keys
-  # Bakes the administrative SSH public keys into standard accounts in the ISO
+  # Bakes the administrative SSH public key into standard accounts in the ISO
   # --------------------------------------------------------------------------
-  users.users.nixos.openssh.authorizedKeys.keys = sshPubKeys;
-  users.users.root.openssh.authorizedKeys.keys = sshPubKeys;
-  users.users.jchambers.openssh.authorizedKeys.keys = sshPubKeys;
+  users.users.nixos.openssh.authorizedKeys.keys = [ sshPubKey ];
+  users.users.root.openssh.authorizedKeys.keys = [ sshPubKey ];
+  users.users.jchambers.openssh.authorizedKeys.keys = [ sshPubKey ];
 
   # --------------------------------------------------------------------------
   # 3. Automation Scripts

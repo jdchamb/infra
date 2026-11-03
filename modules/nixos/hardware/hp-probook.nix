@@ -160,11 +160,7 @@
   # Note: Public keys are safe to commit to Git.
   # --------------------------------------------------------------------------
   users.users.jchambers.openssh.authorizedKeys.keys = [
-    # Primary Codeberg & Fleet Administration Key (id_ed25519_codeberg)
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw joshua@chambers-net.org"
-    # Secondary Workstation / NixVM Key (id_ed25519_nixvm)
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
-    # Legacy Codeberg Key
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
+    # Primary administrative laptop SSH key (308-225660)
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw jchambers@308-225660"
   ];
 }

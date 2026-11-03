@@ -230,11 +230,5 @@ If a host hard drive is replaced or a machine is provisioned from the custom ISO
    Paste the backed-up private Age key from your offline password vault.
 4. Reboot into the fully encrypted and operational system.
 
-### 4B. Zero-Touch macOS Reset & Automatic `rebuild` App/Keychain Sync
-On macOS nodes (`308-225660` and `mba-jchambers`), [`home/programs/macos-app-state.nix`](../home/programs/macos-app-state.nix) integrates directly into the `rebuild` command so that you only ever need to type `rebuild`:
-1. **Stage 1 (`[1/3] PRE-REBUILD`):** Automatically inspects your local **SSH keys** (`~/.ssh/id_ed25519_codeberg`, `~/.ssh/id_ed25519_nixvm`), **Windows App** CoreData SQLite database (`com.microsoft.rdc.application-data.sqlite` containing saved PCs, folders, and User Account UUIDs), **Cyberduck** `.duck` bookmarks, and **TigerVNC** `.tigervnc` profiles. If any new local changes were made since the last sync, it compresses and encrypts them into `secrets/work.yaml` via SOPS before rebuilding.
-2. **Stage 2 (`[2/3] SYSTEM REBUILD`):** Runs `sudo darwin-rebuild switch --flake ~/src/infra#<host>`.
-3. **Stage 3 (`[3/3] POST-REBUILD`):** Automatically restores any missing or updated app databases and SSH keys from `secrets/work.yaml` and overwrites (`-U`) the passwords in the **macOS Login Keychain** for:
-   - **Windows App (`com.microsoft.rdc.macos`):** Binds `credentials-adminjc` and `credentials-macos-admin308` to their corresponding CoreData `UserAccountEntity` UUIDs.
-   - **Finder SMB Network Shares:** Authorizes `smb://storage.internal`, `smb://cloud-storage.usd308.com`, and `smb://pdq.usd308.com`.
-   - **Apple Keychain SSH Agent:** Registers `~/.ssh/id_ed25519_codeberg` and `~/.ssh/id_ed25519_nixvm` with `/usr/bin/ssh-add --apple-use-keychain`.
+### 4B. macOS Workstation Recovery
+On macOS nodes (`308-225660` and `mba-jchambers`), application state and Keychain items are backed up via **Time Machine**, while declarative system settings, packages, and dotfiles are managed via `rebuild` (`sudo darwin-rebuild switch --flake ~/src/infra#<host>`). Each machine uses a single device SSH identity (`~/.ssh/id_ed25519` symlinked as `~/.ssh/id_ed25519_<hostname>`) registered with the Apple Keychain (`UseKeychain yes`).
