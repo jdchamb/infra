@@ -60,6 +60,10 @@
     # Lanzaboote: Declarative UEFI Secure Boot for NixOS
     lanzaboote.url = "github:nix-community/lanzaboote/v1.2.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nixos-apple-silicon: Native bare-metal NixOS support for Apple Silicon Macs (M1/M2)
+    apple-silicon.url = "github:nix-community/nixos-apple-silicon";
+    apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   # ----------------------------------------------------------------------------
@@ -260,6 +264,17 @@
         modules = [
           inputs.disko.nixosModules.disko
           (import ./hosts/nixos/m920q-01 { hostName = "m920q-01"; })
+        ];
+      };
+      # ------------------------------------------------------------------------
+      # NODE 12: mba-jchambers (NixOS Bare-Metal Apple Silicon M1 MacBook Air)
+      # Uses nixos-apple-silicon / Asahi Linux integration with 16k page size kernel,
+      # experimental GPU driver, speaker safety limits, and KDE Plasma 6.
+      # ------------------------------------------------------------------------
+      "mba-jchambers-nixos" = mkNixos {
+        system = "aarch64-linux";
+        modules = [
+          ./hosts/nixos/mba-jchambers
         ];
       };
     };
