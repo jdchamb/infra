@@ -54,6 +54,7 @@
     "${inputs.self}/modules/common/sops-tools.nix"       # sops & age binaries
     "${inputs.self}/modules/shared/git.nix"               # Git version control
     "${inputs.self}/modules/shared/neovim.nix"            # Terminal text editor
+    "${inputs.self}/modules/shared/security/yubikey-nordic.nix" # FIDO2 / OpenSK hardware keys
     "${inputs.self}/modules/nixos/core/system.nix"        # Timezone, locale, flakes
     "${inputs.self}/modules/nixos/core/network.nix"       # NetworkManager & firewall
     "${inputs.self}/modules/nixos/core/user.nix"          # 'jchambers' admin account

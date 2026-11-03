@@ -116,10 +116,15 @@ On each service (Duo, Google, GitHub, Bitwarden):
 
 ## 5. Declarative Fleet Integration (NixOS & nix-darwin)
 
-The shared module [`modules/shared/security/yubikey-nordic.nix`](file:///Users/jchambers/src/infra/modules/shared/security/yubikey-nordic.nix) is imported across our nodes:
-* `hosts/darwin/308-225660/default.nix` (MacBook)
-* `hosts/nixos/308-222242/default.nix` (Workstation)
-* `hosts/nixos/308-225660NixOSVM/default.nix` (Virtual Machine)
+The shared module [`modules/shared/security/yubikey-nordic.nix`](file:///Users/jchambers/src/infra/modules/shared/security/yubikey-nordic.nix) is imported across our entire fleet:
+* `hosts/darwin/308-225660/default.nix` (Work MacBook Pro)
+* `hosts/darwin/mba-jchambers/default.nix` (Personal MacBook Air)
+* `hosts/nixos/308-222242/default.nix` (Primary Bare-Metal Workstation)
+* `hosts/nixos/308-225660NixOSVM/default.nix` (Apple Silicon Virtual Machine)
+* `hosts/nixos/lab-probook/default.nix` (`lab-pb01` .. `lab-pb05` Lab Cluster)
+* `hosts/nixos/nuc-game01/default.nix` (NUC 7 Game Server Appliance)
+* `hosts/nixos/m920q-01/default.nix` (ThinkCentre M920q + SA120 ZFS NAS)
+* `hosts/nixos/installer/bootstrap-iso.nix` & `recovery-iso.nix` (Provisioning & Rescue Live Media)
 
 ### What it Enforces:
 1. **Linux `udev` Access**:

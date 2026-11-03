@@ -72,12 +72,13 @@
   nixpkgs.hostPlatform = "aarch64-linux";
 
   # Paravirtualized VirtIO Storage & Bus Drivers for Apple Virtualization / UTM
+  # (xhci_pci + usbhid enable USB 3.0 passthrough for Nordic 0x1915 / Yubico 0x1050 FIDO2 keys)
   boot.initrd.availableKernelModules = [
     "virtio_pci"   # VirtIO over PCI bus
     "virtio_blk"   # High-speed virtual block device (virtual hard disk)
     "virtio_scsi"  # Virtual SCSI controller
     "xhci_pci"     # USB 3.0 controller
-    "usbhid"       # USB keyboard and mouse pass-through
+    "usbhid"       # USB keyboard, mouse, and FIDO2 HID raw pass-through
   ];
 
   # ----------------------------------------------------------------------------

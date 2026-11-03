@@ -56,6 +56,7 @@
     ../../../modules/shared/vim.nix
     ../../../modules/shared/neovim.nix
     ../../../modules/shared/zellij.nix
+    ../../../modules/shared/security/yubikey-nordic.nix
 
     # --------------------------------------------------------------------------
     # 5. Sandboxed Fleet Game Servers Orchestration Suite
