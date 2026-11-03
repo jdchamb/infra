@@ -32,6 +32,13 @@
     description = "Joshua Daniel Chambers";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     shell = pkgs.zsh;
+
+    # Pre-authorize administrative SSH public keys across all NixOS nodes
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw joshua@chambers-net.org"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
+    ];
   };
 
   # 2. Register Zsh in /etc/shells at the system level (required when setting

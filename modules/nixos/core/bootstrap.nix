@@ -31,11 +31,6 @@
 #        bootstrap-install 308-222242
 #   5. When prompted, inject the host's Age private key using 'bootstrap-age-key /mnt'.
 #   6. Reboot into your finished NixOS installation!
-#
-# >>> DISCREPANCY & REPOSITORY NOTICE <<<
-#   Line 103 and 110 reference 'https://codeberg.org/jchambers-codeberg/infra.git'.
-#   If your Codeberg username is 'jdchambers', verify whether the remote repository
-#   is 'jdchambers/infra' or 'jchambers-codeberg/infra' before running offline clones.
 # ==============================================================================
 
 { config, lib, pkgs, ... }:
@@ -74,7 +69,7 @@ let
 
     if [ -z "$HOST_TARGET" ]; then
       echo "Usage: bootstrap-install <hostname> [repo-path]"
-      echo "Example: bootstrap-install 308-222242"
+      echo "Example: bootstrap-install lab-pb01"
       exit 1
     fi
 
@@ -96,8 +91,15 @@ let
     echo "==> Installation complete! Safe to reboot."
   '';
 
-  # Administrative public key. Public keys are cryptographically safe to store in Git.
-  sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg";
+  # Administrative public keys. Public keys are cryptographically safe to store in Git.
+  sshPubKeys = [
+    # Primary Codeberg & Fleet Administration Key (id_ed25519_codeberg)
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw joshua@chambers-net.org"
+    # Secondary Workstation / NixVM Key (id_ed25519_nixvm)
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
+    # Legacy Codeberg Key
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
+  ];
 in
 {
   # --------------------------------------------------------------------------
@@ -115,11 +117,11 @@ in
 
   # --------------------------------------------------------------------------
   # 2. Pre-Authorized SSH Public Keys
-  # Bakes the administrative SSH public key into standard accounts in the ISO
+  # Bakes the administrative SSH public keys into standard accounts in the ISO
   # --------------------------------------------------------------------------
-  users.users.nixos.openssh.authorizedKeys.keys = [ sshPubKey ];
-  users.users.root.openssh.authorizedKeys.keys = [ sshPubKey ];
-  users.users.jchambers.openssh.authorizedKeys.keys = [ sshPubKey ];
+  users.users.nixos.openssh.authorizedKeys.keys = sshPubKeys;
+  users.users.root.openssh.authorizedKeys.keys = sshPubKeys;
+  users.users.jchambers.openssh.authorizedKeys.keys = sshPubKeys;
 
   # --------------------------------------------------------------------------
   # 3. Automation Scripts
@@ -150,7 +152,7 @@ in
       TARGET_DIR="/home/nixos/src/infra"
       if [ ! -d "$TARGET_DIR" ]; then
         mkdir -p "/home/nixos/src"
-        ${pkgs.git}/bin/git clone https://codeberg.org/jchambers-codeberg/infra.git "$TARGET_DIR" || true
+        ${pkgs.git}/bin/git clone https://codeberg.org/jdchambers/infra.git "$TARGET_DIR" || true
       fi
     '';
   };
@@ -159,6 +161,6 @@ in
   # 5. Shell Helper Alias
   # --------------------------------------------------------------------------
   environment.shellAliases = {
-    bootstrap-fetch = "git clone https://codeberg.org/jchambers-codeberg/infra.git ~/src/infra";
+    bootstrap-fetch = "git clone https://codeberg.org/jdchambers/infra.git ~/src/infra";
   };
 }

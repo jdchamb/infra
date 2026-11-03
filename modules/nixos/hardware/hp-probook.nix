@@ -43,6 +43,16 @@
   # Installs Intel CPU microcode updates at early boot to patch silicon errata
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
+  # Standard storage & USB controller modules required in initrd to mount root without hardware-configuration.nix
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"     # USB 3.0 controller
+    "nvme"         # M.2 NVMe SSD storage controller
+    "ahci"         # 2.5-inch SATA storage controller
+    "usbhid"       # USB keyboards and mice
+    "usb_storage"  # USB flash drives
+    "sd_mod"       # SCSI/SATA disk driver
+  ];
+
   # --------------------------------------------------------------------------
   # 2. Clamshell Lab Mode (systemd-logind)
   # Prevents the laptops from entering sleep/suspend mode when their lids are shut.
@@ -150,9 +160,11 @@
   # Note: Public keys are safe to commit to Git.
   # --------------------------------------------------------------------------
   users.users.jchambers.openssh.authorizedKeys.keys = [
-    # Primary administrative laptop SSH key (Codeberg identity)
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
-    # Secondary personal workstation key
+    # Primary Codeberg & Fleet Administration Key (id_ed25519_codeberg)
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7l6ZZz1UQBiZ9Xlg0xdvNRJGaeWwhIPktBOcbhsVZw joshua@chambers-net.org"
+    # Secondary Workstation / NixVM Key (id_ed25519_nixvm)
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcOrpJmrhwkpgc1LB7dEkjDRFDthgbFra0XOqfAtAkL joshua@chambers-net.org"
+    # Legacy Codeberg Key
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOn6xT65eiBe41ztk2UZ5/nSdcdYI/eRhRjfXoAdduxA jchambers-codeberg"
   ];
 }
